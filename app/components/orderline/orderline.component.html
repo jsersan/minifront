@@ -1,0 +1,46 @@
+<!-- Contenedor principal de la línea de pedido -->
+<div class="orderline-container">
+    <!-- Información del producto -->
+    <div class="product-info">
+      <!-- Imagen del producto -->
+      <div class="product-image">
+        <img [src]="productImage || 'assets/images/products/default.jpg'" alt="Imagen del producto" class="miniatura" />
+      </div>
+      
+      <!-- Detalles del producto -->
+      <div class="product-details">
+        <h4>{{ line.nombre }}</h4>
+        <p class="color-info">Color: <span class="color-value">{{ line.color }}</span></p>
+      </div>
+    </div>
+    
+    <!-- Control de cantidad -->
+    <div class="quantity-control">
+      <!-- Botón para disminuir cantidad -->
+      <button class="quantity-btn minus" (click)="decrementQuantity()">-</button>
+      
+      <!-- Input para la cantidad -->
+      <input type="number" class="quantity-input" [value]="line.cantidad" min="1" 
+             (change)="onQuantityChange($event)" />
+      
+      <!-- Botón para aumentar cantidad -->
+      <button class="quantity-btn plus" (click)="incrementQuantity()">+</button>
+    </div>
+    
+    <!-- Precios (usando la propiedad del componente) -->
+    <div class="price-info">
+      <div class="unit-price" *ngIf="productPrice">
+        <span>{{ productPrice | currency:'EUR':'symbol':'1.2-2' }}</span>
+      </div>
+      <div class="subtotal" *ngIf="productPrice">
+        <span>{{ productPrice * line.cantidad | currency:'EUR':'symbol':'1.2-2' }}</span>
+      </div>
+    </div>
+    
+    <!-- Botón para eliminar la línea -->
+    <div class="remove-action">
+      <button class="remove-btn" (click)="removeOrderLine()">
+        <span class="eliminar">×</span>
+      </button>
+    </div>
+  </div>

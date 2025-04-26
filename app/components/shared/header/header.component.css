@@ -1,0 +1,39 @@
+/* Importar la fuente si no lo has hecho todavía */ 
+@import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');  
+
+header h1.tienda-title, h1.tienda-title, .tienda-title {
+  font-family: 'Great Vibes', cursive !important;
+  font-size: 5rem !important; /* Tamaño inicial */
+  font-weight: normal !important;
+  color: #000 !important;
+  text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.7) !important;
+  margin: 0 !important;
+  padding: 20px 0 !important;
+  cursor: pointer !important;
+  text-align: center !important;
+  width: 100% !important;
+  /* Propiedades para la animación */
+  transform-origin: center center !important;
+  transition: font-size 0.3s ease, text-shadow 0.3s ease !important;
+}  
+
+/* Efecto de cambio de tamaño de fuente al pasar el cursor */ 
+.tienda-title:hover {
+  font-size: 9rem !important; /* Aumenta a 7rem en hover */
+  text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3) !important; /* Sombra más pronunciada */
+}  
+
+/* Ajustes para dispositivos móviles */ 
+@media (max-width: 768px) {
+  .tienda-title {
+    font-size: 3.5rem !important; /* Tamaño base más pequeño en móviles */
+  }
+  
+  .tienda-title:hover {
+    font-size: 5rem !important; /* Tamaño hover más pequeño en móviles */
+  }
+  
+  header {
+    height: 120px; /* Altura más pequeña en móviles */
+  }
+}

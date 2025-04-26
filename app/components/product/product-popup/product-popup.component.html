@@ -1,0 +1,68 @@
+<!-- Overlay para el fondo oscurecido -->
+<div class="product-overlay" [class.active]="isOpen"></div>
+
+<!-- Contenedor principal del popup -->
+<div class="product-popup" [class.active]="isOpen">
+  <!-- Solo mostrar contenido si hay un producto seleccionado -->
+  <ng-container *ngIf="currentProduct">
+    <!-- Cabecera del popup con título y botón de cierre -->
+    <div class="product-header">
+      <h2>{{ currentProduct.nombre }}</h2>
+      <button class="close-product" (click)="closePopup()">×</button>
+    </div>
+    
+    <!-- Contenido del producto -->
+    <div class="product-content">
+      <!-- Imagen del producto -->
+      <img 
+        [src]="'assets/images/' + currentProduct.carpetaimg + '/' + currentProduct.imagen" 
+        [alt]="currentProduct.nombre"
+        class="product-image"
+      />
+      
+      <!-- Detalles del producto -->
+      <div class="product-details">
+        <!-- Precio -->
+        <div class="product-price">
+          {{ currentProduct.precio | currency:'EUR':'symbol':'1.2-2' }}
+        </div>
+        
+        <!-- Selector de color (solo si hay más de un color) -->
+        <div class="color-selector" *ngIf="availableColors.length > 1">
+          <label for="color-select">Selecciona un color:</label>
+          <select id="color-select" [(ngModel)]="selectedColor">
+            <option *ngFor="let color of availableColors" [value]="color">
+              {{ color }}
+            </option>
+          </select>
+        </div>
+        
+        <!-- Si solo hay un color, mostrarlo como texto -->
+        <div class="single-color" *ngIf="availableColors.length === 1">
+          <p><strong>Color:</strong> {{ availableColors[0] }}</p>
+        </div>
+        
+        <!-- Selector de cantidad -->
+        <div class="quantity-selector">
+          <label for="quantity">Cantidad:</label>
+          <div class="quantity-controls">
+            <button type="button" (click)="decrementQuantity()">-</button>
+            <input 
+              type="number" 
+              id="quantity" 
+              [(ngModel)]="quantity" 
+              min="1" 
+              max="99"
+            >
+            <button type="button" (click)="incrementQuantity()">+</button>
+          </div>
+        </div>
+        
+        <!-- Botón de añadir al carrito -->
+        <button class="add-to-cart-btn" (click)="addToCart()">
+          AÑADIR AL CARRITO
+        </button>
+      </div>
+    </div>
+  </ng-container>
+</div>

@@ -1,0 +1,74 @@
+<!-- Contenedor principal que solo se muestra si hay un producto cargado -->
+<div *ngIf="product" class="product-detail">
+    <!-- Sección para las imágenes del producto -->
+    <div id="artimgs">
+      <!-- Imagen principal del producto -->
+      <img 
+        id="imgart" 
+        [src]="'assets/images/' + product.carpetaimg + '/' + product.imagen" 
+        [alt]="product.nombre"
+      />
+      
+      <!-- Contenedor de miniaturas que solo se muestra si hay colores disponibles -->
+      <div id="divminiaturas" *ngIf="colors.length > 0">
+        <div class="slider">
+          <!-- Iteración sobre los colores disponibles para mostrar miniaturas -->
+          <div *ngFor="let color of colors">
+            <img 
+              [id]="color.color" 
+              class="miniatura" 
+              [src]="'assets/images/' + product.carpetaimg + '/' + color.imagen" 
+              [alt]="color.color"
+              (click)="changeColor(color.color, 'assets/images/' + product.carpetaimg + '/' + color.imagen)"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Sección para la información textual del producto -->
+    <div id="arttext">
+      <!-- Nombre del producto -->
+      <h1>{{ product.nombre }}</h1>
+      
+      <!-- Precio formateado como moneda -->
+      <h2 id="precio">{{ product.precio | currency:'EUR':'symbol':'1.2-2' }}</h2>
+      
+      <!-- Descripción del producto -->
+      <p>{{ product.descripcion }}</p>
+      
+      <!-- Formulario para seleccionar opciones y cantidad -->
+      <form>
+        <!-- Selector de color (solo visible si hay colores disponibles) -->
+        <p *ngIf="colors.length > 0">
+          <label>Selecciona color: </label>
+          <!-- Dropdown para seleccionar color -->
+          <select id="cmbcolor" [(ngModel)]="selectedColor" name="color">
+            <!-- Opción vacía inicial -->
+            <option value="" selected disabled hidden></option>
+            <!-- Opciones generadas dinámicamente para cada color -->
+            <option *ngFor="let color of colors" [value]="color.color">
+              {{ color.color }}
+            </option>
+          </select>
+        </p>
+        
+        <!-- Control de cantidad con botones + y - -->
+        <div class="cantidad">
+          <!-- Botón para disminuir cantidad -->
+          <input type="button" id="cantmenos" value="-" (click)="decrementQuantity()" />
+          
+          <!-- Campo numérico para la cantidad -->
+          <input type="number" id="cant" [(ngModel)]="quantity" name="quantity" min="1" />
+          
+          <!-- Botón para aumentar cantidad -->
+          <input type="button" id="cantmas" value="+" (click)="incrementQuantity()" />
+        </div>
+        
+        <!-- Botón para añadir al carrito -->
+        <p>
+          <input type="button" id="add" value="AÑADIR AL CARRITO" (click)="addToCart()" />
+        </p>
+      </form>
+    </div>
+  </div>

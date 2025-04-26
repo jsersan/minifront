@@ -1,0 +1,27 @@
+<!-- El banner ahora es manejado por el componente app-banner -->
+
+<!-- Título de la sección en cursiva, como en la imagen -->
+<div id="titulo" class="left-aligned-title">
+  <h1>novedades</h1>
+</div>
+
+<!-- Contenedor para la cuadrícula de productos aleatorios -->
+<div id="articulos">
+  <!-- Directiva *ngFor que itera sobre el array de productos aleatorios -->
+  <div class="articulo" *ngFor="let product of randomProducts" [routerLink]="['/product', product.id]">
+    <!-- Imagen del producto -->
+    <img [src]="'assets/images/' + product.carpetaimg + '/' + product.imagen" [alt]="product.nombre" />
+    
+    <!-- Nombre del producto -->
+    <h2>{{ product.nombre }}</h2>
+    
+    <!-- Precio del producto formateado como moneda -->
+    <h3>{{ product.precio | currency:'EUR':'symbol':'1.2-2' }}</h3>
+    
+    <!-- Descripción del producto -->
+    <p>{{ product.descripcion }}</p>
+  </div>
+</div>
+
+<!-- Incluir el componente de popup de producto -->
+<app-product-popup></app-product-popup>

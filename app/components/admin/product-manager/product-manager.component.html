@@ -1,0 +1,164 @@
+<div id="adminart">
+    <h1>Artículos</h1>
+    
+    <!-- Sección para añadir nuevo producto -->
+    <div>
+      <h2>Añadir artículo</h2>
+      <form [formGroup]="newProductForm" (ngSubmit)="addProduct()">
+        <table>
+          <!-- Campo: Nombre del producto -->
+          <tr>
+            <td>
+              <label>Nombre: </label>
+            </td>
+            <td>
+              <input type="text" id="nuevoartnombre" formControlName="nombre" />
+            </td>
+          </tr>
+          
+          <!-- Campo: Descripción del producto -->
+          <tr>
+            <td>
+              <label>Descripción</label>
+            </td>
+            <td>
+              <textarea id="nuevoartdescripcion" formControlName="descripcion"></textarea>
+            </td>
+          </tr>
+          
+          <!-- Campo: Precio del producto -->
+          <tr>
+            <td>
+              <label>Precio: </label>
+            </td>
+            <td>
+              <input type="number" id="nuevoartprecio" formControlName="precio" />
+            </td>
+          </tr>
+          
+          <!-- Campo: Categoría del producto -->
+          <tr>
+            <td>
+              <label>Categoria: </label>
+            </td>
+            <td>
+              <select id="nuevoartcat" formControlName="categoria">
+                <option value="" selected disabled hidden></option>
+                <option *ngFor="let category of categories" [value]="category.id">
+                  {{ category.nombre }}
+                </option>
+              </select>
+            </td>
+          </tr>
+          
+          <!-- Campo: Carpeta de imágenes -->
+          <tr>
+            <td>
+              <label>Carpeta de imágenes: </label>
+            </td>
+            <td>
+              <input type="text" id="nuevoartfolder" formControlName="carpetaimg" />
+            </td>
+          </tr>
+          
+          <!-- Campo: Subida de imágenes -->
+          <tr>
+            <td>
+              <label>Imágenes: </label>
+            </td>
+            <td>
+              <input type="file" id="imagenes" multiple (change)="onFileSelect($event)" />
+            </td>
+          </tr>
+          
+          <!-- Botón de envío -->
+          <tr>
+            <td colspan="2">
+              <input type="submit" id="btnaniadirart" value="AÑADIR" />
+            </td>
+          </tr>
+        </table>
+      </form>
+    </div>
+    
+    <!-- Sección para editar producto (visible solo cuando se edita) -->
+    <div *ngIf="showEditForm">
+      <h2>Editar artículo</h2>
+      <form [formGroup]="editProductForm" (ngSubmit)="updateProduct()">
+        <table>
+          <!-- Campo: Nombre del producto -->
+          <tr>
+            <td>
+              <label>Nombre: </label>
+            </td>
+            <td>
+              <input type="text" formControlName="nombre" />
+            </td>
+          </tr>
+          
+          <!-- Campo: Descripción del producto -->
+          <tr>
+            <td>
+              <label>Descripción: </label>
+            </td>
+            <td>
+              <textarea rows="3" cols="40" formControlName="descripcion"></textarea>
+            </td>
+          </tr>
+          
+          <!-- Campo: Precio del producto -->
+          <tr>
+            <td>
+              <label>Precio: </label>
+            </td>
+            <td>
+              <input type="number" size="2" formControlName="precio" />€
+            </td>
+          </tr>
+          
+          <!-- Campo: Categoría del producto -->
+          <tr>
+            <td>
+              <label>Categoría: </label>
+            </td>
+            <td>
+              <select formControlName="categoria">
+                <option *ngFor="let category of categories" [value]="category.id">
+                  {{ category.nombre }}
+                </option>
+              </select>
+            </td>
+          </tr>
+        </table>
+        
+        <!-- Botones de acción -->
+        <input type="submit" value="ACTUALIZAR" />
+        <input type="button" value="CANCELAR" (click)="cancelEdit()" />
+      </form>
+    </div>
+    
+    <!-- Sección para listar y administrar productos existentes -->
+    <div>
+      <h2>Administrar artículos</h2>
+      <table id="editart">
+        <tr>
+          <th>Nombre</th>
+          <th>Precio</th>
+          <th>Categoría</th>
+          <th></th>
+          <th></th>
+        </tr>
+        <tr *ngFor="let product of products">
+          <td>{{ product.nombre }}</td>
+          <td>{{ formatPrice(product.precio) }}</td>
+          <td>{{ getCategoryName(product.categoria_id) }}</td>
+          <td>
+            <input [attr.data-id]="product.id" type="button" class="editarart" value="EDITAR" (click)="editProduct(product)"/>
+          </td>
+          <td>
+            <input [attr.data-id]="product.id" type="button" class="eliminarart" value="ELIMINAR" (click)="deleteProduct(product.id)"/>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>

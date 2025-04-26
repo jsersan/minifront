@@ -1,0 +1,35 @@
+<div class="product-list-container">
+  <!-- Título de la sección, muestra el nombre de la categoría o "Todos los productos" -->
+  <h1 id="titulo">
+    {{ currentCategory ? currentCategory.nombre : 'Todos los productos' }}
+  </h1>
+  
+  <!-- Indicador de carga -->
+  <div *ngIf="loading" class="loading-indicator">
+    <p>Cargando productos...</p>
+  </div>
+  
+  <!-- Contenedor para la cuadrícula de productos -->
+  <div id="articulos" *ngIf="!loading">
+    <!-- Mensaje cuando no hay productos -->
+    <div *ngIf="products.length === 0" class="no-products">
+      <p>No se encontraron productos en esta categoría.</p>
+    </div>
+    
+    <!-- Iteración sobre el array de productos -->
+    <div class="articulo" *ngFor="let product of products" (click)="openProductPopup(product)">
+      <!-- Imagen del producto -->
+      <img [src]="'assets/images/' + product.carpetaimg + '/' + product.imagen" [alt]="product.nombre" />
+      
+      <!-- Nombre del producto -->
+      <h2>{{ product.nombre }}</h2>
+      
+      <!-- Precio formateado como moneda -->
+      <h3>{{ formatPrice(product.precio) }}</h3>
+      
+      <!-- Descripción corta del producto -->
+      <p>{{ product.descripcion }}</p>
+    </div>
+  </div>
+</div>
+<app-product-popup></app-product-popup>

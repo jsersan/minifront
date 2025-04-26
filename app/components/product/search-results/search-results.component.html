@@ -1,0 +1,36 @@
+<div class="search-results-container">
+    <!-- Título de la página que muestra el término buscado -->
+    <h1 id="titulo">
+      Resultados de la búsqueda "{{ searchTerm }}"
+    </h1>
+    
+    <!-- Indicador de carga mientras se buscan productos -->
+    <div *ngIf="loading" class="loading-indicator">
+      <p>Buscando productos...</p>
+      <!-- Aquí podría ir un spinner o animación de carga -->
+    </div>
+    
+    <!-- Mensaje cuando no hay resultados -->
+    <div *ngIf="!loading && products.length === 0" class="no-results">
+      <p>No se encontraron productos que coincidan con "{{ searchTerm }}".</p>
+      <p>Intenta con otros términos de búsqueda.</p>
+    </div>
+    
+    <!-- Contenedor de resultados (solo visible si hay productos) -->
+    <div id="articulos" *ngIf="!loading && products.length > 0">
+      <!-- Iteración sobre los productos encontrados -->
+      <div class="articulo" *ngFor="let product of products" [routerLink]="['/product', product.id]">
+        <!-- Imagen del producto -->
+        <img [src]="'assets/images/' + product.carpetaimg + '/' + product.imagen" [alt]="product.nombre" />
+        
+        <!-- Nombre del producto -->
+        <h2>{{ product.nombre }}</h2>
+        
+        <!-- Precio formateado como moneda -->
+        <h3>{{ formatPrice(product.precio) }}</h3>
+        
+        <!-- Descripción del producto -->
+        <p>{{ product.descripcion }}</p>
+      </div>
+    </div>
+  </div>

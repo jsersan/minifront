@@ -1,0 +1,130 @@
+<div class="register-container">
+    <div class="verregistro">
+      <h1>Registro</h1>
+      <!-- Formulario reactivo vinculado al FormGroup del componente -->
+      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+        <table>
+          <!-- Campo de usuario -->
+          <tr>
+            <td>
+              <label for="username">Usuario: </label>
+            </td>
+            <td>
+              <!-- Input para el nombre de usuario con validación visual -->
+              <input type="text" id="username" formControlName="username" 
+                  [ngClass]="{ 'is-invalid': submitted && f['username'].errors }" />
+              <!-- Mensajes de error condicionales -->
+              <div *ngIf="submitted && f['username'].errors" class="invalid-feedback">
+                <div *ngIf="f['username'].errors['required']">El nombre de usuario es obligatorio</div>
+              </div>
+            </td>
+          </tr>
+  
+          <!-- Campo de contraseña -->
+          <tr>
+            <td>
+              <label for="password">Contraseña: </label>
+            </td>
+            <td>
+              <!-- Input para contraseña con validación visual -->
+              <input type="password" id="password" formControlName="password" 
+                  [ngClass]="{ 'is-invalid': submitted && f['password'].errors }" />
+              <!-- Mensajes de error condicionales -->
+              <div *ngIf="submitted && f['password'].errors" class="invalid-feedback">
+                <div *ngIf="f['password'].errors['required']">La contraseña es obligatoria</div>
+                <div *ngIf="f['password'].errors['minlength']">La contraseña debe tener al menos 6 caracteres</div>
+              </div>
+            </td>
+          </tr>
+  
+          <!-- Campo de nombre completo -->
+          <tr>
+            <td>
+              <label for="nombre">Nombre completo: </label>
+            </td>
+            <td>
+              <!-- Input para nombre con validación visual -->
+              <input type="text" id="nombre" formControlName="nombre" size="25" 
+                  [ngClass]="{ 'is-invalid': submitted && f['nombre'].errors }" />
+              <!-- Mensajes de error condicionales -->
+              <div *ngIf="submitted && f['nombre'].errors" class="invalid-feedback">
+                <div *ngIf="f['nombre'].errors['required']">El nombre es obligatorio</div>
+              </div>
+            </td>
+          </tr>
+  
+          <!-- Campo de email -->
+          <tr>
+            <td>
+              <label for="email">E-mail: </label>
+            </td>
+            <td>
+              <!-- Input para email con validación visual -->
+              <input type="email" id="email" formControlName="email" size="30" 
+                  [ngClass]="{ 'is-invalid': submitted && f['email'].errors }" />
+              <!-- Mensajes de error condicionales -->
+              <div *ngIf="submitted && f['email'].errors" class="invalid-feedback">
+                <div *ngIf="f['email'].errors['required']">El email es obligatorio</div>
+                <div *ngIf="f['email'].errors['email']">Ingresa un email válido</div>
+              </div>
+            </td>
+          </tr>
+  
+          <!-- Campo de dirección -->
+          <tr>
+            <td>
+              <label for="direccion">Dirección: </label>
+            </td>
+            <td>
+              <!-- Input para dirección con validación visual -->
+              <input type="text" id="direccion" formControlName="direccion" size="50" 
+                  [ngClass]="{ 'is-invalid': submitted && f['direccion'].errors }" />
+              <!-- Mensajes de error condicionales -->
+              <div *ngIf="submitted && f['direccion'].errors" class="invalid-feedback">
+                <div *ngIf="f['direccion'].errors['required']">La dirección es obligatoria</div>
+              </div>
+            </td>
+          </tr>
+  
+          <!-- Campo de ciudad -->
+          <tr>
+            <td>
+              <label for="ciudad">Ciudad: </label>
+            </td>
+            <td>
+              <!-- Input para ciudad con validación visual -->
+              <input type="text" id="ciudad" formControlName="ciudad" 
+                  [ngClass]="{ 'is-invalid': submitted && f['ciudad'].errors }" />
+              <!-- Mensajes de error condicionales -->
+              <div *ngIf="submitted && f['ciudad'].errors" class="invalid-feedback">
+                <div *ngIf="f['ciudad'].errors['required']">La ciudad es obligatoria</div>
+              </div>
+            </td>
+          </tr>
+  
+          <!-- Campo de código postal -->
+          <tr>
+            <td>
+              <label for="cp">Código Postal: </label>
+            </td>
+            <td>
+              <!-- Input para código postal con validación visual -->
+              <input type="text" id="cp" formControlName="cp" size="5" 
+                  [ngClass]="{ 'is-invalid': submitted && f['cp'].errors }" />
+              <!-- Mensajes de error condicionales -->
+              <div *ngIf="submitted && f['cp'].errors" class="invalid-feedback">
+                <div *ngIf="f['cp'].errors['required']">El código postal es obligatorio</div>
+                <div *ngIf="f['cp'].errors['pattern']">El código postal debe tener 5 dígitos</div>
+              </div>
+            </td>
+          </tr>
+        </table>
+  
+        <!-- Botón de envío con indicador de carga -->
+        <button [disabled]="loading" id="registrosubmit">
+          <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+          REGISTRARSE
+        </button>
+      </form>
+    </div>
+  </div>

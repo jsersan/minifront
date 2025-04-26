@@ -1,0 +1,69 @@
+<!-- Contenedor principal de la barra de navegación -->
+<nav>
+  <div>
+    <!-- Lista principal del menú -->
+    <ul id="menu">
+      <!-- Elemento de navegación a la página principal -->
+      <li class="menuitem home" [routerLink]="['/']">HOME</li>
+
+      <!-- Categoría DILATACIONES con desplegable -->
+      <li class="menuitem elem" *ngIf="getDilatacionesCategory()">
+        <span [attr.data_id]="getDilatacionesCategory()?.id" class="categoria">
+          DILATACIONES
+        </span>
+
+        <ul class="subcat">
+          <!-- Subcategorías de DILATACIONES -->
+          <li *ngFor="let subcategory of getSubcategoriesForDilataciones()" 
+              [attr.data_id]="subcategory.id"
+              class="menuitem categoria" 
+              [routerLink]="['/category', subcategory.id]">
+            {{ subcategory.nombre.toUpperCase() }}
+          </li>
+        </ul>
+      </li>
+
+      <!-- Elemento para PIERCINGS con subcategorías -->
+      <li class="menuitem elem" *ngIf="getPiercingsCategory()">
+        <span [attr.data_id]="getPiercingsCategory()?.id" class="categoria">
+          PIERCINGS
+        </span>
+
+        <ul class="subcat">
+          <!-- Subcategorías de PIERCINGS -->
+          <li *ngFor="let subcategory of getSubcategoriesForPiercings()" 
+              [attr.data_id]="subcategory.id"
+              class="menuitem categoria" 
+              [routerLink]="['/category', subcategory.id]">
+            {{ subcategory.nombre.toUpperCase() }}
+          </li>
+        </ul>
+      </li>
+
+      <!-- Elemento para ver todos los productos -->
+      <li [id]="'fincat'" [attr.data_id]="'todo'" class="menuitem categoria" [routerLink]="['/products']">
+        VER TODO
+      </li>
+
+      <!-- Campo de búsqueda -->
+      <li id="search" class="menuitem">
+        <input type="text" id="searchinput" [(ngModel)]="searchTerm" (keyup.enter)="search()" placeholder="Buscar..." />
+        <img id="searchicon" src="assets/images/icons/search.png" alt="botón de búsqueda" (click)="search()">
+      </li>
+
+      <!-- Elementos a la derecha: primero perfil, luego carrito -->
+      <div class="right-menu-items">
+        <!-- Perfil de usuario -->
+        <li class="menuitem profile" [routerLink]="['/profile']">
+          <img src="assets/images/icons/login.png" id="imgprofile" />
+        </li>
+
+        <!-- Carrito -->
+        <li id="carrito" (click)="toggleCartAndLog()">
+          <img src="assets/images/icons/cart.png" alt="Carrito" />
+          <p *ngIf="(cartService.cartItems | async)?.length">{{ (cartService.cartItems | async)?.length }}</p>
+        </li>
+      </div>
+    </ul>
+  </div>
+</nav>

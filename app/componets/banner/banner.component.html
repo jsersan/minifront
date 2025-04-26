@@ -1,0 +1,15 @@
+<!-- Banner rotativo que se muestra condicionalmente si hay imágenes -->
+<div id="banner" *ngIf="bannerImages.length > 0">
+    <!-- Botón para ir a la imagen anterior del banner -->
+    <button class="banner_button prev" (click)="prevBanner()">
+      <img src="assets/images/icons/left-arrow.png" alt="Anterior" />
+    </button>
+    
+    <!-- Imagen actual del banner -->
+    <img [src]="bannerImages[currentBannerIndex]" alt="banner" id="bannerimg" />
+    
+    <!-- Botón para ir a la siguiente imagen del banner -->
+    <button class="banner_button next" (click)="nextBanner()">
+      <img src="assets/images/icons/right-arrow.png" alt="Siguiente" />
+    </button>
+  </div>

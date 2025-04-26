@@ -1,0 +1,57 @@
+<div id="admincat">
+  <h1>Categorías</h1>
+  
+  <!-- Sección para añadir/editar categoría -->
+  <div>
+    <h2>{{ editMode ? 'Editar' : 'Añadir' }} categoría</h2>
+    <form [formGroup]="categoryForm" (ngSubmit)="onSubmit()">
+      <label>Nombre: </label>
+      <input type="text" id="txtnomcat" formControlName="nombre"/>
+      
+      <label>Padre: </label>
+      <select id="selecpadre" formControlName="padre">
+        <option value="" selected disabled hidden></option>
+        <option value="sin">Sin Padre</option>
+        <option *ngFor="let cat of categories" 
+                [value]="cat.id"
+                [disabled]="editMode && selectedCategoryId === cat.id">
+          {{ cat.nombre }}
+        </option>
+      </select>
+      
+      <input type="submit" id="btnaniadircat" [value]="editMode ? 'GUARDAR' : 'AÑADIR'" />
+      <input *ngIf="editMode" type="button" value="CANCELAR" (click)="cancelEdit()" />
+    </form>
+  </div>
+  
+  <!-- Sección para listar y administrar categorías existentes -->
+  <div>
+    <h2>Administrar categorias</h2>
+    <div *ngIf="loading">Cargando...</div>
+    <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+    <div *ngIf="success" class="alert alert-success">{{ success }}</div>
+    
+    <table id="editcat" *ngIf="categories.length > 0">
+      <tr>
+        <th>Nombre</th>
+        <th>Padre</th>
+        <th></th>
+        <th></th>
+      </tr>
+      <tr *ngFor="let category of categories" [id]="'cat' + category.id">
+        <td class="catnom">{{ category.nombre }}</td>
+        <td class="catpadre" [attr.data-id]="category.padre">
+          {{ getParentName(category.padre) }}
+        </td>
+        <td>
+          <input [attr.data-id]="category.id" type="button" class="editarcat" value="EDITAR" 
+                (click)="editCategory(category)"/>
+        </td>
+        <td>
+          <input [attr.data-id]="category.id" type="button" class="eliminarcat" value="ELIMINAR" 
+                (click)="deleteCategory(category.id)"/>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
