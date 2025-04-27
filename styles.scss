@@ -3,6 +3,7 @@
 @import '~bootstrap/dist/css/bootstrap.min.css';
 
 @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Pinyon+Script&family=Great+Vibes&family=Tangerine:wght@700&display=swap');
 
 /* Variables globales */
 $primary: #52667a;
@@ -15,37 +16,6 @@ $default-font: 'Montserrat', sans-serif;
 body {
   padding: 0 50px;
   font-family: $default-font;
-}
-
-/* =========== ACTUALIZACIÓN: Estilos de header =========== */
-header {
-  position: relative;
-  background-image: url('./assets/images/background/background.jpg');
-  z-index: 5;
-  background-size: cover;
-  background-position: center;
-  height: 300px; /* Altura adecuada */
-  margin: 0; /* Eliminamos márgenes negativos que pueden causar distorsión */
-  padding: 20px 0; /* Eliminamos padding que puede afectar el layout */
-  margin-bottom: 20px;
-  position: relative; /* Para posicionar correctamente el texto */
-  width: 100%; /* Asegurarse que ocupa todo el ancho */
-  overflow: hidden; /* Prevenir desbordamientos */
-  
-  h1 {
-    position: absolute;
-    bottom: 60px; /* Posicionar cerca de la parte inferior como en la imagen 1 */
-    left: 60px; /* Posicionar más a la izquierda como en la imagen 1 */
-    font-family: 'Ruthie', cursive;
-    font-size: 7em; /* Tamaño grande pero controlado */
-    font-weight: normal;
-    text-shadow: 0px 0px 10px rgba(255, 255, 255, 0.5); /* Sombra sutil para legibilidad */
-    font-style: italic; /* Asegurar que está en itálica/cursiva */
-    margin: 0; /* Eliminar márgenes que puedan afectar la posición */
-    padding: 0; /* Eliminar padding que pueda afectar la posición */
-    line-height: 1; /* Controlar el espaciado de línea */
-    color: black; /* Asegurar color negro */
-  }
 }
 
 /* Mixins de utilidad */
@@ -61,43 +31,6 @@ header {
   background-color: white;
   @include borders;
   cursor: pointer;
-}
-
-/* =========== ACTUALIZACIÓN: Navegación =========== */
-/* Contenedor principal del navbar */
-nav {
-  width: 100%;
-  background-color: #fff;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  padding: 10px 0;
-  
-  > div {
-    padding: 0 20px;
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-}
-
-/* Menú principal */
-#menu {
-  display: flex;
-  align-items: center;
-  padding: 0;
-  margin: 0;
-  list-style: none;
-  width: 100%;
-  
-  li {
-    height: auto;
-    padding: 10px 20px;
-    
-    &.menuitem {
-      cursor: pointer;
-      text-transform: uppercase;
-      font-weight: bold;
-      font-size: 14px;
-    }
-  }
 }
 
 /* =========== ACTUALIZACIÓN: Submenús =========== */
@@ -126,84 +59,6 @@ nav {
   overflow-y: visible;
 }
 
-/* =========== ACTUALIZACIÓN: Búsqueda =========== */
-#search {
-  margin-left: auto;
-  padding: 0 15px;
-  
-  input {
-    padding: 6px 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    width: 200px;
-    font-size: 14px;
-  }
-  
-  img {
-    cursor: pointer;
-    width: 16px;
-    position: relative;
-    right: 30px;
-    top: 0px;
-  }
-}
-
-/* =========== ACTUALIZACIÓN: Elementos a la derecha =========== */
-.right-menu-items {
-  display: flex;
-  align-items: center;
-  
-  li {
-    padding: 0 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-}
-
-/* Icono de perfil/login */
-#login, .profile {
-  cursor: pointer;
-  margin-right: 5px;
-  padding: 0 10px !important;
-  
-  img {
-    width: 24px;
-    height: 24px;
-  }
-}
-
-/* Carrito con número de productos */
-/* Carrito con número de productos */
-#carrito {
-  position: relative;
-  cursor: pointer;
-  margin-left: 15px;
-  padding: 0 !important;
-  
-  img {
-    width: 30px;
-    height: 30px;
-  }
-  
-  p {
-    position: absolute;
-    top: -6px;
-    right: -10px;
-    background-color: $primary;
-    color: white;
-    font-size: 13px;
-    font-weight: bold;
-    border-radius: 50%;
-    width: 22px;
-    height: 22px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-  }
-}
 /* Banner */
 #banner {
   width: 100%;
@@ -243,7 +98,6 @@ nav {
   height: auto;
 }
 
-
 /*********TEXTO/FORM*******/
 #arttext {
   margin-left: -10%;
@@ -263,9 +117,9 @@ nav {
 /********* CANTIDAD **********/
 .cantidad input[type=number] {
   width: 40px;
-  text-align: right
-
+  text-align: right;
 }
+
 /********VISUALIZACIÓN DEL CARRITO********/
 .vercarrito {
   width: 80%;
@@ -284,67 +138,67 @@ nav {
   height: 80%;
 
   img {
-      vertical-align: middle;
+    vertical-align: middle;
   }
   thead {
-      tr {
-          :nth-child(1) {
-              width: 39.5%;
-          }
-          :nth-child(2) {
-              width: 20%;
-          }
-          :nth-child(3) {
-              width: 15%;
-          }
-          :nth-child(4), :nth-child(5) {
-              width: 15%;
-          }
-          :nth-child(5) span {
-              position: relative;
-              left: 20px;
-          }
-      }
-  }
-  tbody {
-      overflow-y: auto;
-      overflow-x: hidden;
-      display: block;
-      max-height: 85%;
-
-      tr {
-          :nth-child(1) {
-              width: 35%;
-              img {
-                  width: 25px;
-              }
-          }
-          :nth-child(2) {
-              width: 20%;
-          }
-          :nth-child(3), :nth-child(4), :nth-child(5) {
-              width: 15%;
-          }
-      }
-  }
-  tfoot tr {
-      td {
-          padding-top: 20px;
-      }
-      td:first-of-type {
-          font-weight: bold;
-          font-size: 1.2em;
-          text-align: right;
-          width: 88%;
+    tr {
+      :nth-child(1) {
+        width: 39.5%;
       }
       :nth-child(2) {
-          width: 15%;
-          text-align: left;
-          padding-left: 25px;
+        width: 20%;
       }
       :nth-child(3) {
-          width: 10%;
+        width: 15%;
       }
+      :nth-child(4), :nth-child(5) {
+        width: 15%;
+      }
+      :nth-child(5) span {
+        position: relative;
+        left: 20px;
+      }
+    }
+  }
+  tbody {
+    overflow-y: auto;
+    overflow-x: hidden;
+    display: block;
+    max-height: 85%;
+
+    tr {
+      :nth-child(1) {
+        width: 35%;
+        img {
+          width: 25px;
+        }
+      }
+      :nth-child(2) {
+        width: 20%;
+      }
+      :nth-child(3), :nth-child(4), :nth-child(5) {
+        width: 15%;
+      }
+    }
+  }
+  tfoot tr {
+    td {
+      padding-top: 20px;
+    }
+    td:first-of-type {
+      font-weight: bold;
+      font-size: 1.2em;
+      text-align: right;
+      width: 88%;
+    }
+    :nth-child(2) {
+      width: 15%;
+      text-align: left;
+      padding-left: 25px;
+    }
+    :nth-child(3) {
+      width: 10%;
+    }
   }
 }
 .vercarrito table tr td:nth-child(1) {
@@ -366,6 +220,7 @@ nav {
 .vercarrito .eliminar {
   cursor: pointer;
 }
+
 /*********VISUALIZACIÓN DEL LOGIN*********/
 .verlogin {
   width: 300px;
@@ -374,7 +229,6 @@ nav {
   top: 250px;
   padding-bottom: 20px !important;
   flex-direction: column;
-
 }
 .verlogin h1 {
   text-align: center;
@@ -385,6 +239,7 @@ nav {
   width: 150px;
   margin: 15px auto 0;
 }
+
 /**********REGISTRO***********/
 .verregistro {
   flex-direction: column;
@@ -403,6 +258,7 @@ nav {
   width: 150px;
   margin: 30px auto 0;
 }
+
 /******** CHECKOUT **********/
 .vercheckout {
   flex-direction: column;
@@ -414,65 +270,64 @@ nav {
   border-collapse: collapse;
   
   thead, tbody, tfoot {
-      display: block;
+    display: block;
   }
 
   thead {
-      td:first-of-type {
-          text-align: left;
-          padding-left: 20px;
-      }
+    td:first-of-type {
+      text-align: left;
+      padding-left: 20px;
+    }
   }
   tbody {
-      max-height: 88px;
-      overflow-y: auto;
-      overflow-x: hidden;
+    max-height: 88px;
+    overflow-y: auto;
+    overflow-x: hidden;
   }
   tfoot {
-      tr {
-          :first-child {
-              width: 670px;
-              text-align: right;
-              font-weight: bold;
-          }
-          :last-child {
-              width: 120px;
-              text-align: right;
-              padding-right: 37px
-          }
+    tr {
+      :first-child {
+        width: 670px;
+        text-align: right;
+        font-weight: bold;
       }
+      :last-child {
+        width: 120px;
+        text-align: right;
+        padding-right: 37px
+      }
+    }
   }
   tr {
-      :nth-child(1) {
-          width: 250px;
-          text-align: left;
-          padding-left: 20px;
-      }
-      :nth-child(2) {
-          width: 175px;
-      }
-      :nth-child(3) {
-          width: 125px;
-      }
-      th {
-          padding-bottom: 10px;
-          text-align: center !important;
-      }
-      td {
-      }
-      :nth-child(4), :nth-child(5) {
-          text-align: right !important;
-          width: 125px;
-          padding-right: 20px;
-      }
+    :nth-child(1) {
+      width: 250px;
+      text-align: left;
+      padding-left: 20px;
+    }
+    :nth-child(2) {
+      width: 175px;
+    }
+    :nth-child(3) {
+      width: 125px;
+    }
+    th {
+      padding-bottom: 10px;
+      text-align: center !important;
+    }
+    td {
+    }
+    :nth-child(4), :nth-child(5) {
+      text-align: right !important;
+      width: 125px;
+      padding-right: 20px;
+    }
   }
-
 }
 .vercheckout #receptor {
   display: flex;
   justify-content: space-around;
   .datos {
-      padding-left: 40px;
+    padding-left: 40px;
   }
 }
 .vercheckout #comprar {
@@ -481,6 +336,7 @@ nav {
   left: 380px;
   width: 120px;
 }
+
 /**********FOOTER************/
 footer {
   background-color: rgb(86, 79, 79);
@@ -497,8 +353,8 @@ footer {
 ////////////////////ADMINISTRADOR/////////////////////
 #divadmin {
   input[type='button'], input[type='submit']  {
-      padding: 5px 10px !important;
-      margin-left: 20px;
+    padding: 5px 10px !important;
+    margin-left: 20px;
   }
 }
 #divadmin #titulo {
@@ -543,6 +399,7 @@ footer {
 .vereditcat input[type='submit'] {
   margin: 30px auto 0;
 }
+
 /*********Edición de artículos*********/
 .vereditart {
   flex-direction: column;
@@ -551,8 +408,8 @@ footer {
   justify-content: space-between;
 
   input[type='submit'] {
-      width: 175px;
-      margin: 30px auto 0;
+    width: 175px;
+    margin: 30px auto 0;
   }
 }
 .vereditart input[type='number'] {
@@ -600,92 +457,90 @@ footer {
   width: 628px;
 
   :not(:nth-child(1)):not(:nth-child(2)):not(:nth-child(3)) {
-      display: none;
+    display: none;
   }
   tr:nth-of-type(2) {
-      display: none;
+    display: none;
   }
   tr:nth-of-type(3) {
-      display: none;
+    display: none;
   }
   .titulo {
-      font-family: 'Lovers Quarrel';
-      font-size: 2.5em;
-      background-color: $primary;
-      color: $background;
-      border: none;
-      width: 628px;
+    font-family: 'Lovers Quarrel';
+    font-size: 2.5em;
+    background-color: $primary;
+    color: $background;
+    border: none;
+    width: 628px;
 
-      div.see {
-          display: inline-block !important;
-          margin-left: 10px;
-          cursor: pointer;
+    div.see {
+      display: inline-block !important;
+      margin-left: 10px;
+      cursor: pointer;
 
-          img:first-of-type {
-              width: 20px;
-              position: relative;
-              left: 5px;
-              top: 7px;
-          }
-          img:last-of-type {
-              width: 12px;
-          }
+      img:first-of-type {
+        width: 20px;
+        position: relative;
+        left: 5px;
+        top: 7px;
       }
+      img:last-of-type {
+        width: 12px;
+      }
+    }
 
-      th {
-          font-weight: normal;
-          padding: 0px 20px;
+    th {
+      font-weight: normal;
+      padding: 0px 20px;
+    }
+    th:first-of-type {
+      text-align: left;
+      width: 300px;
+    }
+    th:nth-of-type(2) {
+      text-align: right;
+      width: 180px;
+      padding: 0;
+      span {
+        position: relative;
+        left: 70px;
       }
-      th:first-of-type {
-          text-align: left;
-          width: 300px;
-      }
-      th:nth-of-type(2) {
-          text-align: right;
-          width: 180px;
-          padding: 0;
-          span {
-              position: relative;
-              left: 70px;
-          }
-      }
-      th:nth-of-type(3) {
-          text-align: right;
-          width: 120px;
-      }
+    }
+    th:nth-of-type(3) {
+      text-align: right;
+      width: 120px;
+    }
   }
   tr {
-
-      th, td {
-          padding: 5px 20px;
-      }
-      th {
-          padding: 15px 20px 10px;
-      }
+    th, td {
+      padding: 5px 20px;
+    }
+    th {
+      padding: 15px 20px 10px;
+    }
   }
   
   tr td:first-child {
-      width: 300px;
+    width: 300px;
   }
   tr td:nth-child(2) {
-      width: 180px;
-      text-align: center;
+    width: 180px;
+    text-align: center;
   }
   tr td:last-of-type {
-      text-align: right;
-      padding-right: 20px;
-      width: 120px;
+    text-align: right;
+    padding-right: 20px;
+    width: 120px;
   }
   tr:last-of-type {
-      td {
-          padding-top: 20px;
-      }
+    td {
+      padding-top: 20px;
+    }
 
-      td:first-of-type {
-          text-align: right;
-          font-weight: bold;
-      }
-      
+    td:first-of-type {
+      text-align: right;
+      font-weight: bold;
+    }
   }
 }
 
@@ -701,6 +556,7 @@ footer {
   right: 15px;
   cursor: pointer;
 }
+
 /*********MODALES****/
 #modal {
   position: fixed;
@@ -740,41 +596,106 @@ input[type='button'], input[type='submit'], a {
   cursor: pointer;
 }
 
-/* Modificación para el título "novedades" */
-#titulo {
-  font-family: 'Lovers Quarrel', cursive;
-  font-size: 6em; /* Aumentado de 5em a 6em para hacerlo más grande */
-  font-weight: normal;
-  padding-left: 10px; /* Reducido a 30px para moverlo más a la izquierda */
-  text-transform: lowercase;
-  margin: 20px 30px 0; /* Reducido margen izquierdo de 55px a 30px */
-  border-bottom: none;
-  font-style: italic;
-  text-align: left;
-}
-
-/* Si hay algún elemento h1 dentro del #titulo, asegúrate de ajustarlo también */
-#titulo h1 {
-  font-size: 1em; /* Relativo al tamaño del padre */
-  margin: 0;
-  padding: 0;
-  text-align: left;
-}
-
+/* Reseteo completo para todos los títulos de secciones */
+#titulo,
+h1#titulo, 
+div#titulo,
+.tuneles,
+.novedades,
+.category-title,
+.product-list-container h1,
+.home-component h1,
 .left-aligned-title {
-  text-align: left !important;
-  margin-left: 20px !important;
-  width: 100% !important;
-  padding-left: 0 !important;
+  /* Fuente y tamaño */
+  font-family: 'Lovers Quarrel', cursive !important;
+  font-size: 3em !important;
+  font-weight: normal !important;
   
-  h1 {
-    font-size: 0.4em !important;
-    text-align: left !important;
-  }
+  /* Espaciado */
+  padding: 8px 0 !important;
+  margin: 10px auto !important;
+  
+  /* Alineación y presentación */
+  text-align: center !important;
+  width: 100% !important;
+  line-height: 1 !important;
+  
+  /* Estilo del texto */
+  text-transform: lowercase !important;
+  font-style: italic !important;
+  letter-spacing: normal !important;
+  text-shadow: none !important;
+  
+  /* Bordes */
+  border: none !important;
+  border-bottom: none !important;
+  
+  /* Color */
+  color: #000 !important;
+  
+  /* Reseteo de otros posibles estilos */
+  background: transparent !important;
+  box-shadow: none !important;
+  text-decoration: none !important;
+  
+  /* Asegurar que no hereden otras propiedades */
+  text-rendering: auto !important;
 }
 
+/* Reseteo completo con selector universal para todos los títulos de secciones */
+/* Selector específico para atrapar TODOS los títulos de categorías y novedades */
+body .novedades,
+body .tuneles,
+body .plugs,
+body .expanders,
+body #titulo,
+body h1#titulo,
+body div#titulo,
+body div[id="titulo"],
+body div.novedades,
+body div.tuneles,
+body .left-aligned-title,
+body .category-title {
+  /* Fuente y tamaño */
+  font-family: 'Lovers Quarrel', cursive !important;
+  font-size: 5em!important;
+  
+  /* Estilo de la fuente */
+  font-weight: normal !important;
+  font-style: italic !important;
+  text-transform: lowercase !important;
+  
+  /* Espaciado y alineación */
+  letter-spacing: normal !important;
+  text-align: center !important;
+  line-height: 1.2 !important;
+  
+  /* Márgenes y padding */
+  margin: 15px auto !important;
+  padding: 10px 0 !important;
+  width: 100% !important;
+  
+  /* Reseteo de propiedades que podrían interferir */
+  border: none !important;
+  text-shadow: none !important;
+  color: inherit !important;
+  
+  /* Asegurar que se aplique este estilo */
+  display: block !important;
+}
 
+/* Asegurar que la fuente esté correctamente cargada */
+@import url('https://fonts.googleapis.com/css2?family=Lovers+Quarrel&display=swap');
 
+/* Estilo específico para los títulos de página que se ven después del banner */
+.product-list-container h1#titulo,
+.home-container h1#titulo,
+div.novedades,
+div.tuneles {
+  font-size: 3.5em !important; /* Tamaño más pequeño que el título principal */
+  margin-top: 10px !important;
+  margin-bottom: 20px !important;
+}
 
 /* Solo aplicamos el borde inferior cuando el #titulo está dentro de un div que no sea home.component */
 div:not(app-home) > #titulo {
@@ -785,7 +706,6 @@ div:not(app-home) > #titulo {
 app-home #titulo {
   border-bottom: none !important;
 }
-
 
 /******VISUALIZACIÓN DE UN ARTÍCULO**********/
 .verarticulo {
@@ -817,8 +737,6 @@ app-home #titulo {
 }
 
 /* Ajuste para aumentar el tamaño del texto en los artículos */
-
-/* Busca esta sección en tu archivo styles.scss (cerca de la línea 700) */
 
 #articulos {
   margin: 20px;
@@ -869,7 +787,6 @@ app-home #titulo {
     }
   }
 }
-
 
 /* Estilos para el popup del carrito */
 .cart-popup {
@@ -941,21 +858,6 @@ app-home #titulo {
   }
   to {
     opacity: 1;
-  }
-}
-
-/* Ajustes para responsive */
-@media (max-width: 768px) {
-  .cart-popup {
-    width: 95vw;
-    
-    .vercarrito table {
-      font-size: 0.9em;
-      
-      thead tr :nth-child(5) span {
-        left: 0;
-      }
-    }
   }
 }
 
@@ -1093,52 +995,6 @@ h1, .product-title {
   line-height: 1 !important;
 }
 
-/* Importamos varias fuentes caligráficas elegantes para tener opciones */
-@import url('https://fonts.googleapis.com/css2?family=Pinyon+Script&family=Great+Vibes&family=Tangerine:wght@700&display=swap');
-
-/* Estilo mucho más grande y dramático para el título */
-.tienda-title {
-  font-family: 'Great Vibes', cursive; /* Fuente principal más elegante */
-  font-size: 7rem; /* Aproximadamente el triple del tamaño anterior */
-  font-weight: normal;
-  color: #000;
-  text-shadow: 2px 2px 3px rgba(255, 255, 255, 0.8); /* Sombra más pronunciada */
-  margin: 40px 0; /* Mayor espaciado */
-  cursor: pointer;
-  transition: all 0.3s ease;
-  text-align: center; /* Centrado */
-  line-height: 1.2; /* Espaciado de línea adecuado */
-  display: block;
-  width: 100%; /* Ocupa todo el ancho disponible */
-  padding: 10px 0;
-}
-
-/* Efecto al pasar el cursor más notorio */
-.tienda-title:hover {
-  transform: scale(1.05);
-  text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.2);
-}
-
-/* Clase adicional para asegurar que es realmente grande */
-.grand-title {
-  min-height: 120px; /* Altura mínima para asegurar espacio */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-/* Media query para dispositivos pequeños */
-@media (max-width: 768px) {
-  .tienda-title {
-    font-size: 5rem; /* Tamaño un poco más pequeño en móviles */
-  }
-}
-
-.product-modal-close:hover {
-  color: #333;
-}
-
-
 /* Asegurar que el contenedor del título tiene posición relativa para el botón de cierre */
 .product-modal-container {
   position: relative;
@@ -1169,28 +1025,6 @@ h1, .product-title {
   z-index: 1 !important; /* Asegurar que está por encima del título */
   padding: 5px !important;
   line-height: 1 !important;
-}
-
-.cart-popup {
-  position: fixed;
-  top: 50%;
-  right: -400px; // Oculto inicialmente
-  transform: translateY(-50%);
-  width: 100%;
-  max-width: 400px;
-  max-height: 90vh; // Altura máxima respecto a la ventana
-  display: flex;
-  flex-direction: column;
-  background-color: white;
-  z-index: 1000;
-  box-shadow: -2px 0 8px rgba(0, 0, 0, 0.2);
-  transition: right 0.3s ease;
-  border-radius: 6px;
-  overflow: hidden; // Para mantener los bordes redondeados
-  
-  &.active {
-    right: calc(50% - 200px); // Centrado horizontal
-  }
 }
 
 .cart-header {
@@ -1331,7 +1165,7 @@ h1, .product-title {
       
       .nombre-producto {
         font-size: 14px;
-        max-width: 120px; // Limitar el ancho para evitar desbordamiento
+        max-width: 120px; /* Limitar el ancho para evitar desbordamiento */
       }
     }
     
@@ -1399,7 +1233,7 @@ h1, .product-title {
     }
   }
   
-  // Fila del total
+  /* Fila del total */
   .cart-total {
     display: flex;
     justify-content: flex-end;
@@ -1434,14 +1268,14 @@ h1, .product-title {
   width: 100%;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  flex-shrink: 0; // Evita que el botón se encoja
+  flex-shrink: 0; /* Evita que el botón se encoja */
   
   &:hover {
     background-color: darken(#52667a, 10%);
   }
 }
 
-// Estilos para el diálogo de confirmación personalizado
+/* Estilos para el diálogo de confirmación personalizado */
 .confirm-dialog-overlay {
   position: fixed;
   top: 0;
@@ -1449,7 +1283,7 @@ h1, .product-title {
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
-  z-index: 1500; // Mayor que el z-index del carrito
+  z-index: 1500; /* Mayor que el z-index del carrito */
 }
 
 .confirm-dialog-container {
@@ -1461,7 +1295,7 @@ h1, .product-title {
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 2000; // Mayor que el overlay
+  z-index: 2000; /* Mayor que el overlay */
 }
 
 .confirm-dialog {
@@ -1560,7 +1394,7 @@ h1, .product-title {
 /* Ajustes adicionales para responsive */
 @media (max-width: 768px) {
   header {
-    height: 200px;
+    height: 150px;
     
     h1 {
       font-size: 5em;
@@ -1578,9 +1412,15 @@ h1, .product-title {
     }
     
     .right-menu-items {
+      position: static;
       justify-content: center;
       margin-top: 10px;
     }
+  }
+  
+  #search {
+    position: static;
+    margin-top: 10px;
   }
   
   .subcat {

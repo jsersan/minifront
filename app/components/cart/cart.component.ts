@@ -40,9 +40,22 @@ export class CartComponent implements OnInit, OnDestroy {
     this.cartService.cartItems.subscribe({
       next: (items) => {
         // Actualizar los items del carrito en el componente
-        this.cartItems = items;
-        
-        // Convertir CartItems a OrderLines para usar con OrderLineComponent
+
+        this.cartService.cartItems.subscribe({
+          next: (items) => {
+            // Aquí puedes mapear los items para asegurarte que tienen la estructura correcta
+            this.cartItems = items.map(item => {
+              return {
+                id: item.id,
+                nombre: item.nombre || (item.producto ? item.producto.nombre : ''),
+                imagen: item.imagen || (item.producto ? `assets/images/${item.producto.carpetaimg}/${item.producto.imagen}` : ''),
+                color: item.color || '',
+                cantidad: item.cantidad,
+                precio: item.precio,
+                producto: item.producto
+              };
+            });
+            // Convertir CartItems a OrderLines para usar con OrderLineComponent
         this.convertCartItemsToOrderLines();
         
         // Calcular el total del carrito
@@ -58,6 +71,8 @@ export class CartComponent implements OnInit, OnDestroy {
         
         // Reset de la bandera de eliminar
         this.isRemoving = false;
+          }
+        });
       }
     });
     

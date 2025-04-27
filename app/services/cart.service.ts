@@ -6,7 +6,7 @@ import { Product } from '../models/product'
 // Interfaz para los elementos del carrito
 export interface CartItem {
   id: number
-  producto: Product
+  producto?: Product
   cantidad: number
   color?: string
   talla?: string
@@ -97,7 +97,7 @@ export class CartService {
     // Buscar si el producto ya está en el carrito con las mismas opciones
     const existingItemIndex = currentItems.findIndex(
       item =>
-        item.producto.id === product.id &&
+        item.producto?.id === product.id &&
         item.color === color &&
         item.talla === size
     )
@@ -115,7 +115,9 @@ export class CartService {
         cantidad: quantity,
         color: color,
         talla: size,
-        precio: product.precio
+        precio: product.precio,
+        nombre: product.nombre,
+        imagen: `assets/images/${product.carpetaimg}/${product.imagen}`
       }
       this._cartItems.next([...currentItems, newItem])
     }

@@ -1,3 +1,4 @@
+<!-- Archivo original: app/components/product/product-list/product-list.component.html -->
 <div class="product-list-container">
   <!-- Título de la sección, muestra el nombre de la categoría o "Todos los productos" -->
   <h1 id="titulo">
@@ -17,7 +18,8 @@
     </div>
     
     <!-- Iteración sobre el array de productos -->
-    <div class="articulo" *ngFor="let product of products" (click)="openProductPopup(product)">
+    <!-- CAMBIO IMPORTANTE: Cambiamos (click)="openProductPopup(product)" por [routerLink] -->
+    <div class="articulo" *ngFor="let product of products" [routerLink]="['/product', product.id]">
       <!-- Imagen del producto -->
       <img [src]="'assets/images/' + product.carpetaimg + '/' + product.imagen" [alt]="product.nombre" />
       

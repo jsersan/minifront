@@ -13,12 +13,15 @@
         </span>
 
         <ul class="subcat">
-          <!-- Subcategorías de DILATACIONES -->
-          <li *ngFor="let subcategory of getSubcategoriesForDilataciones()" 
-              [attr.data_id]="subcategory.id"
-              class="menuitem categoria" 
-              [routerLink]="['/category', subcategory.id]">
-            {{ subcategory.nombre.toUpperCase() }}
+          <!-- Categorías específicas de DILATACIONES -->
+          <li class="menuitem categoria" [routerLink]="['/category', getSubcategoryId('TUNELES')]">
+            TÚNELES
+          </li>
+          <li class="menuitem categoria" [routerLink]="['/category', getSubcategoryId('PLUGS')]">
+            PLUGS
+          </li>
+          <li class="menuitem categoria" [routerLink]="['/category', getSubcategoryId('EXPANDERS')]">
+            EXPANDERS
           </li>
         </ul>
       </li>
@@ -30,12 +33,21 @@
         </span>
 
         <ul class="subcat">
-          <!-- Subcategorías de PIERCINGS -->
-          <li *ngFor="let subcategory of getSubcategoriesForPiercings()" 
-              [attr.data_id]="subcategory.id"
-              class="menuitem categoria" 
-              [routerLink]="['/category', subcategory.id]">
-            {{ subcategory.nombre.toUpperCase() }}
+          <!-- Categorías específicas de PIERCINGS -->
+          <li class="menuitem categoria" [routerLink]="['/category', getSubcategoryId('BANANAS')]">
+            BANANAS
+          </li>
+          <li class="menuitem categoria" [routerLink]="['/category', getSubcategoryId('LABRETS')]">
+            LABRETS
+          </li>
+          <li class="menuitem categoria" [routerLink]="['/category', getSubcategoryId('BARBELLS')]">
+            BARBELLS
+          </li>
+          <li class="menuitem categoria" [routerLink]="['/category', getSubcategoryId('CIRCULAR BARBELLS')]">
+            CIRCULAR BARBELLS
+          </li>
+          <li class="menuitem categoria" [routerLink]="['/category', getSubcategoryId('ANILLOS')]">
+            ANILLOS
           </li>
         </ul>
       </li>
@@ -45,14 +57,14 @@
         VER TODO
       </li>
 
-      <!-- Campo de búsqueda -->
-      <li id="search" class="menuitem">
-        <input type="text" id="searchinput" [(ngModel)]="searchTerm" (keyup.enter)="search()" placeholder="Buscar..." />
-        <img id="searchicon" src="assets/images/icons/search.png" alt="botón de búsqueda" (click)="search()">
-      </li>
+      <!-- Elementos a la derecha: búsqueda, perfil y carrito -->
+      <div class="right-items">
+        <!-- Campo de búsqueda -->
+        <li id="search" class="menuitem">
+          <input type="text" id="searchinput" [(ngModel)]="searchTerm" (keyup.enter)="search()" placeholder="Buscar..." />
+          <img id="searchicon" src="assets/images/icons/search.png" alt="botón de búsqueda" (click)="search()">
+        </li>
 
-      <!-- Elementos a la derecha: primero perfil, luego carrito -->
-      <div class="right-menu-items">
         <!-- Perfil de usuario -->
         <li class="menuitem profile" [routerLink]="['/profile']">
           <img src="assets/images/icons/login.png" id="imgprofile" />

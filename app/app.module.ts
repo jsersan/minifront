@@ -23,7 +23,7 @@ import { LoginComponent } from './components/user/login/login.component';
 import { RegisterComponent } from './components/user/register/register.component';
 import { ProfileComponent } from './components/user/profile/profile.component';
 import { OrderLineComponent } from './components/orderline/orderline.component';
-import { BannerComponent } from './componets/banner/banner.component';
+import { BannerComponent } from './components/banner/banner.component';
 import { HeaderComponent } from './components/shared/header/header.component';
 
 @NgModule({

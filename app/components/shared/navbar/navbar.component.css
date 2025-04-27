@@ -1,2 +1,284 @@
 /* src/app/components/shared/navbar/navbar.component.css */
-/* Estilos para el navbar */
+/* Estilos para el navbar con menús desplegables corregidos */
+
+/* Modificaciones al navbar */
+nav {
+  width: 100%; /* Ancho completo del navegador */
+  background-color: #fff;
+  /* Sombra más intensa y pronunciada */
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.25);
+  /* Padding ligeramente aumentado para acomodar elementos más grandes */
+  padding: 10px 0;
+  /* Sin bordes redondeados para ocupar todo el ancho */
+  border-radius: 0;
+  /* Sin margen horizontal */
+  margin-left: 0;
+  margin-right: 0;
+  /* Añadimos margen inferior para separarlo del carrusel */
+  margin-bottom: 20px;
+}
+
+#menu {
+  display: flex;
+  align-items: center;
+  padding: 0;
+  /* Ligeramente más estrecho para dar margen a los lados */
+  width: 95%;
+  max-width: 1400px; /* Un poco más amplio para pantallas grandes */
+  margin: 0 auto;
+  list-style: none;
+  position: relative;
+}
+
+/* Ajustamos el padding vertical para reducir altura */
+#menu li.menuitem {
+  padding: 6px 0;
+  cursor: pointer;
+  text-transform: uppercase;
+  font-weight: 500;
+  font-size: 16px;
+  white-space: nowrap;
+  position: relative; /* Importante para posicionar los submenús correctamente */
+}
+
+/* Hacer más grande el texto de los menús principales */
+.menuitem.elem, .menuitem.home, #fincat {
+  font-size: 18px; /* Aumentado de 16px */
+  padding: 10px 0; /* Aumentado de 6px */
+  margin-right: 55px; /* Aumentado para más espaciado horizontal */
+}
+
+/* Mejorar el área de hover para los elementos principales */
+.menuitem.elem {
+  position: relative;
+  padding-bottom: 20px; /* Añadir espacio abajo para facilitar movimiento hacia submenú */
+}
+
+/* Eliminar margen derecho del último ítem de menú (VER TODO) */
+#fincat {
+  margin-right: 0;
+}
+
+/* Grupo de elementos a la derecha */
+.right-items {
+  display: flex;
+  align-items: center;
+  margin-left: auto; /* Empuja este grupo a la derecha */
+  margin-right: 20px; /* Añade espacio a la derecha */
+}
+
+/* Movemos el cuadro de búsqueda más a la izquierda */
+#search {
+  position: relative;
+  margin-right: 40px; /* Aumentamos el margen derecho para separarla de los iconos */
+  margin-left: 60px; /* Añadimos margen izquierdo para moverlo más a la izquierda */
+}
+
+#searchinput {
+  /* Hacemos el cuadro más cuadrado y alto */
+  padding: 10px 16px; /* Aumentamos el padding vertical para más altura */
+  border: 1px solid #ddd;
+  border-radius: 4px; /* Reducimos el radio para hacerlo más cuadrado */
+  width: 240px; 
+  height: 20px; /* Altura explícita para el campo */
+  font-size: 16px;
+  box-sizing: content-box; /* Asegura que el padding se suma a la altura */
+}
+
+#searchicon {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  width: 24px;
+  height: 24px;
+}
+
+/* Ajustar la posición del icono de perfil */
+.profile {
+  margin-right: 20px; /* Aumentamos el margen entre perfil y carrito */
+  cursor: pointer;
+}
+
+#imgprofile {
+  width: 35px;
+  height: 35px;
+}
+
+/* Ajustar el icono del carrito */
+#carrito {
+  margin-left: 0;
+  cursor: pointer;
+  position: relative;
+}
+
+#carrito img {
+  width: 35px;
+  height: 35px;
+}
+
+#carrito p {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  background-color: #52667a;
+  color: white;
+  font-size: 12px;
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+/* Efecto hover en los elementos del menú */
+.menuitem:hover {
+  color: #52667a;
+}
+
+/* CORRECCIÓN: Estilos para los submenús desplegables con tiempo de permanencia */
+.subcat {
+  position: absolute;
+  top: 100%; /* Posiciona el submenú justo debajo del elemento padre */
+  left: 0;
+  background-color: white;
+  padding: 10px; /* Eliminamos padding interno para evitar espacios extras */
+  border-radius: 4px; /* Bordes ligeramente redondeados */
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+  display: none;
+  z-index: 100;
+  min-width: 240px;
+  margin-top: 10px; /* Espacio entre el menú principal y el desplegable */
+  border: 1px solid #f1f1f1; /* Borde sutil alrededor del menú */
+  transition: opacity 0.3s; /* Transición suave para aparecer/desaparecer */
+  opacity: 0;
+}
+
+
+/* Ajustar el tiempo que permanece visible el menú después de salir */
+.elem .subcat {
+  animation-fill-mode: forwards;
+}
+
+/* CORRECCIÓN: Elementos de submenú más altos y con mejor espaciado */
+.subcat li {
+  padding: 15px 25px; /* Más altura para cada elemento del menú */
+  border-bottom: 1px solid #f1f1f1; /* Una sola línea ligera de separación */
+  text-align: left;
+  margin: 0; /* Eliminar cualquier margen para evitar espacios extras */
+  font-weight: 500; /* Texto menos pesado */
+  text-transform: none; /* Para que no esté en mayúsculas */
+  font-size: 16px; /* Tamaño de texto adecuado */
+  transition: background-color 0.2s ease; /* Transición suave para el hover */
+  display: block;
+  width: 100%;
+  letter-spacing: 0.5px;
+  box-sizing: border-box;
+}
+
+.subcat li:hover {
+  background-color: #f0f0f0; /* Color más visible */
+  color: #52667a; /* Color coherente con hover principal */
+}
+
+/* Regla crucial para mostrar el submenú al hacer hover */
+.menuitem.elem:hover .subcat {
+  display: block;
+  opacity: 1;
+  transition-delay: 0s; /* Sin retraso inicial */
+}
+
+/* Añadir zona de continuidad para facilitar la navegación */
+.subcat:after {
+  content: '';
+  position: absolute;
+  top: -20px; /* Conecta con el padre */
+  left: 0;
+  width: 100%;
+  height: 20px;
+  background: transparent; /* Invisible pero "captura" el hover */
+}
+
+/* Espacio visual entre categorías del submenú */
+.subcat li + li {
+  margin-top: 2px; /* Espacio sutil entre entradas */
+}
+
+/* CORRECCIÓN: Eliminamos la línea del último elemento */
+.subcat li:last-child {
+  border-bottom: none;
+}
+
+/* CORRECCIÓN: Eliminar línea superior del primer elemento */
+.subcat li:first-child {
+  border-top: none;
+}
+
+
+/* Ajuste para dispositivos móviles */
+@media (max-width: 768px) {
+  #menu {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .menuitem.elem, .menuitem.home, #fincat {
+    margin: 5px 15px;
+  }
+  
+  .right-items {
+    margin-left: 0;
+    margin-top: 5px;
+    width: 100%;
+    justify-content: center;
+  }
+  
+  /* Ajustamos el campo de búsqueda para dispositivos móviles */
+  #search {
+    margin-left: 0;
+    margin-right: 20px;
+  }
+  
+  #searchinput {
+    width: 200px;
+  }
+  
+  /* Ajuste para los submenús en móvil */
+  .subcat {
+    position: static;
+    width: 100%;
+    box-shadow: none;
+    margin-top: 5px;
+  }
+}
+
+/* Modificaciones para header si lo estás manejando aquí */
+header {
+  position: relative;
+  background-image: url('/assets/images/background/background.jpg');
+  z-index: 5;
+  background-size: cover;
+  background-position: center;
+  height: 200px;
+  margin: 0;
+  padding: 20px 0;
+  width: 100%;
+  overflow: hidden;
+}
+
+header h1.tienda-title, h1.tienda-title, .tienda-title {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: 'Great Vibes', cursive !important;
+  font-size: 5rem !important;
+  font-weight: normal !important;
+  color: #000 !important;
+  text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.7) !important;
+  margin: 0 !important;
+  text-align: center !important;
+  width: 100% !important;
+}
