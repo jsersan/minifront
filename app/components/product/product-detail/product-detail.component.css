@@ -1,0 +1,222 @@
+/* Estilos para la ventana emergente de producto */
+.product-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 9998;
+    display: none;
+  }
+  
+  .product-overlay.active {
+    display: block;
+  }
+  
+  .product-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    z-index: 9999;
+    width: 33%; /* Reducido a aproximadamente un tercio */
+    max-width: 500px; /* Un máximo razonable */
+    min-width: 320px; /* Un mínimo para asegurar usabilidad en pantallas pequeñas */
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: 0;
+  }
+  
+  .product-popup.active {
+    display: block;
+  }
+  
+ /* Ajustes para la cabecera del modal */
+.product-header {
+    position: relative;
+    padding: 15px 40px 15px 20px; /* Añadir padding-right para dejar espacio para la X */
+    border-bottom: 1px solid #eaeaea;
+    text-align: center;
+  }
+  
+  .product-header h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 500;
+    text-align: center;
+    width: 100%;
+  }
+
+  .close-product {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 22px;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+    color: #333;
+    font-weight: normal;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .product-content {
+    display: flex;
+    flex-direction: column; /* Cambiar a columna para mejor visualización */
+    padding: 15px;
+    align-items: center;
+  }
+  
+/* Ajustar el contenedor de la imagen */
+.product-image-container {
+    width: 100%;
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .product-image {
+    max-width: 80%;
+    height: auto;
+    margin: 0 auto;
+  }
+  
+  .product-thumbnails {
+    display: flex;
+    margin-top: 15px;
+    justify-content: center;
+  }
+  
+  .thumbnail {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border: 1px solid #ddd;
+    margin: 0 5px;
+    cursor: pointer;
+  }
+  
+/* Ajustar la sección de detalles */
+.product-details {
+    width: 100%;
+    text-align: center;
+  }
+  
+/* Formato del precio */
+.product-price {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 15px;
+  text-align: center;
+}
+  
+  .product-description {
+    margin-bottom: 20px;
+    line-height: 1.6;
+  }
+  
+  .color-selector {
+    margin-bottom: 20px;
+  }
+  
+  .color-selector label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+  }
+  
+  .color-selector select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  
+  .quantity-input {
+    width: 40px;
+    height: 30px;
+    border: 1px solid #ddd;
+    text-align: center;
+    margin: 0; /* Eliminar márgenes */
+    padding: 0 5px;
+    -moz-appearance: textfield; /* Eliminar los botones de incremento/decremento en Firefox */
+  }
+  
+/* Ajustes para el control de cantidad */
+.quantity-control {
+    margin: 15px 0;
+    text-align: center;
+  }
+  
+  .quantity-control label {
+    display: block;
+    margin-bottom: 8px;
+  }
+  
+  .quantity-buttons {
+    display: inline-flex; /* Usar inline-flex para mantenerlos juntos */
+    align-items: center;
+    border-collapse: collapse; /* Para que visualmente se vean unidos */
+  }
+  
+  .quantity-btn {
+    width: 30px;
+    height: 30px;
+    border: 1px solid #ddd;
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 0;
+    margin: 0; /* Eliminar cualquier margen */
+  }
+  /* Eliminar bordes específicos para crear la impresión de elementos unidos */
+.quantity-btn:first-child {
+    border-right: none;
+    border-radius: 3px 0 0 3px;
+  }
+  
+  .quantity-btn:last-child {
+    border-left: none;
+    border-radius: 0 3px 3px 0;
+  }
+  
+  .add-to-cart-btn {
+    width: 100%;
+    margin-top: 15px;
+  }
+  
+  .add-to-cart-btn:hover {
+    background-color: #3d4d5c;
+  }
+
+  /* Eliminar los botones de incremento/decremento nativos en navegadores webkit */
+.quantity-input::-webkit-outer-spin-button,
+.quantity-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+  
+  /* Responsive design para pantallas pequeñas */
+  @media (max-width: 768px) {
+    .product-content {
+      flex-direction: column;
+    }
+    
+    .product-image-container {
+      padding-right: 0;
+      padding-bottom: 20px;
+    }
+  }

@@ -9,8 +9,9 @@
 <div id="articulos">
   <!-- Directiva *ngFor que itera sobre el array de productos aleatorios -->
   <div class="articulo" *ngFor="let product of randomProducts" [routerLink]="['/product', product.id]">
-    <!-- Imagen del producto -->
-    <img [src]="'assets/images/' + product.carpetaimg + '/' + product.imagen" [alt]="product.nombre" />
+    <!-- Imagen del producto usando el servicio centralizado -->
+    <img [src]="productService.getProductImageSrc(product)" [alt]="product.nombre" 
+         (error)="productService.handleImageError($event)" />
     
     <!-- Nombre del producto -->
     <h2>{{ product.nombre }}</h2>

@@ -1,25 +1,46 @@
 /* Importar la fuente si no lo has hecho todavía */ 
 @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');  
 
+header {
+  position: relative;
+  width: 100vw; /* Ancho completo de la ventana */
+  height: 250px; /* Altura ajustable según necesites */
+  margin: 0; /* Eliminar márgenes laterales */
+  padding: 0; /* Eliminar padding */
+  overflow: hidden; /* Controlar desbordamiento */
+  z-index: 5; /* Posicionamiento z-index */
+  left: 50%; /* Centrar horizontalmente */
+  right: 50%; /* Centrar horizontalmente */
+  margin-left: -50vw; /* Técnica para extender a todo el ancho */
+  margin-right: -50vw; /* Técnica para extender a todo el ancho */
+  box-sizing: border-box; /* Asegurar que padding y border se incluyan en el ancho */
+  background-image: url('../../../../assets/images/background/background.jpg');
+  background-size: auto; /* No estirar la imagen */
+  background-repeat: repeat; /* Repetir el patrón */
+  background-position: center; /* Centrar el patrón */
+}
+
 header h1.tienda-title, h1.tienda-title, .tienda-title {
   font-family: 'Great Vibes', cursive !important;
-  font-size: 5rem !important; /* Tamaño inicial */
+  font-size: 5rem !important;
   font-weight: normal !important;
   color: #000 !important;
   text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.7) !important;
   margin: 0 !important;
-  padding: 20px 0 !important;
+  padding: 0 !important;
   cursor: pointer !important;
   text-align: center !important;
   width: 100% !important;
-  /* Propiedades para la animación */
-  transform-origin: center center !important;
+  position: absolute !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
   transition: font-size 0.3s ease, text-shadow 0.3s ease !important;
-}  
+}
 
 /* Efecto de cambio de tamaño de fuente al pasar el cursor */ 
 .tienda-title:hover {
-  font-size: 9rem !important; /* Aumenta a 7rem en hover */
+  font-size: 7rem !important; /* Ajustado para mejor experiencia */
   text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3) !important; /* Sombra más pronunciada */
 }  
 
@@ -36,4 +57,41 @@ header h1.tienda-title, h1.tienda-title, .tienda-title {
   header {
     height: 120px; /* Altura más pequeña en móviles */
   }
+}
+
+/* Media queries adicionales para asegurar responsividad */
+@media (min-width: 769px) and (max-width: 1024px) {
+  header {
+    height: 200px; /* Altura intermedia para tablets */
+  }
+  
+  .tienda-title {
+    font-size: 4.5rem !important;
+  }
+  
+  .tienda-title:hover {
+    font-size: 6rem !important;
+  }
+}
+
+/* Para pantallas muy grandes */
+@media (min-width: 1800px) {
+  header {
+    height: 300px; /* Altura mayor para pantallas grandes */
+  }
+  
+  .tienda-title {
+    font-size: 6rem !important;
+  }
+  
+  .tienda-title:hover {
+    font-size: 8rem !important;
+  }
+}
+
+/* Clase adicional para el comportamiento de clic */
+.home {
+  display: inline-block;
+  text-decoration: none;
+  color: inherit;
 }

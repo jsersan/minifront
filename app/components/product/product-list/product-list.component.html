@@ -1,37 +1,34 @@
-<!-- Archivo original: app/components/product/product-list/product-list.component.html -->
+<!-- Ejemplo modificado para usar el servicio, ajusta según tu diseño actual -->
 <div class="product-list-container">
-  <!-- Título de la sección, muestra el nombre de la categoría o "Todos los productos" -->
-  <h1 id="titulo">
-    {{ currentCategory ? currentCategory.nombre : 'Todos los productos' }}
-  </h1>
-  
-  <!-- Indicador de carga -->
+  <!-- Mostrar mensaje de carga si corresponde -->
   <div *ngIf="loading" class="loading-indicator">
     <p>Cargando productos...</p>
   </div>
-  
-  <!-- Contenedor para la cuadrícula de productos -->
-  <div id="articulos" *ngIf="!loading">
-    <!-- Mensaje cuando no hay productos -->
-    <div *ngIf="products.length === 0" class="no-products">
-      <p>No se encontraron productos en esta categoría.</p>
-    </div>
-    
-    <!-- Iteración sobre el array de productos -->
-    <!-- CAMBIO IMPORTANTE: Cambiamos (click)="openProductPopup(product)" por [routerLink] -->
-    <div class="articulo" *ngFor="let product of products" [routerLink]="['/product', product.id]">
-      <!-- Imagen del producto -->
-      <img [src]="'assets/images/' + product.carpetaimg + '/' + product.imagen" [alt]="product.nombre" />
+
+  <!-- Mostrar título de categoría si estamos en una categoría -->
+  <div *ngIf="currentCategory" class="category-header">
+    <h1>{{ currentCategory.nombre }}</h1>
+    <p *ngIf="currentCategory.descripcion">{{ currentCategory.descripcion }}</p>
+  </div>
+
+  <!-- Mensaje si no hay productos -->
+  <div *ngIf="!loading && products.length === 0" class="no-products">
+    <p>No se encontraron productos en esta categoría.</p>
+  </div>
+
+  <!-- Grilla de productos -->
+  <div class="product-grid">
+    <div class="product-card" *ngFor="let product of products">
+      <!-- Imagen usando el servicio centralizado -->
+      <img [src]="productService.getProductImageSrc(product)" [alt]="product.nombre" 
+           (error)="productService.handleImageError($event)" />
       
-      <!-- Nombre del producto -->
-      <h2>{{ product.nombre }}</h2>
-      
-      <!-- Precio formateado como moneda -->
-      <h3>{{ formatPrice(product.precio) }}</h3>
-      
-      <!-- Descripción corta del producto -->
-      <p>{{ product.descripcion }}</p>
+      <div class="product-details">
+        <h2>{{ product.nombre }}</h2>
+        <p class="price">{{ formatPrice(product.precio) }}</p>
+        <p class="description">{{ product.descripcion }}</p>
+        <button class="btn-add-cart">Añadir al carrito</button>
+      </div>
     </div>
   </div>
 </div>
-<app-product-popup></app-product-popup>

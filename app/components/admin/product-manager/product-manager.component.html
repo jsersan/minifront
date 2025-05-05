@@ -151,7 +151,7 @@
         <tr *ngFor="let product of products">
           <td>{{ product.nombre }}</td>
           <td>{{ formatPrice(product.precio) }}</td>
-          <td>{{ getCategoryName(product.categoria_id) }}</td>
+          <td>{{ product.categoria_id !== undefined ? getCategoryName(product.categoria_id) : 'Sin categoría' }}</td>
           <td>
             <input [attr.data-id]="product.id" type="button" class="editarart" value="EDITAR" (click)="editProduct(product)"/>
           </td>

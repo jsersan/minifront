@@ -24,8 +24,8 @@ export class HomeComponent implements OnInit {
   randomProducts: Product[] = [];
 
   // Constructor del componente donde inyectamos las dependencias
-  // productService se inyecta automáticamente gracias al sistema de DI de Angular
-  constructor(private productService: ProductService) { }
+  // productService se inyecta como público para poder acceder desde la plantilla
+  constructor(public productService: ProductService) { }
 
   // Método de ciclo de vida que se ejecuta cuando Angular ha terminado de inicializar el componente
   ngOnInit(): void {
@@ -36,13 +36,13 @@ export class HomeComponent implements OnInit {
   // Método para cargar productos desde el servicio y seleccionar 8 aleatorios
   loadProducts(): void {
     this.productService.getProducts().subscribe({
-      next: (products) => {
+      next: (products: Product[]) => {  // Especificando el tipo explícitamente
         this.products = products;
         console.log('Productos cargados:', products);
         // Seleccionar 8 productos aleatorios
         this.selectRandomProducts();
       },
-      error: (error) => console.error('Error loading products', error)
+      error: (error: any) => console.error('Error loading products', error)  // Especificando tipo any
     });
   }
 

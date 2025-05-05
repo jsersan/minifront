@@ -25,9 +25,11 @@ import { ProfileComponent } from './components/user/profile/profile.component';
 import { OrderLineComponent } from './components/orderline/orderline.component';
 import { BannerComponent } from './components/banner/banner.component';
 import { HeaderComponent } from './components/shared/header/header.component';
+import { ImageUrlPipe } from './pipes/image-url.pipe';
 
 @NgModule({
   declarations: [
+    ImageUrlPipe,
     AppComponent,
     NavbarComponent,
     FooterComponent,

@@ -3,29 +3,31 @@
 
 /* Modificaciones al navbar */
 nav {
-  width: 100%; /* Ancho completo del navegador */
+  width: 100vw; /* Ancho completo del viewport */
   background-color: #fff;
   /* Sombra más intensa y pronunciada */
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.25);
-  /* Padding ligeramente aumentado para acomodar elementos más grandes */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
   padding: 10px 0;
-  /* Sin bordes redondeados para ocupar todo el ancho */
-  border-radius: 0;
-  /* Sin margen horizontal */
-  margin-left: 0;
-  margin-right: 0;
-  /* Añadimos margen inferior para separarlo del carrusel */
-  margin-bottom: 20px;
+  border-radius: 0; /* Eliminar bordes redondeados */
+  margin: 0; /* Eliminar márgenes */
+  margin-bottom: 15px; /* Separación de 15px con el contenido inferior */
+  position: relative; /* Para el posicionamiento correcto */
+  z-index: 100; /* Asegurar que esté por encima de otros elementos */
+  left: 50%; /* Técnica para extender a ancho completo */
+  right: 50%;
+  margin-left: -50vw; /* Desplazar a la izquierda para ocupar todo el ancho */
+  margin-right: -50vw; /* Desplazar a la derecha para ocupar todo el ancho */
+  box-sizing: border-box; /* Asegurar que padding y border no afecten el ancho */
 }
 
 #menu {
   display: flex;
   align-items: center;
   padding: 0;
-  /* Ligeramente más estrecho para dar margen a los lados */
+  /* Contenido centrado con máximo ancho para legibilidad */
   width: 95%;
   max-width: 1400px; /* Un poco más amplio para pantallas grandes */
-  margin: 0 auto;
+  margin: 0 auto; /* Centrar el contenido */
   list-style: none;
   position: relative;
 }
@@ -165,7 +167,7 @@ nav {
 /* CORRECCIÓN: Elementos de submenú más altos y con mejor espaciado */
 .subcat li {
   padding: 15px 25px; /* Más altura para cada elemento del menú */
-  border-bottom: 1px solid #f1f1f1; /* Una sola línea ligera de separación */
+  border-bottom: 1px solid #e0e0e0; /* Una única línea de separación más visible */
   text-align: left;
   margin: 0; /* Eliminar cualquier margen para evitar espacios extras */
   font-weight: 500; /* Texto menos pesado */
@@ -176,6 +178,11 @@ nav {
   width: 100%;
   letter-spacing: 0.5px;
   box-sizing: border-box;
+}
+
+/* Eliminamos el margen entre elementos para evitar el efecto de doble línea */
+.subcat li + li {
+  margin-top: 0; /* Eliminamos el espacio entre elementos que causaba la doble línea */
 }
 
 .subcat li:hover {
@@ -199,11 +206,6 @@ nav {
   width: 100%;
   height: 20px;
   background: transparent; /* Invisible pero "captura" el hover */
-}
-
-/* Espacio visual entre categorías del submenú */
-.subcat li + li {
-  margin-top: 2px; /* Espacio sutil entre entradas */
 }
 
 /* CORRECCIÓN: Eliminamos la línea del último elemento */

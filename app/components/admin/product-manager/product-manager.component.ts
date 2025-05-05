@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ProductService } from '../../../services/product.service';
 import { CategoryService } from '../../../services/category.service';
-import { Product } from 'src/app/models/product';
-import { Category } from 'src/app/models/category';
-import Swal from 'sweetalert2';
+import { Product } from '../../../models/product';
+import { Category } from '../../../models/category';
 
 @Component({
   selector: 'app-product-manager',
@@ -12,250 +11,226 @@ import Swal from 'sweetalert2';
   styleUrls: []
 })
 export class ProductManagerComponent implements OnInit {
-  // Arrays para almacenar datos
+  // Formularios para productos (nombres actualizados para coincidir con HTML)
+  newProductForm: FormGroup; // Cambiado de productForm
+  editProductForm: FormGroup; // Cambiado de editForm
+  
+  // Listados
   products: Product[] = [];
   categories: Category[] = [];
   
-  // Formularios para añadir y editar productos
-  newProductForm: FormGroup;
-  editProductForm: FormGroup;
+  // Control de UI
+  loading = false;
+  submitting = false;
+  showEditForm = false; // Cambiado de editMode
+  currentProductId: number | null = null;
   
-  // Flags y variables de estado
-  showEditForm = false;
-  editingProduct: Product | null = null;
-  
-  // Variables para manejar colores y subida de imágenes
+  // Control de imágenes
   selectedFiles: File[] = [];
-  productColors: { color: string, imagen: string }[] = [];
-  
+  previewUrls: string[] = [];
+
   constructor(
-    private formBuilder: FormBuilder,
+    private fb: FormBuilder,
     private productService: ProductService,
     private categoryService: CategoryService
   ) {
-    // Inicializar formulario para nuevos productos
-    this.newProductForm = this.formBuilder.group({
-      nombre: ['', Validators.required],
+    // Inicializar formularios
+    this.newProductForm = this.fb.group({
+      nombre: ['', [Validators.required, Validators.minLength(3)]],
       descripcion: ['', Validators.required],
-      precio: ['', [Validators.required, Validators.min(0)]],
-      categoria: ['', Validators.required],
-      carpetaimg: ['', Validators.required]
+      precio: [0, [Validators.required, Validators.min(0.01)]],
+      stock: [0, [Validators.required, Validators.min(0)]],
+      categoryId: [null, Validators.required]
     });
 
-    // Inicializar formulario para edición de productos
-    this.editProductForm = this.formBuilder.group({
-      id: [''],
-      nombre: ['', Validators.required],
+    this.editProductForm = this.fb.group({
+      nombre: ['', [Validators.required, Validators.minLength(3)]],
       descripcion: ['', Validators.required],
-      precio: ['', [Validators.required, Validators.min(0)]],
-      categoria: ['', Validators.required]
+      precio: [0, [Validators.required, Validators.min(0.01)]],
+      stock: [0, [Validators.required, Validators.min(0)]],
+      categoryId: [null, Validators.required]
     });
   }
 
   ngOnInit(): void {
-    // Cargar productos y categorías al inicializar
     this.loadProducts();
     this.loadCategories();
   }
 
-  // Método para cargar todos los productos
+  // Cargar todos los productos
   loadProducts(): void {
+    this.loading = true;
     this.productService.getProducts().subscribe({
-      next: (products) => this.products = products,
-      error: (error) => console.error('Error loading products', error)
+      next: (products: Product[]) => {
+        this.products = products;
+        this.loading = false;
+      },
+      error: (error: any) => {
+        console.error('Error al cargar productos:', error);
+        this.loading = false;
+      }
     });
   }
 
-  // Método para cargar categorías (solo subcategorías)
+  // Cargar categorías para el selector de formulario
   loadCategories(): void {
     this.categoryService.getCategories().subscribe({
-      next: (categories) => {
-        // Filtrar solo categorías que no son padres (subcategorías)
-        this.categories = categories.filter(cat => cat.id !== cat.padre);
+      next: (categories: Category[]) => {
+        this.categories = categories;
       },
-      error: (error) => console.error('Error loading categories', error)
+      error: (error: any) => {
+        console.error('Error al cargar categorías:', error);
+      }
     });
   }
 
-  // Método para manejar la selección de archivos
-  onFileSelect(event: any): void {
-    this.selectedFiles = Array.from(event.target.files);
+  // Manejar subida de imágenes (cambiado a onFileSelect para coincidir con HTML)
+  onFileSelect(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files) {
+      this.selectedFiles = Array.from(input.files);
+      this.previewUrls = [];
+      
+      this.selectedFiles.forEach(file => {
+        const reader = new FileReader();
+        reader.onload = (e: any) => {
+          this.previewUrls.push(e.target.result);
+        };
+        reader.readAsDataURL(file);
+      });
+    }
   }
 
-  // Método para añadir un nuevo producto
+  // Método para añadir un nuevo producto (cambiado a addProduct para coincidir con HTML)
   addProduct(): void {
-    // Validar formulario
     if (this.newProductForm.invalid) {
-      Swal.fire({
-        title: 'Debes rellenar todos los campos del formulario',
-        icon: 'error',
-        confirmButtonColor: '#52667a'
-      });
       return;
     }
-  
-    // Obtener datos del formulario
+
+    this.submitting = true;
     const newProduct: Product = this.newProductForm.value;
-    
-    // Llamar al servicio para crear producto
+
     this.productService.addProduct(newProduct).subscribe({
-      next: (createdProduct) => {
-        // Si hay archivos seleccionados, subirlos ahora
+      next: (createdProduct: Product) => {
+        console.log('Producto creado:', createdProduct);
+        
+        // Si hay archivos seleccionados, subir imágenes
         if (this.selectedFiles.length > 0) {
           this.productService.uploadProductImages(createdProduct.id, this.selectedFiles).subscribe({
-            next: (result) => {
-              // Mostrar mensaje de éxito y resetear formulario
-              Swal.fire({
-                title: 'El producto y sus imágenes se han añadido con éxito',
-                icon: 'success',
-                confirmButtonColor: '#52667a'
-              });
-              this.newProductForm.reset();
-              this.selectedFiles = []; // Limpiar los archivos seleccionados
+            next: (result: any) => {
+              console.log('Imágenes subidas:', result);
+              this.resetForm();
               this.loadProducts();
+              this.submitting = false;
             },
-            error: (error) => {
-              console.error('Error uploading images', error);
-              // Producto creado pero hubo un error con las imágenes
-              Swal.fire({
-                title: 'El producto se ha creado pero hubo un problema al subir las imágenes',
-                icon: 'warning',
-                confirmButtonColor: '#52667a'
-              });
-              this.newProductForm.reset();
+            error: (error: any) => {
+              console.error('Error al subir imágenes:', error);
+              // Aún consideramos que el producto se creó correctamente
+              this.resetForm();
               this.loadProducts();
+              this.submitting = false;
             }
           });
         } else {
-          // No hay imágenes para subir, solo mostrar mensaje de éxito
-          Swal.fire({
-            title: 'El producto se ha añadido con éxito',
-            icon: 'success',
-            confirmButtonColor: '#52667a'
-          });
-          this.newProductForm.reset();
+          // Si no hay imágenes, simplemente terminamos
+          this.resetForm();
           this.loadProducts();
+          this.submitting = false;
         }
       },
-      error: (error) => {
-        // Mostrar mensaje de error
-        Swal.fire({
-          title: 'Error al añadir el producto',
-          icon: 'error',
-          confirmButtonColor: '#52667a'
-        });
+      error: (error: any) => {
+        console.error('Error al crear producto:', error);
+        this.submitting = false;
       }
     });
   }
 
-  // Método para preparar la edición de un producto
+  // Resetear formulario y selección de archivos
+  resetForm(): void {
+    this.newProductForm.reset({
+      nombre: '',
+      descripcion: '',
+      precio: 0,
+      stock: 0,
+      categoryId: null
+    });
+    this.selectedFiles = [];
+    this.previewUrls = [];
+  }
+
+  // Cargar datos en el formulario de edición
   editProduct(product: Product): void {
-    this.editingProduct = product;
+    this.currentProductId = product.id;
+    this.showEditForm = true; // Cambiado de editMode
     this.editProductForm.setValue({
-      id: product.id,
       nombre: product.nombre,
       descripcion: product.descripcion,
       precio: product.precio,
-      categoria: product.categoria_id
+      stock: product.stock,
+      categoryId: product.categoria_id
     });
-    this.showEditForm = true;
   }
 
-  // Método para actualizar un producto
-// Por esta versión corregida:
-updateProduct(): void {
-  if (this.editProductForm.valid) {
-    const updatedProduct = this.editProductForm.value;
-    const productId = updatedProduct.id;
-    
-    if (!productId) {
-      console.error('Error: No se puede actualizar un producto sin ID');
+  // Actualizar un producto existente (cambiado a updateProduct para coincidir con HTML)
+  updateProduct(): void {
+    if (this.editProductForm.invalid || !this.currentProductId) {
       return;
     }
-    
+
+    this.submitting = true;
+    const productId = this.currentProductId;
+    const updatedProduct: Product = this.editProductForm.value;
+
     this.productService.updateProduct(productId, updatedProduct).subscribe({
-      next: (result) => {
-        console.log('Producto actualizado correctamente:', result);
-        
-        // Actualizar el producto en la lista local
-        const index = this.products.findIndex(p => p.id === productId);
-        if (index !== -1) {
-          this.products[index] = result;
-        }
-        
-        this.closeEditModal();
-        this.resetEditForm();
+      next: (result: Product) => {
+        console.log('Producto actualizado:', result);
+        this.showEditForm = false; // Cambiado de editMode
+        this.currentProductId = null;
+        this.loadProducts();
+        this.submitting = false;
       },
-      error: (error) => {
-        console.error('Error al actualizar el producto:', error);
-      }
-    });
-  } else {
-    // Marcar campos como tocados para mostrar errores de validación
-    Object.keys(this.editProductForm.controls).forEach(key => {
-      this.editProductForm.get(key)?.markAsTouched();
-    });
-  }
-}
-  closeEditModal() {
-    throw new Error('Method not implemented.');
-  }
-  resetEditForm() {
-    throw new Error('Method not implemented.');
-  }
-
-  // Método para eliminar un producto
-  deleteProduct(id: number): void {
-    // Pedir confirmación al usuario
-    Swal.fire({
-      title: '¿Estás seguro de eliminar este producto?',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#52667a',
-      cancelButtonColor: '#52667a',
-      confirmButtonText: 'Borrar el producto',
-      cancelButtonText: 'Cancelar'
-    }).then((result) => {
-      if (result.value) {
-        // Usuario confirmó, proceder con eliminación
-        this.productService.deleteProduct(id).subscribe({
-          next: () => {
-            Swal.fire({
-              title: 'El producto se ha eliminado con éxito',
-              icon: 'success',
-              confirmButtonColor: '#52667a'
-            });
-            this.loadProducts();
-          },
-          error: (error) => {
-            Swal.fire({
-              title: 'Error al eliminar el producto',
-              icon: 'error',
-              confirmButtonColor: '#52667a'
-            });
-          }
-        });
+      error: (error: any) => {
+        console.error('Error al actualizar producto:', error);
+        this.submitting = false;
       }
     });
   }
 
-  // Método para cancelar edición
+  // Cancelar edición
   cancelEdit(): void {
-    this.showEditForm = false;
-    this.editingProduct = null;
+    this.showEditForm = false; // Cambiado de editMode
+    this.currentProductId = null;
+    this.editProductForm.reset();
   }
 
-// Método para obtener el nombre de la categoría
-getCategoryName(categoryId: number | undefined): string {
-  if (!categoryId) return 'Sin categoría';
-  
-  const category = this.categories.find(c => c.id === categoryId);
-  return category ? category.nombre : 'Categoría desconocida';
-}
+  // Eliminar un producto
+  deleteProduct(id: number): void {
+    if (confirm('¿Estás seguro que deseas eliminar este producto? Esta acción no se puede deshacer.')) {
+      this.loading = true;
+      this.productService.deleteProduct(id).subscribe({
+        next: () => {
+          console.log('Producto eliminado correctamente');
+          this.loadProducts();
+        },
+        error: (error: any) => {
+          console.error('Error al eliminar producto:', error);
+          this.loading = false;
+        }
+      });
+    }
+  }
 
-
-  // Método para formatear precio como moneda
+  // Método para formatear precio como moneda (faltaba según HTML)
   formatPrice(price: number): string {
-    return new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR' }).format(price);
+    return new Intl.NumberFormat('es-ES', {
+      style: 'currency',
+      currency: 'EUR'
+    }).format(price);
+  }
+
+  // Método para obtener el nombre de categoría por ID (faltaba según HTML)
+  getCategoryName(categoryId: number): string {
+    const category = this.categories.find(c => c.id === categoryId);
+    return category ? category.nombre : 'Sin categoría';
   }
 }
