@@ -22,6 +22,9 @@ export class HomeComponent implements OnInit {
   
   // Array para almacenar los 8 productos aleatorios que se mostrarán
   randomProducts: Product[] = [];
+  
+  // Indicador de carga
+  loading: boolean = false;
 
   // Constructor del componente donde inyectamos las dependencias
   // productService se inyecta como público para poder acceder desde la plantilla
@@ -35,14 +38,21 @@ export class HomeComponent implements OnInit {
 
   // Método para cargar productos desde el servicio y seleccionar 8 aleatorios
   loadProducts(): void {
+    this.loading = true;
+    console.log('HomeComponent: Cargando productos...');
+    
     this.productService.getProducts().subscribe({
       next: (products: Product[]) => {  // Especificando el tipo explícitamente
         this.products = products;
-        console.log('Productos cargados:', products);
+        console.log('HomeComponent: Productos cargados:', products);
         // Seleccionar 8 productos aleatorios
         this.selectRandomProducts();
+        this.loading = false;
       },
-      error: (error: any) => console.error('Error loading products', error)  // Especificando tipo any
+      error: (error: any) => {
+        console.error('HomeComponent: Error loading products', error);
+        this.loading = false;
+      }
     });
   }
 
@@ -64,6 +74,8 @@ export class HomeComponent implements OnInit {
       // Eliminar el producto seleccionado para no repetirlo
       productsCopy.splice(randomIndex, 1);
     }
+    
+    console.log('HomeComponent: Productos aleatorios seleccionados:', this.randomProducts);
   }
 
   // Método para abrir el popup del producto

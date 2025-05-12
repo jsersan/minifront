@@ -1,12 +1,22 @@
 <!-- El banner ahora es manejado por el componente app-banner -->
 
-<!-- Título de la sección en cursiva, como en la imagen -->
+<!-- Indicador de carga -->
+<div *ngIf="loading" class="loading-indicator">
+  <p>Cargando productos...</p>
+</div>
+
+<!-- Título de la sección en cursiva -->
 <div id="titulo" class="center-aligned-title">
   <h1>novedades</h1>
 </div>
 
 <!-- Contenedor para la cuadrícula de productos aleatorios -->
-<div id="articulos">
+<div id="articulos" *ngIf="!loading">
+  <!-- Mensaje si no hay productos -->
+  <div *ngIf="randomProducts.length === 0" class="no-products">
+    <p>No se encontraron productos disponibles.</p>
+  </div>
+  
   <!-- Directiva *ngFor que itera sobre el array de productos aleatorios -->
   <div class="articulo" *ngFor="let product of randomProducts" [routerLink]="['/product', product.id]">
     <!-- Imagen del producto usando el servicio centralizado -->

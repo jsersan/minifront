@@ -1,4 +1,3 @@
-<!-- Ejemplo modificado para usar el servicio, ajusta según tu diseño actual -->
 <div class="product-list-container">
   <!-- Mostrar mensaje de carga si corresponde -->
   <div *ngIf="loading" class="loading-indicator">
@@ -6,28 +5,39 @@
   </div>
 
   <!-- Mostrar título de categoría si estamos en una categoría -->
-  <div *ngIf="currentCategory" class="category-header">
-    <h1>{{ currentCategory.nombre }}</h1>
+  <div *ngIf="currentCategory && !isViewAll" class="category-header">
+    <h1 id="titulo">{{ currentCategory.nombre }}</h1>
     <p *ngIf="currentCategory.descripcion">{{ currentCategory.descripcion }}</p>
+  </div>
+
+  <!-- Mostrar título "Ver Todo" si estamos en la vista Ver Todo -->
+  <div *ngIf="isViewAll" class="category-header">
+    <h1 id="titulo">Ver todo</h1>
+  </div>
+
+  <!-- Mostrar título "Novedades" solo en la página principal -->
+  <div *ngIf="!currentCategory && !isViewAll" class="category-header">
+    <h1 id="titulo">Novedades</h1>
   </div>
 
   <!-- Mensaje si no hay productos -->
   <div *ngIf="!loading && products.length === 0" class="no-products">
-    <p>No se encontraron productos en esta categoría.</p>
+    <p>No se encontraron productos.</p>
   </div>
 
   <!-- Grilla de productos -->
-  <div class="product-grid">
-    <div class="product-card" *ngFor="let product of products">
-      <!-- Imagen usando el servicio centralizado -->
+  <div id="articulos" *ngIf="!loading && products.length > 0">
+    <!-- Iteración sobre los productos -->
+    <div class="articulo" *ngFor="let product of products" [routerLink]="['/product', product.id]">
+      <!-- Imagen del producto usando el servicio centralizado -->
       <img [src]="productService.getProductImageSrc(product)" [alt]="product.nombre" 
-           (error)="productService.handleImageError($event)" />
+           (error)="handleImageError($event)" />
       
+      <!-- Detalles del producto -->
       <div class="product-details">
         <h2>{{ product.nombre }}</h2>
         <p class="price">{{ formatPrice(product.precio) }}</p>
         <p class="description">{{ product.descripcion }}</p>
-        <button class="btn-add-cart">Añadir al carrito</button>
       </div>
     </div>
   </div>

@@ -17,9 +17,10 @@ import { ProductManagerComponent } from './components/admin/product-manager/prod
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
-  { path: 'products', component: ProductListComponent },
+  { path: 'productos', component: ProductListComponent },
   { path: 'category/:id', component: ProductListComponent },
   { path: 'product/:id', component: ProductDetailComponent },
+  { path: 'ver-todo', component: ProductListComponent, data: { isViewAll: true }}, // Esta debe existir
   { path: 'cart', component: CartComponent },
   { path: 'checkout', component: CheckoutComponent },
   { path: 'search', component: SearchResultsComponent },
@@ -43,3 +44,7 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
+
+
+
+

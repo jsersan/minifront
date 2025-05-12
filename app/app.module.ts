@@ -1,10 +1,13 @@
 // src/app/app.module.ts
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { AppRoutingModule } from './app-routing.module';
+
+// Importar el interceptor de errores
+import { ErrorInterceptor } from './interceptors/error.interceptor';
 
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './components/shared/navbar/navbar.component';
@@ -58,7 +61,10 @@ import { ImageUrlPipe } from './pipes/image-url.pipe';
     ReactiveFormsModule,
     RouterModule
   ],
-  providers: [],
+  providers: [
+    // Añadir el interceptor de errores a los proveedores
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

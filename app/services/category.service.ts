@@ -9,6 +9,7 @@ import { Category } from '../models/category';
   providedIn: 'root'
 })
 export class CategoryService {
+  // Corregido: Usando la ruta correcta
   private apiUrl = `${environment.apiUrl}/categorias`;
   
   // Cache para almacenar categorías
@@ -25,6 +26,7 @@ export class CategoryService {
       return of(this.categoriesCache);
     }
     
+    console.log('Solicitando categorías desde:', this.apiUrl);
     return this.http.get<Category[]>(this.apiUrl).pipe(
       tap(categories => {
         console.log('Categorías obtenidas del servidor:', categories);
@@ -54,6 +56,7 @@ export class CategoryService {
     }
     
     // Si no está en caché, la solicitamos al servidor
+    console.log(`Solicitando categoría ${id} desde: ${this.apiUrl}/${id}`);
     return this.http.get<Category>(`${this.apiUrl}/${id}`).pipe(
       tap(category => {
         console.log(`Categoría ${id} obtenida del servidor:`, category);
