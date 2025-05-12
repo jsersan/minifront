@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
 // Importaciones correctas de RxJS
-import { Observable } from 'rxjs'
+import { Observable, of } from 'rxjs'
 import { BehaviorSubject } from 'rxjs'
+import { catchError } from 'rxjs/operators';
 import { map } from 'rxjs/operators';
 import { Product } from '../models/product'
 import { Category } from '../models/category'
@@ -141,9 +142,30 @@ export class ProductService {
   }
 
   // Método para obtener los colores disponibles de un producto
-  getProductColors (productId: number): Observable<any[]> {
-    const url = `${this.apiUrl}/${productId}/color`
-    return this.http.get<any[]>(url)
+
+  getProductColors(productId: number): Observable<any[]> {
+    const url = `${this.apiUrl}/${productId}/color`;
+    
+    return this.http.get<any[]>(url).pipe(
+      map(response => {
+        // Transformamos la respuesta para obtener solamente los nombres de los colores
+        if (response && response.length > 0) {
+          // Verificar si son objetos con propiedad 'color' o 'nombre'
+          if (typeof response[0] === 'object') {
+            return response.map(item => {
+              // Puede venir como 'color' (de lineapedido) o 'nombre' (de product_colors)
+              return item.color || item.nombre || 'Desconocido';
+            });
+          }
+        }
+        return response || [];
+      }),
+      catchError(error => {
+        console.warn(`No se pudieron cargar colores para el producto ${productId}:`, error);
+        // Devolver array vacío en caso de error
+        return of([]);
+      })
+    );
   }
 
   // Método para limpiar el producto seleccionado

@@ -1,4 +1,3 @@
-// src/app/components/product/product-popup/product-popup.component.ts
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Product } from '../../../models/product';
@@ -12,12 +11,12 @@ import { CartService } from '../../../services/cart.service';
 })
 export class ProductPopupComponent implements OnInit, OnDestroy {
   currentProduct: Product | null = null;
-  showPopup: boolean = false;
+  isOpen: boolean = false;
   quantity: number = 1;
   selectedColor: string = '';
   availableColors: string[] = [];
+  loading: boolean = false;
   private subscription: Subscription | null = null;
-isOpen: any;
 
   constructor(
     private productService: ProductService,
@@ -25,15 +24,15 @@ isOpen: any;
   ) { }
 
   ngOnInit(): void {
-    // Suscribirse a cambios en el producto seleccionado
+    // Suscripción al observable de producto seleccionado
     this.subscription = this.productService.selectedProduct$.subscribe(product => {
       if (product) {
         this.currentProduct = product;
-        this.showPopup = true;
+        this.isOpen = true;
         this.resetOptions();
         this.loadProductColors();
       } else {
-        this.showPopup = false;
+        this.isOpen = false;
       }
     });
   }
@@ -48,15 +47,34 @@ isOpen: any;
   loadProductColors(): void {
     if (!this.currentProduct) return;
 
-    // Aquí podrías cargar los colores desde la API
-    // Por ahora, usamos colores simulados
-    this.availableColors = ['Negro', 'Blanco', 'Azul', 'Rojo'];
-    this.selectedColor = this.availableColors[0];
+    this.loading = true;
+    
+    // Llamar al servicio para obtener colores del producto
+    this.productService.getProductColors(this.currentProduct.id).subscribe({
+      next: (colors) => {
+        this.loading = false;
+        if (colors && colors.length > 0) {
+          this.availableColors = colors;
+          this.selectedColor = colors[0]; // Seleccionar el primer color por defecto
+        } else {
+          // Si no hay colores, usar un valor por defecto
+          this.availableColors = ['Estándar'];
+          this.selectedColor = 'Estándar';
+        }
+      },
+      error: (err) => {
+        this.loading = false;
+        console.error('Error loading product colors:', err);
+        // En caso de error, usar un color predeterminado
+        this.availableColors = ['Estándar'];
+        this.selectedColor = 'Estándar';
+      }
+    });
   }
 
   // Cerrar el popup
   closePopup(): void {
-    this.showPopup = false;
+    this.isOpen = false;
     setTimeout(() => {
       this.productService.clearSelectedProduct();
     }, 300); // Dar tiempo para la animación de cierre
@@ -71,6 +89,9 @@ isOpen: any;
         this.selectedColor
       );
       this.closePopup();
+      
+      // Opcional: Mostrar una notificación de éxito
+      alert(`Producto añadido al carrito: ${this.currentProduct.nombre} - Color: ${this.selectedColor}`);
     }
   }
 
@@ -90,10 +111,6 @@ isOpen: any;
   private resetOptions(): void {
     this.quantity = 1;
     this.selectedColor = '';
-  }
-
-  // Método para formatear el precio (usado en la plantilla)
-  formatPrice(price: number): string {
-    return new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR' }).format(price);
+    this.availableColors = [];
   }
 }
