@@ -13,6 +13,8 @@ import { User } from '../../../models/user'
 })
 export class NavbarComponent implements OnInit {
   // Propiedades del componente
+  isCartOpen: boolean = false;
+  cartItemCount: number = 0;
   categories: Category[] = []
   currentUser: User | null = null
   searchTerm: string = ''
@@ -33,6 +35,13 @@ export class NavbarComponent implements OnInit {
       this.currentUser = user
     })
 
+    // Suscribirse a los cambios en el carrito para actualizar el contador
+    // CORRECCIÓN: Usar cart$ en lugar de carts y especificar el tipo de total como number
+    this.cartService.cart$.subscribe(cart => {
+      // En tu implementación original, cantidad es la propiedad en lugar de quantity
+      this.cartItemCount = cart.reduce((total: number, item) => total + item.cantidad, 0);
+    });
+
     // Asegurarse de que el carrito esté cerrado al inicio
     setTimeout(() => {
       if (this.cartService.isCartOpen) {
@@ -50,6 +59,8 @@ export class NavbarComponent implements OnInit {
     }, 1)
   }
 
+  // El resto de tu código permanece sin cambios...
+  
   // Método para obtener el ID de una subcategoría por su nombre
   getSubcategoryId(name: string): number {
     // Normalizar el nombre para la búsqueda (quitar acentos, convertir a mayúsculas)
@@ -77,8 +88,7 @@ export class NavbarComponent implements OnInit {
     return category ? category.id : 0;
   }
 
-  // Método corregido para el navbar.component.ts
-  // En navbar.component.ts
+  // Método para toggle del carrito - sin cambios ya que tu implementación original ya funciona
   toggleCartAndLog (): void {
     console.log('Cart icon clicked')
     // Alternativa a this.cartService.toggleCart()
@@ -138,7 +148,6 @@ export class NavbarComponent implements OnInit {
   }
 
   // Método para obtener las subcategorías de DILATACIONES
-  // Método para obtener las subcategorías de DILATACIONES
   getSubcategoriesForDilataciones (): Category[] {
     const dilataciones = this.getDilatacionesCategory()
     if (!dilataciones) return []
@@ -172,22 +181,19 @@ export class NavbarComponent implements OnInit {
   }
 
   // Método para filtrar las subcategorías de PIERCINGS y evitar duplicados
-// Método para filtrar las subcategorías de PIERCINGS y evitar duplicados
-getFilteredSubcategoriesForPiercings(): Category[] {
-  const piercings = this.getPiercingsCategory();
-  if (!piercings) return [];
-  
-  // Nombres de las subcategorías que ya tenemos listadas explícitamente
-  const excludedNames = ['ANILLOS', 'BANANAS', 'BARBELLS', 'CIRCULAR BARBELLS', 'LABRETS'];
-  
-  // Filtrar para obtener solo las subcategorías que no están explícitamente listadas
-  return this.categories.filter(category => 
-    category.padre === piercings.id && 
-    !excludedNames.includes(category.nombre.toUpperCase())
-  );
-}
-
-  
+  getFilteredSubcategoriesForPiercings(): Category[] {
+    const piercings = this.getPiercingsCategory();
+    if (!piercings) return [];
+    
+    // Nombres de las subcategorías que ya tenemos listadas explícitamente
+    const excludedNames = ['ANILLOS', 'BANANAS', 'BARBELLS', 'CIRCULAR BARBELLS', 'LABRETS'];
+    
+    // Filtrar para obtener solo las subcategorías que no están explícitamente listadas
+    return this.categories.filter(category => 
+      category.padre === piercings.id && 
+      !excludedNames.includes(category.nombre.toUpperCase())
+    );
+  }
 
   // Método para navegar a una categoría
   navigateToCategory (categoryId: number): void {

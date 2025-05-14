@@ -1,33 +1,24 @@
-// Importamos los decoradores y clases necesarias desde Angular
 import { Component, OnInit } from '@angular/core';
-// Importamos el modelo de datos para los productos
+// Importación para trabajar con formularios reactivos
 import { Product } from '../../models/product';
-// Importamos el servicio que se encargará de obtener los productos de la API
+// Importación de servicios necesarios
 import { ProductService } from '../../services/product.service';
 
-// Decorador @Component que define las propiedades del componente Angular
 @Component({
-  // El selector CSS que se usará para insertar este componente en otras plantillas
   selector: 'app-home',
-  // La ruta a la plantilla HTML que define la estructura visual de este componente
   templateUrl: './home.component.html'
-  // styleUrls eliminado ya que los estilos se han fusionado en el archivo global
 })
-// La clase del componente que implementa OnInit (interfaz del ciclo de vida)
 export class HomeComponent implements OnInit {
-  // Propiedades de clase:
-  
   // Array para almacenar todos los productos
   products: Product[] = [];
   
-  // Array para almacenar los 8 productos aleatorios que se mostrarán
+  // Array para almacenar los productos aleatorios que se mostrarán
   randomProducts: Product[] = [];
   
   // Indicador de carga
   loading: boolean = false;
 
   // Constructor del componente donde inyectamos las dependencias
-  // productService se inyecta como público para poder acceder desde la plantilla
   constructor(public productService: ProductService) { }
 
   // Método de ciclo de vida que se ejecuta cuando Angular ha terminado de inicializar el componente
@@ -36,16 +27,16 @@ export class HomeComponent implements OnInit {
     this.loadProducts();
   }
 
-  // Método para cargar productos desde el servicio y seleccionar 8 aleatorios
+  // Método para cargar productos desde el servicio y seleccionar aleatorios
   loadProducts(): void {
     this.loading = true;
     console.log('HomeComponent: Cargando productos...');
     
     this.productService.getProducts().subscribe({
-      next: (products: Product[]) => {  // Especificando el tipo explícitamente
+      next: (products: Product[]) => {
         this.products = products;
         console.log('HomeComponent: Productos cargados:', products);
-        // Seleccionar 8 productos aleatorios
+        // Seleccionar productos aleatorios
         this.selectRandomProducts();
         this.loading = false;
       },
@@ -56,7 +47,7 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  // Método para seleccionar 8 productos aleatorios
+  // Método para seleccionar productos aleatorios
   selectRandomProducts(): void {
     // Crear una copia del array original para no modificarlo
     const productsCopy = [...this.products];
@@ -78,9 +69,23 @@ export class HomeComponent implements OnInit {
     console.log('HomeComponent: Productos aleatorios seleccionados:', this.randomProducts);
   }
 
-  // Método para abrir el popup del producto
-  openProductPopup(product: Product): void {
-    // Llamar al servicio para seleccionar el producto
+  // Método para abrir el popup del producto - CLAVE PARA SOLUCIONAR EL PROBLEMA
+  openProductPopup(product: Product, event: Event): void {
+    // Prevenir la navegación por defecto que causaría el router-link
+    event.preventDefault();
+    event.stopPropagation();
+    
+    console.log('HomeComponent: Abriendo popup para producto:', product.nombre);
+    
+    // Usar el servicio para mostrar el popup en lugar de navegar a la página de detalle
     this.productService.selectProductForPopup(product);
+  }
+
+  // Método para formatear el precio 
+  formatPrice(price: number): string {
+    return new Intl.NumberFormat('es-ES', {
+      style: 'currency',
+      currency: 'EUR'
+    }).format(price);
   }
 }

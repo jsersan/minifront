@@ -5,11 +5,12 @@ import { AuthService } from '../../services/auth.service';
 import { OrderLine } from 'src/app/models/order';
 import { CartItem } from '../../services/cart.service';
 import Swal from 'sweetalert2';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-cart',
   templateUrl: './cart.component.html',
-  styleUrls: []
+  styleUrls: ['./cart.component.scss']
 })
 export class CartComponent implements OnInit, OnDestroy {
   // Array para almacenar los items del carrito
@@ -24,6 +25,9 @@ export class CartComponent implements OnInit, OnDestroy {
   // Variable para controlar si estamos en proceso de eliminar
   private isRemoving: boolean = false;
   
+  // Suscripciones para limpiar en la destrucción
+  private cartSubscription: Subscription | null = null;
+  
   // Constructor con inyección de dependencias
   constructor(
     public cartService: CartService,  // Para acceder al servicio del carrito
@@ -31,31 +35,25 @@ export class CartComponent implements OnInit, OnDestroy {
     private router: Router,            // Para la navegación programática
     private zone: NgZone              // Para ejecutar código fuera de la zona de Angular
   ) { }
-  ngOnDestroy(): void {
-    throw new Error('Method not implemented.');
-  }
-
+  
   ngOnInit(): void {
     // Suscripción al observable de items del carrito
-    this.cartService.cartItems.subscribe({
+    this.cartSubscription = this.cartService.cartItems.subscribe({
       next: (items) => {
-        // Actualizar los items del carrito en el componente
-
-        this.cartService.cartItems.subscribe({
-          next: (items) => {
-            // Aquí puedes mapear los items para asegurarte que tienen la estructura correcta
-            this.cartItems = items.map(item => {
-              return {
-                id: item.id,
-                nombre: item.nombre || (item.producto ? item.producto.nombre : ''),
-                imagen: item.imagen || (item.producto ? `assets/images/${item.producto.carpetaimg}/${item.producto.imagen}` : ''),
-                color: item.color || '',
-                cantidad: item.cantidad,
-                precio: item.precio,
-                producto: item.producto
-              };
-            });
-            // Convertir CartItems a OrderLines para usar con OrderLineComponent
+        // Aquí puedes mapear los items para asegurarte que tienen la estructura correcta
+        this.cartItems = items.map(item => {
+          return {
+            id: item.id,
+            nombre: item.nombre || (item.producto ? item.producto.nombre : ''),
+            imagen: item.imagen || (item.producto ? `assets/images/${item.producto.carpetaimg}/${item.producto.imagen}` : ''),
+            color: item.color || '',
+            cantidad: item.cantidad,
+            precio: item.precio,
+            producto: item.producto
+          };
+        });
+        
+        // Convertir CartItems a OrderLines para usar con OrderLineComponent
         this.convertCartItemsToOrderLines();
         
         // Calcular el total del carrito
@@ -71,8 +69,6 @@ export class CartComponent implements OnInit, OnDestroy {
         
         // Reset de la bandera de eliminar
         this.isRemoving = false;
-          }
-        });
       }
     });
     
@@ -85,6 +81,27 @@ export class CartComponent implements OnInit, OnDestroy {
     // Sobrescribir el método closeCart del servicio para evitar cierres no deseados
     this.patchCartServiceCloseMethod();
   }
+  
+  ngOnDestroy(): void {
+    // Limpiar suscripciones para evitar memory leaks
+    if (this.cartSubscription) {
+      this.cartSubscription.unsubscribe();
+    }
+    
+    // Eliminar event listeners si los hubiera
+    document.removeEventListener('click', this.handleOutsideClick);
+  }
+  
+  // Manejador para clicks fuera del carrito
+  private handleOutsideClick = (event: MouseEvent) => {
+    const target = event.target as HTMLElement;
+    if (this.cartService.isCartOpen && 
+        !target.closest('.cart-popup') && 
+        !target.closest('#carrito') &&
+        !this.isRemoving) {
+      this.closeCart();
+    }
+  };
   
   // Método para parchar el comportamiento de cierre del servicio
   private patchCartServiceCloseMethod(): void {
@@ -148,17 +165,52 @@ export class CartComponent implements OnInit, OnDestroy {
     }
   }
   
+  // Método para cerrar el popup del carrito (para template)
+  cerrarCarrito(): void {
+    this.closeCart();
+  }
+  
   // Configurar listener para cerrar al hacer clic fuera del carrito
   setupEscapeListener(): void {
-    document.addEventListener('click', (event: MouseEvent) => {
-      const target = event.target as HTMLElement;
-      if (this.cartService.isCartOpen && 
-          !target.closest('.cart-popup') && 
-          !target.closest('#carrito') &&
-          !this.isRemoving) {
-        this.closeCart();
-      }
-    });
+    document.addEventListener('click', this.handleOutsideClick);
+  }
+
+  // Método para obtener la ruta de la imagen del producto
+  getImageSrc(item: CartItem): string {
+    return item.imagen || 'assets/images/placeholder.jpg';
+  }
+
+  // Método para incrementar la cantidad de un item
+  incrementarCantidad(item: CartItem): void {
+    this.changeQuantity(new Event('click'), item.id, item.color, item.cantidad + 1);
+  }
+
+  // Método para decrementar la cantidad de un item
+  decrementarCantidad(item: CartItem): void {
+    if (item.cantidad > 1) {
+      this.changeQuantity(new Event('click'), item.id, item.color, item.cantidad - 1);
+    }
+  }
+
+  // Método para eliminar un item (para el nuevo template)
+  eliminarItem(item: CartItem): void {
+    this.confirmRemoveItem(new Event('click'), item.id, item.color);
+  }
+
+  // Método para calcular el total
+  calcularTotal(): number {
+    return this.total;
+  }
+
+  // Método para procesar la compra
+  procesarCompra(): void {
+    this.checkout();
+  }
+
+  // Método para continuar comprando
+  continuarComprando(): void {
+    this.closeCart();
+    this.router.navigate(['/productos']);
   }
 
   // Método para cambiar cantidad evitando la propagación del evento
@@ -203,7 +255,7 @@ export class CartComponent implements OnInit, OnDestroy {
           const wasLastItem = this.cartItems.length === 1;
           
           // Eliminar el item del carrito
-         this.removeItem(id, color || '');
+          this.removeItem(id, color || '');
           
           // Solo cerrar el carrito si era el último producto
           if (wasLastItem) {

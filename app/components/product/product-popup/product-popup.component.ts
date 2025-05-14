@@ -27,6 +27,7 @@ export class ProductPopupComponent implements OnInit, OnDestroy {
     // Suscripción al observable de producto seleccionado
     this.subscription = this.productService.selectedProduct$.subscribe(product => {
       if (product) {
+        console.log('ProductPopupComponent recibió producto:', product.nombre);
         this.currentProduct = product;
         this.isOpen = true;
         this.resetOptions();
@@ -53,9 +54,10 @@ export class ProductPopupComponent implements OnInit, OnDestroy {
     this.productService.getProductColors(this.currentProduct.id).subscribe({
       next: (colors) => {
         this.loading = false;
+        console.log('Colores recibidos:', colors);
         if (colors && colors.length > 0) {
-          this.availableColors = colors;
-          this.selectedColor = colors[0]; // Seleccionar el primer color por defecto
+          this.availableColors = Array.isArray(colors) ? colors : [colors];
+          this.selectedColor = this.availableColors[0]; // Seleccionar el primer color por defecto
         } else {
           // Si no hay colores, usar un valor por defecto
           this.availableColors = ['Estándar'];
@@ -112,5 +114,14 @@ export class ProductPopupComponent implements OnInit, OnDestroy {
     this.quantity = 1;
     this.selectedColor = '';
     this.availableColors = [];
+  }
+
+  // Método para obtener la ruta de la imagen según el producto
+  getImagePath(product: Product | null, color?: any): string {
+    if (!product) {
+      return 'assets/images/default.jpg';
+    }
+    
+    return this.productService.getProductImageSrc(product);
   }
 }

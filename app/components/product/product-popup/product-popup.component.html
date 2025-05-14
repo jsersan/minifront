@@ -14,11 +14,13 @@
     <!-- Contenido del producto -->
     <div class="product-content">
       <!-- Imagen del producto -->
-      <img 
-        [src]="'assets/images/' + currentProduct.carpetaimg + '/' + currentProduct.imagen" 
-        [alt]="currentProduct.nombre"
-        class="product-image"
-      />
+      <div class="product-image-container">
+        <img 
+          [src]="getImagePath(currentProduct)" 
+          [alt]="currentProduct.nombre"
+          class="product-image"
+        />
+      </div>
       
       <!-- Detalles del producto -->
       <div class="product-details">
@@ -27,8 +29,11 @@
           {{ currentProduct.precio | currency:'EUR':'symbol':'1.2-2' }}
         </div>
         
+        <!-- Descripción -->
+        <p class="product-description">{{ currentProduct.descripcion }}</p>
+        
         <!-- Selector de color (solo si hay más de un color) -->
-        <div class="color-selector" *ngIf="availableColors.length > 1">
+        <div class="color-selector" *ngIf="availableColors.length > 0">
           <label for="color-select">Selecciona un color:</label>
           <select id="color-select" [(ngModel)]="selectedColor">
             <option *ngFor="let color of availableColors" [value]="color">
@@ -37,24 +42,19 @@
           </select>
         </div>
         
-        <!-- Si solo hay un color, mostrarlo como texto -->
-        <div class="single-color" *ngIf="availableColors.length === 1">
-          <p><strong>Color:</strong> {{ availableColors[0] }}</p>
-        </div>
-        
         <!-- Selector de cantidad -->
         <div class="quantity-selector">
-          <label for="quantity">Cantidad:</label>
+          <label>Cantidad:</label>
           <div class="quantity-controls">
-            <button type="button" (click)="decrementQuantity()">-</button>
+            <button type="button" class="quantity-btn" (click)="decrementQuantity()">-</button>
             <input 
               type="number" 
-              id="quantity" 
               [(ngModel)]="quantity" 
               min="1" 
               max="99"
+              class="quantity-input"
             >
-            <button type="button" (click)="incrementQuantity()">+</button>
+            <button type="button" class="quantity-btn" (click)="incrementQuantity()">+</button>
           </div>
         </div>
         

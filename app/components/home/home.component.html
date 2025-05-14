@@ -1,12 +1,10 @@
-<!-- El banner ahora es manejado por el componente app-banner -->
-
 <!-- Indicador de carga -->
 <div *ngIf="loading" class="loading-indicator">
   <p>Cargando productos...</p>
 </div>
 
 <!-- Título de la sección en cursiva -->
-<div id="titulo" class="center-aligned-title">
+<div id="titulo" class="category-header">
   <h1>novedades</h1>
 </div>
 
@@ -17,8 +15,8 @@
     <p>No se encontraron productos disponibles.</p>
   </div>
   
-  <!-- Directiva *ngFor que itera sobre el array de productos aleatorios -->
-  <div class="articulo" *ngFor="let product of randomProducts" [routerLink]="['/product', product.id]">
+  <!-- IMPORTANTE: Cambiamos [routerLink] por (click) para usar el método openProductPopup -->
+  <div class="articulo" *ngFor="let product of randomProducts" (click)="openProductPopup(product, $event)">
     <!-- Imagen del producto usando el servicio centralizado -->
     <img [src]="productService.getProductImageSrc(product)" [alt]="product.nombre" 
          (error)="productService.handleImageError($event)" />
@@ -27,12 +25,12 @@
     <h2>{{ product.nombre }}</h2>
     
     <!-- Precio del producto formateado como moneda -->
-    <h3>{{ product.precio | currency:'EUR':'symbol':'1.2-2' }}</h3>
+    <h3>{{ formatPrice(product.precio) }}</h3>
     
     <!-- Descripción del producto -->
     <p>{{ product.descripcion }}</p>
   </div>
 </div>
 
-<!-- Incluir el componente de popup de producto -->
+<!-- IMPORTANTE: Añadir el componente popup de producto -->
 <app-product-popup></app-product-popup>

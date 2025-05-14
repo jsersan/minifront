@@ -47,16 +47,15 @@ export class ProductListComponent implements OnInit {
     this.checkRouteAndLoadProducts();
   }
 
-// Añadir este método:
-openProductPopup(product: Product, event: Event): void {
-  // Prevenir la navegación normal (si usa routerLink)
-  event.preventDefault();
-  event.stopPropagation();
-  
-  // Seleccionar el producto para el popup
-  this.productService.selectProductForPopup(product);
-}
-
+  // Método implementado correctamente para abrir el popup del producto
+  openProductPopup(product: Product, event: Event): void {
+    // Prevenir la navegación normal (si usa routerLink)
+    event.preventDefault();
+    event.stopPropagation();
+    
+    // Seleccionar el producto para el popup
+    this.productService.selectProductForPopup(product);
+  }
 
   // Método para verificar la ruta actual y cargar los productos correspondientes
   private checkRouteAndLoadProducts(): void {

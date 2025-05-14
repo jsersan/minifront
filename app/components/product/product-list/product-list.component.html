@@ -26,19 +26,19 @@
   </div>
 
   <!-- Grilla de productos -->
-<!-- 
-<div class="articulo" *ngFor="let product of products" [routerLink]="['/product', product.id]">
--->
-<div class="articulo" *ngFor="let product of products" (click)="openProductPopup(product, $event)">
-  <!-- Imagen del producto usando el servicio centralizado -->
-  <img [src]="productService.getProductImageSrc(product)" [alt]="product.nombre" 
-       (error)="handleImageError($event)" />
-  
-  <!-- Detalles del producto -->
-  <div class="product-details">
-    <h2>{{ product.nombre }}</h2>
-    <p class="price">{{ formatPrice(product.precio) }}</p>
-    <p class="description">{{ product.descripcion }}</p>
+  <div id="articulos">
+    <div class="articulo" *ngFor="let product of products" (click)="openProductPopup(product, $event)">
+      <!-- Imagen del producto usando el servicio centralizado -->
+      <img [src]="productService.getProductImageSrc(product)" [alt]="product.nombre" 
+          (error)="handleImageError($event)" />
+      
+      <!-- Detalles del producto -->
+      <h2>{{ product.nombre }}</h2>
+      <h3>{{ formatPrice(product.precio) }}</h3>
+      <p class="description">{{ product.descripcion }}</p>
+    </div>
   </div>
 </div>
-</div>
+
+<!-- Asegurarnos que el componente de popup esté incluido -->
+<app-product-popup></app-product-popup>
