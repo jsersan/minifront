@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener, NgZone, OnDestroy } from '@angular/core';
+import { Component, OnInit, HostListener, NgZone, OnDestroy, AfterViewInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CartService } from '../../services/cart.service';
 import { AuthService } from '../../services/auth.service';
@@ -12,7 +12,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './cart.component.html',
   styleUrls: ['./cart.component.scss']
 })
-export class CartComponent implements OnInit, OnDestroy {
+export class CartComponent implements OnInit, OnDestroy, AfterViewInit {
   // Array para almacenar los items del carrito
   cartItems: CartItem[] = [];
   
@@ -27,6 +27,7 @@ export class CartComponent implements OnInit, OnDestroy {
   
   // Suscripciones para limpiar en la destrucción
   private cartSubscription: Subscription | null = null;
+  private cartVisibilitySubscription: Subscription | null = null;
   
   // Constructor con inyección de dependencias
   constructor(
@@ -37,9 +38,12 @@ export class CartComponent implements OnInit, OnDestroy {
   ) { }
   
   ngOnInit(): void {
+    console.log('CartComponent: iniciando...');
+    
     // Suscripción al observable de items del carrito
     this.cartSubscription = this.cartService.cartItems.subscribe({
       next: (items) => {
+        console.log('CartComponent: items del carrito actualizados', items.length);
         // Aquí puedes mapear los items para asegurarte que tienen la estructura correcta
         this.cartItems = items.map(item => {
           return {
@@ -72,6 +76,24 @@ export class CartComponent implements OnInit, OnDestroy {
       }
     });
     
+    // Añadir listener explícito para cambios en la visibilidad del carrito
+    this.listenToCartVisibilityChanges();
+    
+    // Comprobar si el carrito debe estar abierto al inicio y forzar la actualización de clases
+    if (this.cartService.isCartOpen) {
+      console.log('CartComponent: El carrito debe estar abierto al inicio');
+      
+      const cartModal = document.querySelector('.cart-modal') as HTMLElement;
+      const cartPopup = document.querySelector('.cart-popup') as HTMLElement;
+      const cartOverlay = document.querySelector('.cart-overlay') as HTMLElement;
+      
+      if (cartModal) cartModal.classList.add('active');
+      if (cartPopup) cartPopup.classList.add('active');
+      if (cartOverlay) cartOverlay.classList.add('active');
+      
+      document.body.classList.add('cart-open');
+    }
+    
     // Detectar pulsación de tecla Escape para cerrar el carrito
     this.setupEscapeListener();
     
@@ -80,6 +102,19 @@ export class CartComponent implements OnInit, OnDestroy {
     
     // Sobrescribir el método closeCart del servicio para evitar cierres no deseados
     this.patchCartServiceCloseMethod();
+    
+    // Verificar los elementos en el DOM para debug
+    setTimeout(() => {
+      this.verifyCartElementsInDOM();
+    }, 1000);
+  }
+  
+  ngAfterViewInit() {
+    // Verificar que los elementos estén presentes en el DOM después de inicializar la vista
+    console.log('CartComponent: Vista inicializada, verificando elementos...');
+    setTimeout(() => {
+      this.verifyCartElementsInDOM();
+    }, 0);
   }
   
   ngOnDestroy(): void {
@@ -88,8 +123,116 @@ export class CartComponent implements OnInit, OnDestroy {
       this.cartSubscription.unsubscribe();
     }
     
+    if (this.cartVisibilitySubscription) {
+      this.cartVisibilitySubscription.unsubscribe();
+    }
+    
     // Eliminar event listeners si los hubiera
     document.removeEventListener('click', this.handleOutsideClick);
+  }
+  
+  // Método para inspeccionar los elementos en el DOM
+  private verifyCartElementsInDOM(): void {
+    console.log('Verificando elementos del carrito en el DOM...');
+    
+    // Obtener los elementos relevantes
+    const cartModal = document.querySelector('.cart-modal');
+    const cartPopup = document.querySelector('.cart-popup');
+    const cartOverlay = document.querySelector('.cart-overlay');
+    
+    // Verificar si existen los elementos
+    console.log('¿Existe .cart-modal?', !!cartModal);
+    console.log('¿Existe .cart-popup?', !!cartPopup);
+    console.log('¿Existe .cart-overlay?', !!cartOverlay);
+    
+    // Verificar si tienen la clase 'active' cuando deberían
+    if (this.cartService.isCartOpen) {
+      console.log('El carrito debería estar abierto. Verificando clases...');
+      
+      if (cartModal && !cartModal.classList.contains('active')) {
+        console.log('Corrigiendo: .cart-modal no tiene la clase active');
+        cartModal.classList.add('active');
+      }
+      
+      if (cartPopup && !cartPopup.classList.contains('active')) {
+        console.log('Corrigiendo: .cart-popup no tiene la clase active');
+        cartPopup.classList.add('active');
+      }
+      
+      if (cartOverlay && !cartOverlay.classList.contains('active')) {
+        console.log('Corrigiendo: .cart-overlay no tiene la clase active');
+        cartOverlay.classList.add('active');
+      }
+    }
+    
+    // Inspeccionar los estilos computados para ver si están visibles
+    if (cartPopup) {
+      const styles = window.getComputedStyle(cartPopup as Element);
+      console.log('Estilos computados de .cart-popup:');
+      console.log('- display:', styles.display);
+      console.log('- visibility:', styles.visibility);
+      console.log('- opacity:', styles.opacity);
+      console.log('- transform:', styles.transform);
+      console.log('- z-index:', styles.zIndex);
+    }
+  }
+  
+  // Método para suscribirse explícitamente a los cambios de visibilidad del carrito
+  private listenToCartVisibilityChanges(): void {
+    this.cartVisibilitySubscription = this.cartService.isCartOpenObservable.subscribe(isOpen => {
+      console.log('CartComponent: cambio de visibilidad del carrito', isOpen);
+      
+      // Seleccionamos TANTO .cart-modal COMO .cart-popup y .cart-overlay
+      const cartModal = document.querySelector('.cart-modal') as HTMLElement;
+      const cartPopup = document.querySelector('.cart-popup') as HTMLElement;
+      const cartOverlay = document.querySelector('.cart-overlay') as HTMLElement;
+      
+      if (cartModal) {
+        if (isOpen) {
+          cartModal.classList.add('active');
+        } else {
+          cartModal.classList.remove('active');
+        }
+      }
+      
+      // CRÍTICO: Añadir/quitar la clase 'active' directamente a .cart-popup
+      if (cartPopup) {
+        if (isOpen) {
+          cartPopup.classList.add('active');
+          // Asegurar que el transform es correcto
+          cartPopup.style.transform = 'translateX(0)';
+        } else {
+          cartPopup.classList.remove('active');
+          // Restablecer el transform después de un breve retraso
+          setTimeout(() => {
+            if (!this.cartService.isCartOpen) {
+              cartPopup.style.transform = 'translateX(100%)';
+            }
+          }, 300);
+        }
+      }
+      
+      // Y también al overlay
+      if (cartOverlay) {
+        if (isOpen) {
+          cartOverlay.classList.add('active');
+        } else {
+          cartOverlay.classList.remove('active');
+        }
+      }
+      
+      // Modificar el body también
+      if (isOpen) {
+        document.body.classList.add('cart-open');
+      } else {
+        document.body.classList.remove('cart-open');
+      }
+      
+      // Verificar si los cambios se aplicaron correctamente
+      setTimeout(() => {
+        this.verifyCartElementsInDOM();
+      }, 100);
+    });
   }
   
   // Manejador para clicks fuera del carrito

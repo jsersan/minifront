@@ -89,7 +89,7 @@ export class NavbarComponent implements OnInit {
   }
 
   // Método para toggle del carrito - sin cambios ya que tu implementación original ya funciona
-  toggleCartAndLog (): void {
+/*   toggleCartAndLog (): void {
     console.log('Cart icon clicked')
     // Alternativa a this.cartService.toggleCart()
     if (this.cartService.isCartOpen) {
@@ -120,7 +120,20 @@ export class NavbarComponent implements OnInit {
       }
     }
     console.log('After toggle, cart is open:', !this.cartService.isCartOpen)
-  }
+  } */
+
+  toggleCartAndLog(): void {
+  console.log('Cart icon clicked');
+  
+  // Problema: El log siempre muestra el valor OPUESTO al estado actual
+  // después del toggle. Eso puede confundir y causar problemas.
+  
+  // Vamos a simplificar y corregir el método:
+  this.cartService.toggleCart();
+  
+  // El log debería mostrar el estado DESPUÉS del toggle, no lo contrario
+  console.log('After toggle, cart is open:', this.cartService.isCartOpen);
+}
 
   // Método para cargar las categorías desde el servicio
   loadCategories (): void {
