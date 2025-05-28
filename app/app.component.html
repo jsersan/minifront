@@ -1,4 +1,4 @@
-<!-- Estructura principal de la aplicación -->
+<!-- app.component.html - ARCHIVO COMPLETO -->
 
 <!-- Componente de encabezado que contiene el título de la tienda -->
 <app-header></app-header>
@@ -17,3 +17,21 @@
 
 <!-- Componente de cart-popup para mostrar el carrito de compras -->
 <app-cart></app-cart>
+
+<!-- ✅ Login Popup - Se muestra cuando el guard lo requiere -->
+<app-login-popup 
+  [isVisible]="showLoginPopup"
+  [returnUrl]="loginReturnUrl" 
+  [fromCheckout]="loginFromCheckout"
+  (closePopup)="onLoginPopupClose()"
+  (loginSuccess)="onLoginSuccess($event)"
+  (switchToRegistro)="onSwitchToRegister()">
+</app-login-popup>
+
+<!-- ✅ Registro Popup -->
+<app-registro-popup 
+  [isVisible]="showRegistroPopup"
+  (closePopup)="onCloseRegistroPopup()"
+  (registroSuccess)="onRegistroSuccess()"
+  (switchToLogin)="onSwitchToLogin()">
+</app-registro-popup>

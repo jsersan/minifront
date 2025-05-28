@@ -75,7 +75,7 @@ export class ProductService {
   // Método para obtener todos los productos
   getProducts (): Observable<Product[]> {
     // Añadir log para depuración
-    console.log('Solicitando productos desde:', this.apiUrl)
+    // console.log('Solicitando productos desde:', this.apiUrl)
     return this.http.get<Product[]>(this.apiUrl).pipe(
       // Añadimos manejo de errores para ser más robustos
       catchError(error => {
@@ -88,7 +88,7 @@ export class ProductService {
   // Método para obtener un producto específico
   getProduct (id: number): Observable<Product> {
     const url = `${this.apiUrl}/${id}`
-    console.log('Solicitando producto con ID:', id, 'desde:', url)
+    // console.log('Solicitando producto con ID:', id, 'desde:', url)
     return this.http.get<Product>(url).pipe(
       catchError(error => {
         console.error(`Error al obtener producto ${id}:`, error)
@@ -109,7 +109,7 @@ export class ProductService {
     )
     return this.http.get<Product[]>(url).pipe(
       catchError(error => {
-        console.error(`Error al obtener productos de categoría ${categoryId}:`, error)
+        // console.error(`Error al obtener productos de categoría ${categoryId}:`, error)
         return of([])
       })
     )
@@ -123,7 +123,7 @@ export class ProductService {
 
   // Método para seleccionar un producto para el popup
   selectProductForPopup(product: Product): void {
-    console.log('Seleccionando producto para popup:', product.nombre);
+    // console.log('Seleccionando producto para popup:', product.nombre);
     this.selectedProductSubject.next(product);
   }
 

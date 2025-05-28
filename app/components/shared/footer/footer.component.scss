@@ -1,12 +1,70 @@
+/* footer.component.scss - CORREGIDO */
+
+/* Footer con el mismo color gris que los popups */
+footer {
+  background-color: #52667a !important; /* Mismo color que los popups */
+  color: white !important;
+  padding: 25px 0 !important; /* Aumentado de 20px a 25px para más espacio */
+  text-align: center !important;
+  margin-top: auto !important; /* Para que se pegue al fondo */
+  
+  /* TÉCNICA PARA TOMAR TODO EL ANCHO DEL NAVEGADOR (como el navbar) */
+  width: 100vw !important; /* Ancho completo del viewport */
+  position: relative !important;
+  left: 50% !important; /* Técnica para extender a ancho completo */
+  right: 50% !important;
+  margin-left: -50vw !important; /* Desplazar a la izquierda para ocupar todo el ancho */
+  margin-right: -50vw !important; /* Desplazar a la derecha para ocupar todo el ancho */
+  box-sizing: border-box !important; /* Asegurar que padding y border no afecten el ancho */
+}
+
+/* Estilos para los párrafos del footer */
+footer p {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 8px 0 !important;
+  color: white !important;
+  font-family: 'Montserrat', sans-serif !important;
+  font-size: 18px !important; /* Aumentado de 14px a 18px */
+  font-weight: 500 !important; /* Aumentado el peso de 400 a 500 */
+}
+
+/* Logo de Angular */
 .angular-logo {
-    height: 30px; /* Ajusta el tamaño según necesites */
-    width: auto;
-    vertical-align: middle;
-    margin-right: 8px; /* Espacio entre el logo y el texto */
+  height: 40px !important; /* Aumentado de 30px a 40px */
+  width: auto !important;
+  vertical-align: middle !important;
+  margin-right: 12px !important; /* Aumentado de 8px a 12px */
+  /* Eliminado el filtro para que se vea el logo rojo original */
+}
+
+/* Año del copyright con estilo diferente */
+footer p:last-child {
+  font-size: 16px !important; /* Aumentado de 12px a 16px */
+  opacity: 0.9 !important; /* Aumentado de 0.8 a 0.9 para mejor visibilidad */
+  margin-top: 5px !important;
+}
+
+/* Responsive para el footer */
+@media screen and (max-width: 768px) {
+  footer {
+    padding: 15px 10px !important;
   }
   
   footer p {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    font-size: 16px !important; /* Aumentado para móvil */
+    flex-direction: column !important;
+    gap: 8px !important; /* Aumentado el gap */
   }
+  
+  .angular-logo {
+    height: 35px !important; /* Aumentado para móvil */
+    margin-right: 0 !important;
+    margin-bottom: 5px !important; /* Aumentado el margen */
+  }
+  
+  footer p:last-child {
+    font-size: 14px !important; /* Aumentado para móvil */
+  }
+}

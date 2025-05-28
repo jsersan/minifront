@@ -1,5 +1,5 @@
 /* src/app/components/shared/navbar/navbar.component.css */
-/* Estilos para el navbar con menús desplegables corregidos */
+/* Estilos para el navbar con menús desplegables y nombre de usuario */
 
 /* Modificaciones al navbar */
 nav {
@@ -61,19 +61,34 @@ nav {
   margin-right: 0;
 }
 
-/* Grupo de elementos a la derecha */
+/* Grupo de elementos a la derecha - más espacio a la derecha */
 .right-items {
   display: flex;
   align-items: center;
   margin-left: auto; /* Empuja este grupo a la derecha */
-  margin-right: 20px; /* Añade espacio a la derecha */
+  margin-right: 40px; /* Reducido de 60px a 40px para dar más espacio al buscador */
+  gap: 25px; /* Reducido de 35px a 25px para compactar elementos */
 }
 
-/* Movemos el cuadro de búsqueda más a la izquierda */
+/* Campo de búsqueda - ajuste dinámico según estado de login */
 #search {
   position: relative;
-  margin-right: 40px; /* Aumentamos el margen derecho para separarla de los iconos */
-  margin-left: 60px; /* Añadimos margen izquierdo para moverlo más a la izquierda */
+  margin-left: -15px; /* Ajustado para mejor equilibrio */
+}
+
+/* Cuando NO hay usuario logueado, distribuir uniformemente */
+.right-items:has(.login-only) {
+  gap: 25px; /* Aún más reducido para eliminar la distancia excesiva */
+}
+
+/* Ajuste específico del campo de búsqueda cuando no hay sesión */
+.right-items:has(.login-only) #search {
+  margin-left: 0; /* Sin margin negativo cuando no hay sesión para acercar más a VER TODO */
+}
+
+/* Cuando SÍ hay usuario logueado, mantener espaciado normal */
+.right-items:has(.profile-section) {
+  gap: 25px; /* Espaciado reducido cuando hay múltiples elementos de usuario */
 }
 
 #searchinput {
@@ -81,7 +96,7 @@ nav {
   padding: 10px 16px; /* Aumentamos el padding vertical para más altura */
   border: 1px solid #ddd;
   border-radius: 4px; /* Reducimos el radio para hacerlo más cuadrado */
-  width: 240px; 
+  width: 320px; /* Aumentado de 240px a 320px */
   height: 20px; /* Altura explícita para el campo */
   font-size: 16px;
   box-sizing: content-box; /* Asegura que el padding se suma a la altura */
@@ -97,20 +112,104 @@ nav {
   height: 24px;
 }
 
-/* Ajustar la posición del icono de perfil */
-.profile {
-  margin-right: 20px; /* Aumentamos el margen entre perfil y carrito */
-  cursor: pointer;
+/* ===== ESTILOS PARA EL PERFIL CON NOMBRE DE USUARIO Y LOGOUT ===== */
+
+/* Contenedor principal del perfil */
+.profile-section {
+  display: flex !important;
+  align-items: center !important;
+  gap: 25px; /* Reducido para mantener consistencia */
 }
 
+/* Información del usuario (nombre + icono de perfil) - MÁS PEGADOS */
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 6px; /* Nombre pegado al icono */
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.user-info:hover {
+  background-color: rgba(82, 102, 122, 0.1);
+}
+
+/* Solo login (cuando no está logueado) */
+.login-only {
+  display: flex;
+  align-items: center;
+  padding: 8px 12px; /* Consistente con user-info */
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.login-only:hover {
+  background-color: rgba(82, 102, 122, 0.1);
+}
+
+/* Nombre del usuario (a la derecha del icono, sin cortar) */
+.username-display {
+  font-weight: 600;
+  color: #333;
+  font-size: 14px;
+  text-transform: none;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+  max-width: 150px; /* Más ancho para evitar corte */
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Hover effect para el nombre */
+.user-info:hover .username-display {
+  color: #52667a;
+}
+
+/* Icono de perfil/login */
 #imgprofile {
   width: 35px;
   height: 35px;
+  flex-shrink: 0; /* No permitir que el icono se haga más pequeño */
 }
+
+/* ===== ESTILOS PARA EL ICONO DE LOGOUT ===== */
+
+/* Contenedor del icono de logout */
+.logout-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 10px; /* Más padding para más fácil click */
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.logout-icon:hover {
+  background-color: rgba(220, 53, 69, 0.1); /* Fondo rojizo sutil */
+}
+
+/* Imagen del logout */
+.logout-img {
+  width: 30px;
+  height: 30px;
+  opacity: 0.7;
+  transition: all 0.2s ease;
+}
+
+.logout-icon:hover .logout-img {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+/* ===== ESTILOS PARA EL CARRITO ===== */
 
 /* Ajustar el icono del carrito */
 #carrito {
-  margin-left: 0;
+  /* margin-left manejado por gap del contenedor padre */
   cursor: pointer;
   position: relative;
 }
@@ -135,18 +234,20 @@ nav {
   border-radius: 50%;
 }
 
+/* ===== ESTILOS PARA LOS MENÚS DESPLEGABLES ===== */
+
 /* Efecto hover en los elementos del menú */
 .menuitem:hover {
   color: #52667a;
 }
 
-/* CORRECCIÓN: Estilos para los submenús desplegables con tiempo de permanencia */
+/* Estilos para los submenús desplegables */
 .subcat {
   position: absolute;
   top: 100%; /* Posiciona el submenú justo debajo del elemento padre */
   left: 0;
   background-color: white;
-  padding: 10px; /* Eliminamos padding interno para evitar espacios extras */
+  padding: 10px; /* Padding interno */
   border-radius: 4px; /* Bordes ligeramente redondeados */
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
   display: none;
@@ -158,13 +259,12 @@ nav {
   opacity: 0;
 }
 
-
 /* Ajustar el tiempo que permanece visible el menú después de salir */
 .elem .subcat {
   animation-fill-mode: forwards;
 }
 
-/* CORRECCIÓN: Elementos de submenú más altos y con mejor espaciado */
+/* Elementos de submenú más altos y con mejor espaciado */
 .subcat li {
   padding: 15px 25px; /* Más altura para cada elemento del menú */
   border-bottom: 1px solid #e0e0e0; /* Una única línea de separación más visible */
@@ -208,19 +308,33 @@ nav {
   background: transparent; /* Invisible pero "captura" el hover */
 }
 
-/* CORRECCIÓN: Eliminamos la línea del último elemento */
+/* Eliminamos la línea del último elemento */
 .subcat li:last-child {
   border-bottom: none;
 }
 
-/* CORRECCIÓN: Eliminar línea superior del primer elemento */
+/* Eliminar línea superior del primer elemento */
 .subcat li:first-child {
   border-top: none;
 }
 
+/* ===== RESPONSIVE DESIGN ===== */
 
-/* Ajuste para dispositivos móviles */
+/* Responsive para el nombre de usuario - En móviles, ocultar el texto y solo mostrar iconos */
 @media (max-width: 768px) {
+  .username-display {
+    display: none;
+  }
+  
+  .user-info {
+    gap: 0;
+  }
+  
+  .profile-section {
+    gap: 5px; /* Reducir espacio entre iconos en móvil */
+  }
+  
+  /* Ajuste general para dispositivos móviles */
   #menu {
     flex-wrap: wrap;
     justify-content: center;
@@ -235,16 +349,25 @@ nav {
     margin-top: 5px;
     width: 100%;
     justify-content: center;
+    gap: 30px; /* Gap proporcional en móvil */
+    margin-right: 30px;
   }
   
   /* Ajustamos el campo de búsqueda para dispositivos móviles */
   #search {
-    margin-left: 0;
-    margin-right: 20px;
+    margin-left: 5px;
+  }
+  
+  .profile-section {
+    gap: 15px; /* Gap interno reducido en móvil */
+  }
+  
+  .user-info {
+    gap: 4px;
   }
   
   #searchinput {
-    width: 200px;
+    width: 200px; /* Mantenemos un ancho más pequeño en móvil */
   }
   
   /* Ajuste para los submenús en móvil */
@@ -254,33 +377,4 @@ nav {
     box-shadow: none;
     margin-top: 5px;
   }
-}
-
-/* Modificaciones para header si lo estás manejando aquí */
-header {
-  position: relative;
-  background-image: url('/assets/images/background/background.jpg');
-  z-index: 5;
-  background-size: cover;
-  background-position: center;
-  height: 200px;
-  margin: 0;
-  padding: 20px 0;
-  width: 100%;
-  overflow: hidden;
-}
-
-header h1.tienda-title, h1.tienda-title, .tienda-title {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-family: 'Great Vibes', cursive !important;
-  font-size: 5rem !important;
-  font-weight: normal !important;
-  color: #000 !important;
-  text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.7) !important;
-  margin: 0 !important;
-  text-align: center !important;
-  width: 100% !important;
 }

@@ -1,0 +1,78 @@
+<!-- login-popup.component.html -->
+<div class="login-popup-overlay" 
+     [class.active]="isVisible" 
+     (click)="onOverlayClick($event)"
+     (keydown)="onKeyDown($event)"
+     tabindex="0"
+     *ngIf="isVisible">
+     
+  <div class="login-popup-container">
+    <!-- Botón de cerrar -->
+    <button class="close-popup-btn" (click)="cerrarPopup()" type="button">×</button>
+    
+    <!-- Título del popup -->
+    <div class="login-popup-header">
+      <h2 class="login-title" style="font-family: 'Montserrat', Arial, sans-serif !important; font-style: normal !important; font-weight: 600 !important;">Login</h2>
+    </div>
+    
+    <!-- Formulario de login -->
+    <div class="login-popup-content">
+      <form (ngSubmit)="iniciarSesion()" #loginForm="ngForm">
+        <!-- Campo Usuario -->
+        <div class="form-group">
+          <label for="usuario">Usuario:</label>
+          <input 
+            type="text" 
+            id="usuario"
+            name="usuario"
+            [(ngModel)]="usuario"
+            (keypress)="onKeyPress($event)"
+            placeholder="Introduce tu usuario"
+            required
+            autocomplete="username"
+            [disabled]="isLoading">
+        </div>
+        
+        <!-- Campo Contraseña - CORREGIDO -->
+        <div class="form-group">
+          <label for="contrasena">Contraseña:</label>
+          <input 
+            type="password" 
+            id="contrasena"
+            name="contrasena"
+            [(ngModel)]="contrasena"
+            (keypress)="onKeyPress($event)"
+            placeholder="Introduce tu contraseña"
+            required
+            autocomplete="current-password"
+            [disabled]="isLoading">
+        </div>
+        
+        <!-- Mensaje de error -->
+        <div class="error-message" *ngIf="errorMessage">
+          <i class="error-icon">⚠️</i>
+          {{ errorMessage }}
+        </div>
+        
+        <!-- Botón de iniciar sesión -->
+        <button 
+          type="submit" 
+          class="login-btn"
+          [disabled]="isLoading || !usuario || !contrasena">
+          <span *ngIf="!isLoading">INICIAR SESIÓN</span>
+          <span *ngIf="isLoading" class="loading-text">
+            <span class="spinner"></span>
+            Cargando...
+          </span>
+        </button>
+      </form>
+      
+      <!-- Enlace de registro -->
+      <div class="register-link">
+        <p>¿No estás registrado? 
+          <a href="#" (click)="irARegistro(); $event.preventDefault()">¡Regístrate!</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

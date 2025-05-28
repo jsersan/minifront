@@ -1,0 +1,595 @@
+/* checkout.component.scss - SOLUCIÓN DEFINITIVA CONTRA STYLES.SCSS */
+
+/* Overlay del modal - fondo oscuro semitransparente */
+.checkout-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 15px;
+  box-sizing: border-box;
+}
+
+/* ✅ MÁXIMA ESPECIFICIDAD - SOBRESCRIBIR STYLES.SCSS */
+.checkout-overlay .vercheckout {
+  background: white !important;
+  border-radius: 12px !important;
+  max-width: 900px !important;
+  width: 100% !important;
+  max-height: 90vh !important;
+  min-height: 650px !important;
+  overflow-y: auto !important;
+  position: relative !important;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3) !important;
+  animation: modalSlideIn 0.3s ease-out !important;
+  height: auto !important;
+  
+  /* ✅ ANULAR COMPLETAMENTE STYLES.SCSS */
+  flex-direction: column !important;
+  display: block !important; /* Cambiar de flex para evitar conflictos */
+  
+  /* ✅ TABLA - RESETEO TOTAL CON MÁXIMA ESPECIFICIDAD */
+  table {
+    /* RESETEO BRUTAL para sobrescribir styles.scss */
+    all: unset !important;
+    
+    /* APLICAR estilos específicos con máxima prioridad */
+    width: 100% !important;
+    border-collapse: separate !important;
+    border-spacing: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: white !important;
+    border-radius: 8px !important;
+    overflow: hidden !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
+    display: table !important; /* FORZAR TABLE LAYOUT */
+    table-layout: fixed !important;
+    
+    /* ✅ ENCABEZADO - SOBRESCRIBIR STYLES.SCSS */
+    thead {
+      display: table-header-group !important; /* ANULAR display: block de styles.scss */
+      
+      tr {
+        display: table-row !important;
+        width: 100% !important;
+        height: 50px !important;
+      }
+      
+      th {
+        display: table-cell !important;
+        background-color: #52667a !important;
+        color: white !important;
+        padding: 15px 12px !important;
+        font-weight: 600 !important;
+        font-size: 12px !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.5px !important;
+        vertical-align: middle !important;
+        border: none !important;
+        line-height: 1 !important;
+        text-align: center !important; /* RESETEAR text-align de styles.scss */
+        
+        /* ✅ DISTRIBUCIÓN DE COLUMNAS */
+        &:nth-child(1) { 
+          width: 45% !important; 
+          text-align: left !important; 
+          padding-left: 15px !important; /* ✅ PADDING NORMAL */
+        }
+        &:nth-child(2) { 
+          width: 15% !important; 
+          text-align: center !important; 
+        }
+        &:nth-child(3) { 
+          width: 12% !important; 
+          text-align: center !important; 
+        }
+        &:nth-child(4) { 
+          width: 14% !important; 
+          text-align: right !important; 
+        }
+        &:nth-child(5) { 
+          width: 14% !important; 
+          text-align: right !important; 
+        }
+        
+        &:first-child {
+          border-top-left-radius: 8px !important;
+        }
+        &:last-child {
+          border-top-right-radius: 8px !important;
+        }
+      }
+    }
+    
+    /* ✅ CUERPO DE LA TABLA - ANULAR STYLES.SCSS */
+    tbody {
+      display: table-row-group !important; /* ANULAR display: block de styles.scss */
+      max-height: none !important; /* ANULAR max-height de styles.scss */
+      overflow: visible !important; /* ANULAR overflow de styles.scss */
+      background: white !important; /* ✅ FONDO BLANCO ASEGURADO */
+      
+      tr {
+        display: table-row !important;
+        border-bottom: 1px solid #e9ecef !important;
+        transition: background-color 0.2s ease !important;
+        height: 75px !important; /* ✅ ALTURA ÓPTIMA PARA UNA LÍNEA */
+        min-height: 75px !important; 
+        max-height: 75px !important;
+        background: white !important;
+        
+        &:hover {
+          background-color: #f8f9fa !important;
+        }
+        
+        &:last-child {
+          border-bottom: none !important;
+        }
+      }
+      
+      /* ✅ TODAS LAS CELDAS - ANULAR STYLES.SCSS */
+      td {
+        display: table-cell !important;
+        vertical-align: middle !important;
+        border: none !important;
+        padding: 12px !important;
+        font-size: 14px !important;
+        color: #555 !important;
+        line-height: 1.2 !important;
+        height: 75px !important; /* ✅ ALTURA ÓPTIMA PARA UNA LÍNEA */
+        box-sizing: border-box !important;
+        text-align: center !important;
+        background: white !important; /* RESETEAR styles.scss */
+        
+        /* ✅ ALINEACIONES POR COLUMNA - SOBRESCRIBIR STYLES.SCSS */
+        &:nth-child(1) { 
+          width: 45% !important; 
+          text-align: left !important; 
+          padding: 0 !important; /* ✅ SIN PADDING PARA PERMITIR FLEXBOX */
+          background: white !important;
+        }
+        &:nth-child(2) { 
+          width: 15% !important; 
+          text-align: center !important; 
+          font-weight: 500 !important;
+        }
+        &:nth-child(3) { 
+          width: 12% !important; 
+          text-align: center !important; 
+          font-weight: 600 !important;
+        }
+        &:nth-child(4) { 
+          width: 14% !important; 
+          text-align: right !important; 
+          font-weight: 500 !important;
+          padding-right: 15px !important; /* ✅ PADDING NORMAL */
+        }
+        &:nth-child(5) { 
+          width: 14% !important; 
+          text-align: right !important; 
+          font-weight: 600 !important;
+          color: #52667a !important;
+          padding-right: 15px !important; /* ✅ PADDING NORMAL */
+        }
+      }
+      
+      /* ✅ CELDA DEL ARTÍCULO - MÁXIMA ESPECIFICIDAD */
+      .articulo-cell {
+        /* ✅ COPIAR ESTRATEGIA EXITOSA DEL CART.COMPONENT */
+        display: flex !important;
+        align-items: center !important;
+        height: 75px !important; /* ✅ ALTURA ÓPTIMA PARA UNA LÍNEA */
+        box-sizing: border-box !important;
+        padding: 12px 15px !important; /* ✅ PADDING NORMAL COMO EN CART */
+        
+        img {
+          /* ✅ IMAGEN COMPLETA SIN RECORTES */
+          width: 55px !important; /* ✅ LIGERAMENTE MÁS GRANDE */
+          height: 55px !important;
+          object-fit: contain !important; /* ✅ CONTAIN PARA NO RECORTAR */
+          margin-right: 15px !important;
+          border-radius: 4px !important;
+          border: 1px solid #eaeaea !important;
+          flex-shrink: 0 !important;
+          background: #f8f9fa !important; /* ✅ FONDO SUTIL PARA ESPACIOS VACÍOS */
+          padding: 2px !important; /* ✅ PADDING INTERNO PARA DAR RESPIRO */
+        }
+        
+        .articulo-nombre {
+          font-weight: 500 !important;
+          color: #333 !important;
+          font-size: 14px !important;
+          line-height: 1.3 !important;
+          white-space: nowrap !important; /* ✅ PRIMERA PRIORIDAD: UNA SOLA LÍNEA */
+          overflow: hidden !important;
+          text-overflow: ellipsis !important; /* ✅ SOLO PUNTOS SI NO CABE */
+          flex: 1 !important;
+        }
+      }
+    }
+    
+    /* ✅ PIE DE TABLA - ANULAR STYLES.SCSS */
+    tfoot {
+      display: table-footer-group !important; /* ANULAR display: block de styles.scss */
+      
+      tr {
+        display: table-row !important;
+        background-color: #f8f9fa !important;
+        border-top: 2px solid #52667a !important;
+        height: 60px !important;
+        max-height: 60px !important;
+      }
+      
+      td {
+        display: table-cell !important;
+        padding: 15px 12px !important; /* ✅ PADDING NORMAL */
+        font-weight: 700 !important;
+        font-size: 16px !important;
+        color: #333 !important;
+        border: none !important;
+        line-height: 1.2 !important;
+        vertical-align: middle !important;
+        
+        /* ✅ ANULAR ESTILOS ESPECÍFICOS DE STYLES.SCSS */
+        &[colspan="4"] {
+          width: 86% !important;
+          text-align: right !important;
+          padding-right: 20px !important;
+          font-weight: bold !important; /* MANTENER BOLD DE STYLES.SCSS */
+        }
+        
+        &:last-child {
+          width: 14% !important;
+          text-align: right !important;
+          color: #52667a !important;
+          font-size: 18px !important;
+          padding-right: 20px !important;
+        }
+      }
+    }
+  }
+}
+
+/* Animación de entrada del modal */
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-50px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Botón de cerrar */
+.checkout-overlay .close-button {
+  position: absolute !important;
+  top: 15px !important;
+  right: 20px !important;
+  background: none !important;
+  border: none !important;
+  font-size: 28px !important;
+  font-weight: 300 !important;
+  color: #666 !important;
+  cursor: pointer !important;
+  z-index: 10 !important;
+  transition: all 0.2s ease !important;
+  width: 35px !important;
+  height: 35px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  
+  &:hover {
+    color: #333 !important;
+    background-color: rgba(0, 0, 0, 0.05) !important;
+    border-radius: 50% !important;
+  }
+}
+
+/* Contenido del modal */
+.checkout-overlay .modal-content {
+  padding: 40px 35px 15px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  height: 100% !important;
+  min-height: 620px !important;
+  overflow: visible !important;
+  box-sizing: border-box !important;
+}
+
+/* Sección del receptor (direcciones) - ANULAR STYLES.SCSS */
+.checkout-overlay #receptor {
+  display: grid !important; /* ANULAR display: flex de styles.scss */
+  grid-template-columns: 1fr 1fr !important;
+  gap: 30px !important;
+  margin-bottom: 15px !important;
+  flex-shrink: 0 !important;
+  justify-content: normal !important; /* ANULAR justify-content: space-around de styles.scss */
+  
+  h1 {
+    font-family: 'Dancing Script', cursive, serif !important;
+    font-size: 22px !important;
+    font-weight: 600 !important;
+    color: #333 !important;
+    margin: 0 0 10px 0 !important;
+    font-style: italic !important;
+  }
+  
+  .datos {
+    background-color: #f8f9fa !important;
+    padding: 15px !important;
+    border-radius: 8px !important;
+    font-size: 14px !important;
+    line-height: 1.5 !important;
+    color: #555 !important;
+    padding-left: 15px !important; /* ANULAR padding-left: 40px de styles.scss */
+    
+    &:hover {
+      background-color: #f1f3f4 !important;
+      transition: background-color 0.2s ease !important;
+    }
+  }
+}
+
+/* Título de productos */
+.checkout-overlay .productos-title {
+  font-family: 'Dancing Script', cursive, serif !important;
+  font-size: 24px !important;
+  font-weight: 600 !important;
+  color: #333 !important;
+  margin: 10px 0 12px 0 !important;
+  font-style: italic !important;
+  text-align: left !important;
+  flex-shrink: 0 !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+/* Contenedor del botón - ANULAR STYLES.SCSS */
+.checkout-overlay .button-container {
+  width: 100% !important;
+  text-align: center !important;
+  margin-top: auto !important;
+  padding: 25px 0 20px !important;
+  clear: both !important;
+  flex-shrink: 0 !important;
+  border-top: 1px solid #e9ecef !important;
+  position: relative !important; /* ANULAR position: absolute de styles.scss */
+  bottom: auto !important; /* ANULAR bottom: 40px de styles.scss */
+  left: auto !important; /* ANULAR left: 380px de styles.scss */
+}
+
+/* Botón de comprar - ANULAR STYLES.SCSS */
+.checkout-overlay #comprar {
+  background: linear-gradient(135deg, #52667a 0%, #6c7a8a 100%) !important;
+  color: white !important;
+  border: none !important;
+  padding: 14px 35px !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 1px !important;
+  border-radius: 6px !important;
+  cursor: pointer !important;
+  transition: all 0.3s ease !important;
+  box-shadow: 0 3px 10px rgba(82, 102, 122, 0.3) !important;
+  display: inline-block !important;
+  margin: 0 !important;
+  width: auto !important; /* ANULAR width: 120px de styles.scss */
+  min-width: 140px !important;
+  text-align: center !important;
+  position: relative !important; /* ANULAR position: absolute de styles.scss */
+  bottom: auto !important; /* ANULAR bottom: 40px de styles.scss */
+  left: auto !important; /* ANULAR left: 380px de styles.scss */
+  
+  &:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 5px 15px rgba(82, 102, 122, 0.4) !important;
+    background: linear-gradient(135deg, #5d758a 0%, #7a8a9a 100%) !important;
+  }
+  
+  &:active {
+    transform: translateY(0) !important;
+    box-shadow: 0 3px 10px rgba(82, 102, 122, 0.3) !important;
+  }
+  
+  &:disabled {
+    opacity: 0.6 !important;
+    cursor: not-allowed !important;
+    transform: none !important;
+  }
+}
+
+/* ✅ RESPONSIVE DESIGN - CON MÁXIMA ESPECIFICIDAD */
+@media (max-width: 768px) {
+  .checkout-overlay {
+    padding: 10px !important;
+  }
+  
+  .checkout-overlay .vercheckout {
+    max-height: 95vh !important;
+    margin: 10px !important;
+    border-radius: 8px !important;
+    min-height: 580px !important;
+    width: 95% !important; /* ANULAR width: 800px de styles.scss */
+    height: auto !important; /* ANULAR height: 400px de styles.scss */
+    
+    table {
+      font-size: 12px !important;
+      
+      thead th {
+        padding: 10px 8px !important;
+        font-size: 11px !important;
+        
+        &:nth-child(1) { width: 40% !important; }
+        &:nth-child(2) { width: 15% !important; }
+        &:nth-child(3) { width: 15% !important; }
+        &:nth-child(4) { width: 15% !important; }
+        &:nth-child(5) { width: 15% !important; }
+      }
+      
+      tbody {
+        tr {
+          height: 80px !important;
+          max-height: 80px !important;
+        }
+        
+        td {
+          padding: 12px 6px !important;
+          font-size: 12px !important;
+          height: 80px !important;
+          
+          &:nth-child(1) { 
+            width: 40% !important; 
+            padding: 0 !important; /* ✅ SIN PADDING */
+            background: white !important; /* ✅ FONDO BLANCO */
+          }
+        }
+        
+        .articulo-cell {
+          /* ✅ FLEXBOX COMO EN CART.COMPONENT */
+          display: flex !important;
+          align-items: center !important;
+          padding: 10px 12px !important;
+          height: 70px !important; /* ✅ ALTURA ÓPTIMA PARA UNA LÍNEA */
+          
+          img {
+            width: 50px !important; /* ✅ LIGERAMENTE MÁS GRANDE */
+            height: 50px !important;
+            object-fit: contain !important; /* ✅ CONTAIN PARA VER IMAGEN COMPLETA */
+            margin-right: 12px !important;
+            border-radius: 4px !important;
+            border: 1px solid #eaeaea !important;
+            flex-shrink: 0 !important;
+            background: #f8f9fa !important; /* ✅ FONDO SUTIL */
+            padding: 2px !important; /* ✅ PADDING INTERNO */
+          }
+          
+          .articulo-nombre {
+            font-weight: 500 !important;
+            color: #333 !important;
+            font-size: 12px !important;
+            line-height: 1.3 !important;
+            white-space: nowrap !important; /* ✅ UNA SOLA LÍNEA */
+            overflow: hidden !important;
+            text-overflow: ellipsis !important; /* ✅ SOLO PUNTOS SI NO CABE */
+            flex: 1 !important;
+          }
+        }
+      }
+    }
+  }
+  
+  .checkout-overlay .modal-content {
+    padding: 25px 20px 10px !important;
+    min-height: 550px !important;
+  }
+  
+  .checkout-overlay #receptor {
+    grid-template-columns: 1fr !important; /* ANULAR flex-direction: column de styles.scss */
+    gap: 20px !important;
+    
+    h1 {
+      font-size: 20px !important;
+    }
+    
+    .datos {
+      padding: 12px !important;
+      font-size: 12px !important;
+      padding-left: 0 !important; /* ANULAR styles.scss en móvil */
+      margin-top: 0 !important; /* ANULAR margin-top: 20px de styles.scss */
+    }
+  }
+  
+  .checkout-overlay .productos-title {
+    font-size: 22px !important;
+    text-align: center !important;
+  }
+  
+  .checkout-overlay #comprar {
+    margin: 0 auto !important; /* ANULAR margin: 20px auto de styles.scss */
+  }
+}
+
+@media (max-width: 480px) {
+  .checkout-overlay .vercheckout {
+    max-width: 95vw !important;
+    min-height: 500px !important;
+    
+    table {
+      tbody {
+        tr {
+          height: 65px !important; /* ✅ ALTURA ÓPTIMA PARA UNA LÍNEA */
+          max-height: 65px !important;
+        }
+        
+        td {
+          height: 65px !important; /* ✅ ALTURA ÓPTIMA PARA UNA LÍNEA */
+        }
+        
+        .articulo-cell {
+          /* ✅ FLEXBOX COMO EN CART.COMPONENT */
+          display: flex !important;
+          align-items: center !important;
+          padding: 8px 10px !important;
+          height: 65px !important; /* ✅ ALTURA ÓPTIMA PARA UNA LÍNEA */
+          
+          img {
+            width: 45px !important; /* ✅ LIGERAMENTE MÁS GRANDE */
+            height: 45px !important;
+            object-fit: contain !important; /* ✅ CONTAIN PARA VER IMAGEN COMPLETA */
+            margin-right: 10px !important;
+            border-radius: 4px !important;
+            border: 1px solid #eaeaea !important;
+            flex-shrink: 0 !important;
+            background: #f8f9fa !important; /* ✅ FONDO SUTIL */
+            padding: 2px !important; /* ✅ PADDING INTERNO */
+          }
+          
+          .articulo-nombre {
+            font-weight: 500 !important;
+            color: #333 !important;
+            font-size: 11px !important;
+            line-height: 1.3 !important;
+            white-space: nowrap !important; /* ✅ UNA SOLA LÍNEA */
+            overflow: hidden !important;
+            text-overflow: ellipsis !important; /* ✅ SOLO PUNTOS SI NO CABE */
+            flex: 1 !important;
+          }
+        }
+      }
+    }
+  }
+}
+
+/* Scrollbar personalizado */
+.checkout-overlay .vercheckout::-webkit-scrollbar {
+  width: 8px !important;
+}
+
+.checkout-overlay .vercheckout::-webkit-scrollbar-track {
+  background: #f1f1f1 !important;
+  border-radius: 4px !important;
+}
+
+.checkout-overlay .vercheckout::-webkit-scrollbar-thumb {
+  background: #c1c1c1 !important;
+  border-radius: 4px !important;
+  
+  &:hover {
+    background: #a8a8a8 !important;
+  }
+}
+
+/* Asegurar máxima prioridad */
+.checkout-overlay {
+  z-index: 9999 !important;
+}

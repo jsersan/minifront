@@ -1,96 +1,55 @@
+<!-- profile.component.html - ARCHIVO COMPLETO -->
+
 <!-- Sección de datos del usuario -->
 <div id="divdatos">
-    <h1 id="titulo">Datos</h1>
-    <!-- Formulario para editar datos personales -->
-    <form [formGroup]="profileForm">
-      <table>
-        <!-- Campo: Nombre de usuario -->
-        <tr>
-          <td>Nombre de usuario: </td>
-          <td><input type="text" id="txtusername" formControlName="username" size="10"/></td>
-        </tr>
-        <!-- Campo: Contraseña (opcional) -->
-        <tr>
-          <td>Contraseña:</td>
-          <td><input type="password" id="txtpass" formControlName="password" size="10"/></td>
-        </tr>
-        <!-- Campo: Email -->
-        <tr>
-          <td>E-mail: </td>
-          <td><input type="email" id="txtemail" formControlName="email" size="20"/></td>
-        </tr>
-        <!-- Campo: Nombre completo -->
-        <tr>
-          <td>Nombre completo</td>
-          <td><input type="text" id="txtnombre" formControlName="nombre" size="25"/></td>
-        </tr>
-        <!-- Campo: Dirección -->
-        <tr>
-          <td>Dirección: </td>
-          <td><input type="text" id="txtdireccion" formControlName="direccion" size="30"/></td>
-        </tr>
-        <!-- Campo: Ciudad -->
-        <tr>
-          <td>Ciudad: </td>
-          <td><input type="text" id="txtciudad" formControlName="ciudad" size="15"/></td>
-        </tr>
-        <!-- Campo: Código postal -->
-        <tr>
-          <td>Código postal: </td>
-          <td><input type="text" id="txtcp" formControlName="cp" size="5"/></td>
-        </tr>
-        <!-- Botón para actualizar datos -->
-        <tr>
-          <td colspan="2" style="text-align: center">
-            <input type="button" id="actualizarDatos" value="ACTUALIZAR DATOS" (click)="updateProfile()" />
-          </td>
-        </tr>
-      </table>
-    </form>
-  </div>
-  
-  <!-- Sección de historial de pedidos -->
-  <div id="divpedidos">
-    <h1 id="titulo">Historial de pedidos</h1>
-    <div id="pedidos">
-      <!-- Iteración sobre cada pedido del usuario -->
-      <div class="pedido" *ngFor="let order of orders">
-        <table>
-          <!-- Cabecera del pedido (siempre visible) -->
-          <tr id="titulo" class="titulo">
-            <th>ref.: #{{ order.id }}</th>
-            <th>
-              <span>{{ order.fecha | date:'dd/MM/yyyy' }}</span>
-            </th>
-            <th>
-              <!-- Botón para expandir/colapsar detalles -->
-              <div class="see" (click)="toggleOrderDetails(order.id!)">
-                <img src="assets/images/icons/binoculars.png" />
-                <img src="assets/images/icons/{{ isOrderExpanded(order.id!) ? 'arrow-up' : 'arrow-down' }}.png" 
-                     class="arrow"/>
-              </div>
-            </th>
-          </tr>
-          <!-- Encabezados de detalles (visibles solo cuando está expandido) -->
-          <tr [style.display]="isOrderExpanded(order.id!) ? 'table-row' : 'none'">
-            <th>Producto</th>
-            <th>Color</th>
-            <th>Cantidad</th>
-          </tr>
-          <!-- Filas de detalles (visibles solo cuando está expandido) -->
-          <ng-container *ngIf="order.lineas">
-            <tr *ngFor="let linea of order.lineas" [style.display]="isOrderExpanded(order.id!) ? 'table-row' : 'none'">
-              <td>{{ linea.nombre }}</td>
-              <td>{{ linea.color }}</td>
-              <td>{{ linea.cantidad }}</td>
-            </tr>
-          </ng-container>
-          <!-- Fila de total (visible solo cuando está expandido) -->
-          <tr [style.display]="isOrderExpanded(order.id!) ? 'table-row' : 'none'">
-            <td colspan="2">Precio total:</td>
-            <td>{{ formatPrice(order.total) }}</td>
-          </tr>
-        </table>
-      </div>
-    </div>
-  </div>
+  <h1 id="titulo">Datos</h1>
+  <!-- Formulario para editar datos personales -->
+  <form [formGroup]="profileForm">
+    <table>
+      <!-- Campo: Nombre de usuario -->
+      <tr>
+        <td>Nombre de usuario: </td>
+        <td><input type="text" id="txtusername" formControlName="username" size="10"/></td>
+      </tr>
+      <!-- Campo: Contraseña (opcional) -->
+      <tr>
+        <td>Contraseña:</td>
+        <td><input type="password" id="txtpass" formControlName="password" size="10"/></td>
+      </tr>
+      <!-- Campo: Email -->
+      <tr>
+        <td>E-mail: </td>
+        <td><input type="email" id="txtemail" formControlName="email" size="20"/></td>
+      </tr>
+      <!-- Campo: Nombre completo -->
+      <tr>
+        <td>Nombre completo</td>
+        <td><input type="text" id="txtnombre" formControlName="nombre" size="25"/></td>
+      </tr>
+      <!-- Campo: Dirección -->
+      <tr>
+        <td>Dirección: </td>
+        <td><input type="text" id="txtdireccion" formControlName="direccion" size="30"/></td>
+      </tr>
+      <!-- Campo: Ciudad -->
+      <tr>
+        <td>Ciudad: </td>
+        <td><input type="text" id="txtciudad" formControlName="ciudad" size="15"/></td>
+      </tr>
+      <!-- Campo: Código postal -->
+      <tr>
+        <td>Código postal: </td>
+        <td><input type="text" id="txtcp" formControlName="cp" size="5"/></td>
+      </tr>
+      <!-- Botón para actualizar datos -->
+      <tr>
+        <td colspan="2" style="text-align: center">
+          <input type="button" id="actualizarDatos" value="ACTUALIZAR DATOS" (click)="updateProfile()" />
+        </td>
+      </tr>
+    </table>
+  </form>
+</div>
+
+<!-- Usar el componente dedicado para historial de pedidos -->
+<app-historial-pedidos></app-historial-pedidos>

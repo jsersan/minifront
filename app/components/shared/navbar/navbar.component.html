@@ -53,19 +53,44 @@
       </li>
 
       <!-- Elemento para ver todos los productos -->
-      <a [routerLink]="['/ver-todo']" class="nav-link">VER TODO</a>
+      <li class="menuitem" id="fincat">
+        <a [routerLink]="['/ver-todo']" class="nav-link">VER TODO</a>
+      </li>
 
       <!-- Elementos a la derecha: búsqueda, perfil y carrito -->
       <div class="right-items">
         <!-- Campo de búsqueda -->
         <li id="search" class="menuitem">
-          <input type="text" id="searchinput" [(ngModel)]="searchTerm" (keyup.enter)="search()" placeholder="Buscar..." />
+          <input type="text" id="searchinput" [(ngModel)]="searchTerm" (keyup.enter)="search()" placeholder="Buscar artículo......" />
           <img id="searchicon" src="assets/images/icons/search.png" alt="botón de búsqueda" (click)="search()">
         </li>
 
-        <!-- Perfil de usuario -->
-        <li class="menuitem profile" [routerLink]="['/profile']">
-          <img src="assets/images/icons/login.png" id="imgprofile" />
+        <!-- Perfil de usuario - CON NOMBRE E ICONO DE LOGOUT -->
+        <li class="menuitem profile-section">
+          <!-- Si está logueado, mostrar icono + nombre (icono primero) -->
+          <ng-container *ngIf="isUserLoggedIn && currentUser">
+            <div class="user-info" (click)="onProfileClick()">
+              <img src="assets/images/icons/login.png" 
+                   id="imgprofile" 
+                   [alt]="'Perfil de ' + (currentUser.username || currentUser.nombre)" />
+              <span class="username-display">{{ currentUser.username || currentUser.nombre }}</span>
+            </div>
+            <!-- Icono de logout separado -->
+            <div class="logout-icon" (click)="logout()" title="Cerrar sesión">
+              <img src="assets/images/icons/logout.png" 
+                   alt="Cerrar sesión" 
+                   class="logout-img" />
+            </div>
+          </ng-container>
+          
+          <!-- Si NO está logueado, solo mostrar icono de login -->
+          <ng-container *ngIf="!isUserLoggedIn">
+            <div class="login-only" (click)="onProfileClick()">
+              <img src="assets/images/icons/login.png" 
+                   id="imgprofile" 
+                   alt="Iniciar sesión" />
+            </div>
+          </ng-container>
         </li>
 
         <!-- Carrito -->
@@ -77,3 +102,21 @@
     </ul>
   </div>
 </nav>
+
+<!-- POPUPS DE LOGIN Y REGISTRO -->
+
+<!-- Popup de Login -->
+<app-login-popup 
+  [isVisible]="showLoginPopup"
+  (closePopup)="onCloseLoginPopup()"
+  (loginSuccess)="onLoginSuccess()"
+  (switchToRegistro)="switchToRegistro()">
+</app-login-popup>
+
+<!-- Popup de Registro -->
+<app-registro-popup 
+  [isVisible]="showRegistroPopup"
+  (closePopup)="onCloseRegistroPopup()"
+  (registroSuccess)="onRegistroSuccess()"
+  (switchToLogin)="switchToLogin()">
+</app-registro-popup>

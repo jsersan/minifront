@@ -99,11 +99,11 @@ export class ProductListComponent implements OnInit {
       this.categoryService.getCategory(this.categoryId).subscribe({
         next: (category: Category) => {
           this.currentCategory = category;
-          console.log('Categoría cargada:', category);
+          // console.log('Categoría cargada:', category);
           this.loading = false;
         },
         error: (error: any) => {
-          console.error('Error al cargar detalles de categoría:', error);
+          // console.error('Error al cargar detalles de categoría:', error);
           this.loading = false;
         }
       });
@@ -116,20 +116,20 @@ export class ProductListComponent implements OnInit {
     this.products = [];
 
     if (this.categoryId !== null && this.categoryId !== undefined) {
-      console.log('Cargando productos para categoría ID:', this.categoryId);
+      // console.log('Cargando productos para categoría ID:', this.categoryId);
       this.productService.getProductsByCategory(this.categoryId).subscribe({
         next: (products: Product[]) => {
           if (Array.isArray(products) && products.length > 0) {
             this.products = products;
-            console.log('Productos cargados para categoría:', products);
+            // console.log('Productos cargados para categoría:', products);
           } else {
             this.products = [];
-            console.log('No se encontraron productos para esta categoría');
+            // console.log('No se encontraron productos para esta categoría');
           }
           this.loading = false;
         },
         error: (error: any) => {
-          console.error(`Error al cargar productos para categoría ${this.categoryId}:`, error);
+          // console.error(`Error al cargar productos para categoría ${this.categoryId}:`, error);
           this.products = [];
           this.loading = false;
         }
@@ -142,15 +142,15 @@ export class ProductListComponent implements OnInit {
   // Método para cargar todos los productos (para la vista "Ver Todo")
   loadAllProducts(): void {
     this.loading = true;
-    console.log('Cargando TODOS los productos para Ver Todo...');
+    // console.log('Cargando TODOS los productos para Ver Todo...');
     this.productService.getProducts().subscribe({
       next: (products: Product[]) => {
         this.products = products;
-        console.log('Todos los productos cargados:', products);
+        // console.log('Todos los productos cargados:', products);
         this.loading = false;
       },
       error: (error: any) => {
-        console.error('Error al cargar todos los productos:', error);
+        // console.error('Error al cargar todos los productos:', error);
         this.products = [];
         this.loading = false;
       }
@@ -160,16 +160,16 @@ export class ProductListComponent implements OnInit {
   // Método para cargar productos destacados (para Home)
   loadFeaturedProducts(): void {
     this.loading = true;
-    console.log('Cargando productos destacados para Home...');
+    // console.log('Cargando productos destacados para Home...');
     // Puedes ajustar esto según cómo quieras mostrar productos en la página principal
     this.productService.getFeaturedProducts().subscribe({
       next: (products: Product[]) => {
         this.products = products;
-        console.log('Productos destacados cargados:', products);
+        // console.log('Productos destacados cargados:', products);
         this.loading = false;
       },
       error: (error: any) => {
-        console.error('Error al cargar productos destacados:', error);
+        // console.error('Error al cargar productos destacados:', error);
         // Como alternativa, cargar algunos productos aleatorios
         this.loadSomeProducts();
       }

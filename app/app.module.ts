@@ -1,4 +1,5 @@
-// src/app/app.module.ts
+// src/app/app.module.ts - ARCHIVO VERIFICADO
+
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -22,13 +23,15 @@ import { AdminComponent } from './components/admin/admin.component';
 import { CategoryManagerComponent } from './components/admin/category-manager/category-manager.component';
 import { ProductManagerComponent } from './components/admin/product-manager/product-manager.component';
 import { SearchResultsComponent } from './components/product/search-results/search-results.component';
-import { LoginComponent } from './components/user/login/login.component';
-import { RegisterComponent } from './components/user/register/register.component';
 import { ProfileComponent } from './components/user/profile/profile.component';
 import { OrderLineComponent } from './components/orderline/orderline.component';
 import { BannerComponent } from './components/banner/banner.component';
 import { HeaderComponent } from './components/shared/header/header.component';
 import { ImageUrlPipe } from './pipes/image-url.pipe';
+// ✅ SOLO los popups (sin componentes de página completa)
+import { LoginPopupComponent } from './components/login-popup/login-popup.component';
+import { RegistroPopupComponent } from './components/registro-popup/registro-popup.component';
+import { HistorialPedidosComponent } from './components/historial-pedidos/historial-pedidos.component';
 
 @NgModule({
   declarations: [
@@ -40,18 +43,20 @@ import { ImageUrlPipe } from './pipes/image-url.pipe';
     ProductListComponent,
     ProductDetailComponent,
     ProductPopupComponent,
-    CartComponent,
+    CartComponent, // ✅ Verificado que tiene @Component
     CheckoutComponent,
     AdminComponent,
     CategoryManagerComponent,
     ProductManagerComponent,
     SearchResultsComponent,
-    LoginComponent,
-    RegisterComponent,
     ProfileComponent,
     OrderLineComponent,
     BannerComponent,
-    HeaderComponent
+    HeaderComponent,
+    // ✅ SOLO popups
+    LoginPopupComponent,
+    RegistroPopupComponent,
+    HistorialPedidosComponent
   ],
   imports: [
     BrowserModule,

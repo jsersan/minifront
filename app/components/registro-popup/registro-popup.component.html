@@ -1,0 +1,124 @@
+<!-- registro-popup.component.html - CON CONTROL DE VISIBILIDAD -->
+
+<div class="popup-overlay" *ngIf="isVisible" (click)="onClosePopup()">
+  <div class="popup-content" (click)="$event.stopPropagation()">
+    
+    <!-- Botón para cerrar -->
+    <button class="close-btn" (click)="onClosePopup()">×</button>
+    
+    <h2>Registro</h2>
+    
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+      
+      <div class="form-group">
+        <label for="usuario">USUARIO:</label>
+        <input 
+          type="text" 
+          id="usuario" 
+          formControlName="username"
+          placeholder="jsersan@irakasle.eus"
+          [class.is-invalid]="isFieldInvalid('username')"
+        />
+        <div *ngIf="isFieldInvalid('username')" class="error-message">
+          {{ getFieldError('username') }}
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="contrasena">CONTRASEÑA:</label>
+        <input 
+          type="password" 
+          id="contrasena" 
+          formControlName="password"
+          placeholder="••••••••"
+          [class.is-invalid]="isFieldInvalid('password')"
+        />
+        <div *ngIf="isFieldInvalid('password')" class="error-message">
+          {{ getFieldError('password') }}
+        </div>
+      </div>
+
+      <!-- CRÍTICO: Este debe ser 'nombre' -->
+      <div class="form-group">
+        <label for="nombreCompleto">NOMBRE COMPLETO:</label>
+        <input 
+          type="text" 
+          id="nombreCompleto" 
+          formControlName="nombre"
+          placeholder="Txema"
+          [class.is-invalid]="isFieldInvalid('nombre')"
+        />
+        <div *ngIf="isFieldInvalid('nombre')" class="error-message">
+          {{ getFieldError('nombre') }}
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="email">E-MAIL:</label>
+        <input 
+          type="email" 
+          id="email" 
+          formControlName="email"
+          placeholder="jsersan@irakasle.eus"
+          [class.is-invalid]="isFieldInvalid('email')"
+        />
+        <div *ngIf="isFieldInvalid('email')" class="error-message">
+          {{ getFieldError('email') }}
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="direccion">DIRECCIÓN:</label>
+        <input 
+          type="text" 
+          id="direccion" 
+          formControlName="direccion"
+          placeholder="Zerrajera, 6 12B"
+          [class.is-invalid]="isFieldInvalid('direccion')"
+        />
+        <div *ngIf="isFieldInvalid('direccion')" class="error-message">
+          {{ getFieldError('direccion') }}
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="ciudad">CIUDAD:</label>
+        <input 
+          type="text" 
+          id="ciudad" 
+          formControlName="ciudad"
+          placeholder="Arrasate"
+          [class.is-invalid]="isFieldInvalid('ciudad')"
+        />
+        <div *ngIf="isFieldInvalid('ciudad')" class="error-message">
+          {{ getFieldError('ciudad') }}
+        </div>
+      </div>
+
+      <!-- CRÍTICO: Este debe ser 'cp' -->
+      <div class="form-group">
+        <label for="codigoPostal">CÓDIGO POSTAL:</label>
+        <input 
+          type="text" 
+          id="codigoPostal" 
+          formControlName="cp"
+          placeholder="20500"
+          [class.is-invalid]="isFieldInvalid('cp')"
+        />
+        <div *ngIf="isFieldInvalid('cp')" class="error-message">
+          {{ getFieldError('cp') }}
+        </div>
+      </div>
+
+      <button 
+        type="submit" 
+        [disabled]="loading"
+        class="btn-register"
+      >
+        {{ loading ? 'REGISTRANDO...' : 'REGISTRARSE' }}
+      </button>
+      
+    </form>
+    
+  </div>
+</div>

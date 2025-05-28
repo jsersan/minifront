@@ -13,23 +13,27 @@ $default-font: 'Montserrat', sans-serif;
 /* Estilos para el modal del carrito */
 .cart-popup {
   position: fixed;
-  top: 0;
-  right: 0;
-  height: 100%;
-  width: 400px;
-  max-width: 90vw;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.95); /* Inicio para animación */
   background-color: white;
   z-index: 9999 !important;
   display: flex;
   flex-direction: column;
-  transform: translateX(100%); /* Esta transformación lo oculta a la derecha */
-  transition: transform 0.3s ease;
+  width: 80%; /* Ancho relativo */
+  max-width: 800px; /* Máximo ancho */
+  max-height: 90vh; /* Altura máxima */
+  border-radius: 8px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  overflow: hidden;
   
   &.active {
-    display: block !important;
-    transform: translateX(0) !important;
     opacity: 1 !important;
     visibility: visible !important;
+    transform: translate(-50%, -50%) scale(1) !important; /* Fin de animación */
   }
 }
 

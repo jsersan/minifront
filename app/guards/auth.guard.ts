@@ -1,16 +1,37 @@
-// auth.guard.ts
-import { inject } from '@angular/core';
-import { Router } from '@angular/router';
+// src/app/guards/auth.guard.ts - ARCHIVO COMPLETO
+
+import { Injectable } from '@angular/core';
+import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { AuthService } from '../services/auth.service';
+import { LoginPopupService } from './../services/login-popup.service';
 
-export const authGuard = () => {
-  const authService = inject(AuthService);
-  const router = inject(Router);
+@Injectable({
+  providedIn: 'root'
+})
+export class AuthGuard implements CanActivate {
 
-  if (authService.currentUserValue) {
-    return true;
+  constructor(
+    private router: Router,
+    private authService: AuthService,
+    private loginPopupService: LoginPopupService
+  ) {}
+
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
+    console.log('🛡️ AuthGuard verificando acceso a:', state.url);
+    
+    const currentUser = this.authService.currentUserValue;
+    
+    if (currentUser) {
+      console.log('✅ Usuario autenticado:', currentUser.username);
+      return true;
+    }
+
+    console.log('❌ Usuario no autenticado, abriendo popup de login');
+    
+    // ✅ SOLO abrir popup, NO navegar
+    this.loginPopupService.openForCheckout(state.url);
+    
+    // ✅ Simplemente retornar false para bloquear la navegación
+    return false;
   }
-  
-  // Redirigir a la página de login
-  return router.parseUrl('/login');
-};
+}

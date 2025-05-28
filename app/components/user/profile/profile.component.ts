@@ -1,13 +1,13 @@
+// profile.component.ts - ARCHIVO COMPLETO
+
 // Importaciones necesarias de Angular
 import { Component, OnInit } from '@angular/core';
 // Importación para trabajar con formularios reactivos
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 // Importación de servicios necesarios
 import { AuthService } from '../../../services/auth.service';
-import { OrderService } from '../../../services/order.service';
 // Importación de modelos de datos
 import { User } from '../../../models/user';
-import { Order } from '../../../models/order';
 // Importación para alertas
 import Swal from 'sweetalert2';
 
@@ -20,20 +20,13 @@ export class ProfileComponent implements OnInit {
   // Propiedad para almacenar datos del usuario actual
   currentUser: User | null = null;
   
-  // Array para almacenar los pedidos del usuario
-  orders: Order[] = [];
-  
   // FormGroup para manejar el formulario de actualización de perfil
   profileForm: FormGroup;
-  
-  // Objeto para controlar qué pedidos están expandidos
-  expandedOrders: { [key: number]: boolean } = {};
 
   // Constructor con inyección de dependencias
   constructor(
     private formBuilder: FormBuilder,     // Para crear formularios reactivos
-    private authService: AuthService,     // Para obtener/actualizar datos del usuario
-    private orderService: OrderService    // Para obtener los pedidos del usuario
+    private authService: AuthService     // Para obtener/actualizar datos del usuario
   ) {
     // Obtener el usuario actual desde el servicio de autenticación
     this.currentUser = this.authService.currentUserValue;
@@ -52,34 +45,8 @@ export class ProfileComponent implements OnInit {
 
   // Método que se ejecuta al inicializar el componente
   ngOnInit() {
-    // Cargar los pedidos del usuario
-    this.loadOrders();
-  }
-
-  // Método para cargar los pedidos del usuario
-  loadOrders() {
-    if (this.currentUser) {
-      this.orderService.getOrders({ userId: this.currentUser.id! }).subscribe({
-        next: (orders) => {
-          this.orders = orders;
-          // Inicializar el estado de expansión para cada pedido (todos colapsados)
-          this.orders.forEach(order => {
-            this.expandedOrders[order.id!] = false;
-          });
-        },
-        error: (error) => console.error('Error loading orders', error)
-      });
-    }
-  }
-
-  // Método para expandir/colapsar los detalles de un pedido
-  toggleOrderDetails(orderId: number) {
-    this.expandedOrders[orderId] = !this.expandedOrders[orderId];
-  }
-
-  // Método para verificar si un pedido está expandido
-  isOrderExpanded(orderId: number): boolean {
-    return this.expandedOrders[orderId] || false;
+    console.log('✅ ProfileComponent inicializado - el historial se maneja en HistorialPedidosComponent');
+    // Ya no necesitamos cargar pedidos aquí, se hace en HistorialPedidosComponent
   }
 
   // Método para actualizar los datos del perfil
@@ -131,10 +98,5 @@ export class ProfileComponent implements OnInit {
         }
       }
     });
-  }
-
-  // Método para formatear precios con formato de moneda
-  formatPrice(price: number): string {
-    return new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR' }).format(price);
   }
 }

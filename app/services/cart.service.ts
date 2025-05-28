@@ -72,118 +72,115 @@ export class CartService {
   }
 
   // Métodos para abrir/cerrar el carrito
-// Reemplazar el método openCart en cart.service.ts con esta versión más robusta
-openCart(): void {
-  console.log('CartService.openCart: Abriendo carrito...');
-  
-  // Establecer el estado
-  this._isCartOpen.next(true);
-  this.isCartOpen = true;
-  
-  // Manipular el DOM directamente para asegurar visibilidad
-  setTimeout(() => {
-    // Añadir clase a body
-    document.body.classList.add('cart-open');
+  openCart(): void {
+    console.log('CartService.openCart: Abriendo carrito...');
     
-    // Obtener referencias a los elementos del carrito
-    const cartModal = document.querySelector('.cart-modal') as HTMLElement;
-    const cartPopup = document.querySelector('.cart-popup') as HTMLElement;
-    const cartOverlay = document.querySelector('.cart-overlay') as HTMLElement;
+    // Establecer el estado
+    this._isCartOpen.next(true);
+    this.isCartOpen = true;
     
-    // Aplicar clases active
-    if (cartModal) {
-      cartModal.classList.add('active');
-      console.log('CartService: Añadida clase active a .cart-modal');
-    } else {
-      console.warn('CartService: No se encontró elemento .cart-modal');
-    }
-    
-    if (cartPopup) {
-      cartPopup.classList.add('active');
-      // Asegurar visibilidad con estilos inline
-      cartPopup.style.display = 'flex';
-      cartPopup.style.transform = 'translateX(0)';
-      console.log('CartService: Añadida clase active a .cart-popup');
-    } else {
-      console.warn('CartService: No se encontró elemento .cart-popup');
-    }
-    
-    if (cartOverlay) {
-      cartOverlay.classList.add('active');
-      // Asegurar visibilidad con estilos inline
-      cartOverlay.style.display = 'block';
-      console.log('CartService: Añadida clase active a .cart-overlay');
-    } else {
-      console.warn('CartService: No se encontró elemento .cart-overlay');
-    }
-    
-    // Truco fallback adicional para estilos problemáticos
-    const styleEl = document.createElement('style');
-    styleEl.id = 'cart-force-styles';
-    styleEl.innerHTML = `
-      .cart-popup.active {
-        display: flex !important;
-        transform: translateX(0) !important;
-        opacity: 1 !important;
-        visibility: visible !important;
+    // Manipular el DOM directamente para asegurar visibilidad
+    setTimeout(() => {
+      // Añadir clase a body
+      document.body.classList.add('cart-open');
+      
+      // Obtener referencias a los elementos del carrito
+      const cartModal = document.querySelector('.cart-modal') as HTMLElement;
+      const cartPopup = document.querySelector('.cart-popup') as HTMLElement;
+      const cartOverlay = document.querySelector('.cart-overlay') as HTMLElement;
+      
+      // Aplicar clases active
+      if (cartModal) {
+        cartModal.classList.add('active');
+        console.log('CartService: Añadida clase active a .cart-modal');
+      } else {
+        console.warn('CartService: No se encontró elemento .cart-modal');
       }
-      .cart-overlay.active {
-        display: block !important;
-        opacity: 1 !important;
+      
+      if (cartPopup) {
+        cartPopup.classList.add('active');
+        // Asegurar visibilidad con estilos inline
+        cartPopup.style.display = 'flex';
+        cartPopup.style.transform = 'translateX(0)';
+        console.log('CartService: Añadida clase active a .cart-popup');
+      } else {
+        console.warn('CartService: No se encontró elemento .cart-popup');
       }
-    `;
-    // Eliminar si ya existe
-    const existingStyle = document.getElementById('cart-force-styles');
-    if (existingStyle) {
-      existingStyle.remove();
-    }
-    document.head.appendChild(styleEl);
-    
-    console.log('CartService.openCart: Carrito abierto y visible');
-  }, 0);
-}
-
-// Método closeCart mejorado para cart.service.ts
-
-closeCart(): void {
-  console.log('CartService.closeCart: Cerrando carrito...');
-  
-  // Establecer el estado
-  this._isCartOpen.next(false);
-  this.isCartOpen = false;
-  
-  // Manipular el DOM directamente para asegurar ocultamiento
-  setTimeout(() => {
-    // Quitar clase del body
-    document.body.classList.remove('cart-open');
-    
-    // Obtener referencias a los elementos del carrito
-    const cartModal = document.querySelector('.cart-modal') as HTMLElement;
-    const cartPopup = document.querySelector('.cart-popup') as HTMLElement;
-    const cartOverlay = document.querySelector('.cart-overlay') as HTMLElement;
-    
-    // Quitar clases active
-    if (cartModal) {
-      cartModal.classList.remove('active');
-    }
-    
-    if (cartPopup) {
-      cartPopup.classList.remove('active');
-      // Opcional: resetear el transform para que la próxima apertura tenga animación
-      setTimeout(() => {
-        if (!this.isCartOpen) { // Verificamos que no se haya abierto de nuevo
-          cartPopup.style.transform = 'translateX(100%)';
+      
+      if (cartOverlay) {
+        cartOverlay.classList.add('active');
+        // Asegurar visibilidad con estilos inline
+        cartOverlay.style.display = 'block';
+        console.log('CartService: Añadida clase active a .cart-overlay');
+      } else {
+        console.warn('CartService: No se encontró elemento .cart-overlay');
+      }
+      
+      // Truco fallback adicional para estilos problemáticos
+      const styleEl = document.createElement('style');
+      styleEl.id = 'cart-force-styles';
+      styleEl.innerHTML = `
+        .cart-popup.active {
+          display: flex !important;
+          transform: translateX(0) !important;
+          opacity: 1 !important;
+          visibility: visible !important;
         }
-      }, 300); // Esperamos a que termine la transición
-    }
+        .cart-overlay.active {
+          display: block !important;
+          opacity: 1 !important;
+        }
+      `;
+      // Eliminar si ya existe
+      const existingStyle = document.getElementById('cart-force-styles');
+      if (existingStyle) {
+        existingStyle.remove();
+      }
+      document.head.appendChild(styleEl);
+      
+      console.log('CartService.openCart: Carrito abierto y visible');
+    }, 0);
+  }
+
+  closeCart(): void {
+    console.log('CartService.closeCart: Cerrando carrito...');
     
-    if (cartOverlay) {
-      cartOverlay.classList.remove('active');
-    }
+    // Establecer el estado
+    this._isCartOpen.next(false);
+    this.isCartOpen = false;
     
-    console.log('CartService.closeCart: Carrito cerrado correctamente');
-  }, 0);
-}
+    // Manipular el DOM directamente para asegurar ocultamiento
+    setTimeout(() => {
+      // Quitar clase del body
+      document.body.classList.remove('cart-open');
+      
+      // Obtener referencias a los elementos del carrito
+      const cartModal = document.querySelector('.cart-modal') as HTMLElement;
+      const cartPopup = document.querySelector('.cart-popup') as HTMLElement;
+      const cartOverlay = document.querySelector('.cart-overlay') as HTMLElement;
+      
+      // Quitar clases active
+      if (cartModal) {
+        cartModal.classList.remove('active');
+      }
+      
+      if (cartPopup) {
+        cartPopup.classList.remove('active');
+        // Opcional: resetear el transform para que la próxima apertura tenga animación
+        setTimeout(() => {
+          if (!this.isCartOpen) { // Verificamos que no se haya abierto de nuevo
+            cartPopup.style.transform = 'translateX(100%)';
+          }
+        }, 300); // Esperamos a que termine la transición
+      }
+      
+      if (cartOverlay) {
+        cartOverlay.classList.remove('active');
+      }
+      
+      console.log('CartService.closeCart: Carrito cerrado correctamente');
+    }, 0);
+  }
 
   // Método para alternar la visibilidad del carrito
   toggleCart(): void {
@@ -228,7 +225,7 @@ closeCart(): void {
     size?: string
   ): void {
     const currentItems = this.getCartItems();
-
+  
     // Buscar si el producto ya está en el carrito con las mismas opciones
     const existingItemIndex = currentItems.findIndex(
       item =>
@@ -236,29 +233,30 @@ closeCart(): void {
         item.color === color &&
         item.talla === size
     );
-
+  
     if (existingItemIndex !== -1) {
       // Si ya existe, incrementamos la cantidad
       const updatedItems = [...currentItems];
       updatedItems[existingItemIndex].cantidad += quantity;
-      updatedItems[existingItemIndex].quantity = updatedItems[existingItemIndex].cantidad; // Actualizar quantity también
+      updatedItems[existingItemIndex].quantity = updatedItems[existingItemIndex].cantidad;
       this._cartItems.next(updatedItems);
     } else {
       // Si no existe, añadimos un nuevo item
       const newItem: CartItem = {
-        id: product.id || Date.now(), // Usar ID del producto si existe, sino generar uno
-        producto: product,
+        id: product.id || Date.now(),
+        producto: product, // Guardar el producto completo
         cantidad: quantity,
-        quantity: quantity, // Añadir quantity como alias de cantidad
+        quantity: quantity,
         color: color,
         talla: size,
         precio: product.precio,
         nombre: product.nombre,
+        // Esta línea es opcional ahora que usamos producto
         imagen: `assets/images/${product.carpetaimg}/${product.imagen}`
       };
       this._cartItems.next([...currentItems, newItem]);
     }
-
+  
     // Guardar en localStorage
     this.saveCart(this.getCartItems());
     
@@ -323,10 +321,11 @@ closeCart(): void {
     this._cartItems.next(updatedItems);
     this.saveCart(updatedItems);
     
-    // Si el carrito está vacío después de eliminar, cerrarlo automáticamente
-    if (updatedItems.length === 0) {
-      this.closeCart();
-    }
+    // IMPORTANTE: Comentado para evitar el cierre automático del carrito
+    // Ahora dejamos que el componente decida cuándo cerrar el carrito
+    // if (updatedItems.length === 0) {
+    //   this.closeCart();
+    // }
   }
 
   // Vaciar el carrito

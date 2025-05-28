@@ -1,77 +1,102 @@
-<!-- Plantilla principal para la página de checkout -->
-<div class="vercheckout" *ngIf="currentUser && cartItems.length > 0">
-    <!-- Sección de direcciones de envío y facturación -->
-    <div id="receptor">
-      <!-- Dirección de envío -->
-      <div>
-        <h1>Se enviará a: </h1>
-        <div class="datos">
-          <!-- Muestra los datos del usuario actual para el envío -->
-          {{ currentUser.nombre }}
-          <br/>
-          {{ currentUser.email }}
-          <br/>
-          {{ currentUser.direccion }}
-          <br/>
-          {{ currentUser.cp }}
-          <br/>
-          {{ currentUser.ciudad }}
+<!-- Overlay del modal de checkout -->
+<div class="checkout-overlay" *ngIf="currentUser && cartItems.length > 0">
+  <!-- Contenedor principal del modal -->
+  <div class="vercheckout">
+    <!-- Botón de cerrar -->
+    <button class="close-button" (click)="closeCheckout()" title="Cerrar">
+      ×
+    </button>
+    
+    <!-- Contenido del modal -->
+    <div class="modal-content">
+      <!-- Sección de direcciones de envío y facturación -->
+      <div id="receptor">
+        <!-- Dirección de envío -->
+        <div>
+          <h1>Se enviará a:</h1>
+          <div class="datos">
+            <!-- Muestra los datos del usuario actual para el envío -->
+            {{ currentUser.nombre }}
+            <br/>
+            {{ currentUser.email }}
+            <br/>
+            {{ currentUser.direccion }}
+            <br/>
+            {{ currentUser.cp }}
+            <br/>
+            {{ currentUser.ciudad }}
+          </div>
+        </div>
+        
+        <!-- Dirección de facturación -->
+        <div>
+          <h1>Dirección de facturación:</h1>
+          <div class="datos">
+            <!-- Reutiliza los mismos datos del usuario para la facturación -->
+            {{ currentUser.nombre }}
+            <br/>
+            {{ currentUser.email }}
+            <br/>
+            {{ currentUser.direccion }}
+            <br/>
+            {{ currentUser.cp }}
+            <br/>
+            {{ currentUser.ciudad }}
+          </div>
         </div>
       </div>
-      <!-- Dirección de facturación -->
-      <div>
-        <h1>Dirección de facturación: </h1>
-        <div class="datos">
-          <!-- Reutiliza los mismos datos del usuario para la facturación -->
-          {{ currentUser.nombre }}
-          <br/>
-          {{ currentUser.email }}
-          <br/>
-          {{ currentUser.direccion }}
-          <br/>
-          {{ currentUser.cp }}
-          <br/>
-          {{ currentUser.ciudad }}
-        </div>
+      
+      <!-- Sección de listado de productos -->
+      <h1 class="productos-title">Productos:</h1>
+      <table>
+        <!-- Encabezados de la tabla - SOLO 5 COLUMNAS -->
+        <thead>
+          <tr>
+            <th>Artículo</th>
+            <th>Color</th>
+            <th>Cantidad</th>
+            <th>Precio(u)</th>
+            <th>Precio (total)</th>
+          </tr>
+        </thead>
+        
+        <!-- Cuerpo de la tabla: muestra cada producto en el carrito -->
+        <tbody>
+          <!-- Itera sobre cada item del carrito usando la directiva *ngFor -->
+          <tr *ngFor="let item of cartItems">
+            <td class="articulo-cell">
+              <img [src]="getImageSrc(item)" 
+                   [alt]="item.nombre" 
+                   (error)="handleImageError($event)" />
+              <span class="articulo-nombre">{{ item.nombre }}</span>
+            </td>
+            <td>{{ item.color }}</td>
+            <td>{{ item.cantidad }}</td>
+            <!-- Usa pipe currency para formatear precio unitario -->
+            <td>{{ item.precio | currency:'EUR':'symbol':'1.2-2' }}</td>
+            <!-- Calcula y formatea el subtotal para este item -->
+            <td>{{ item.precio * item.cantidad | currency:'EUR':'symbol':'1.2-2' }}</td>
+          </tr>
+        </tbody>
+        
+        <!-- Pie de tabla: muestra el total -->
+        <tfoot>
+          <tr>
+            <!-- Celda que ocupa 4 columnas -->
+            <td colspan="4">Total:</td>
+            <!-- Muestra el total calculado y formateado como moneda -->
+            <td>{{ total | currency:'EUR':'symbol':'1.2-2' }}</td>
+          </tr>
+        </tfoot>
+      </table>
+      
+      <!-- Botón separado de la tabla -->
+      <div class="button-container">
+        <button id="comprar" (click)="placeOrder()" [disabled]="loading">
+          <span *ngIf="!loading">COMPRAR</span>
+          <span *ngIf="loading">PROCESANDO...</span>
+        </button>
       </div>
     </div>
-    <br/>
-    <!-- Sección de listado de productos -->
-    <h1>Productos: </h1>
-    <table>
-      <!-- Encabezados de la tabla -->
-      <thead>
-        <tr>
-          <th>Artículo</th>
-          <th>Color</th>
-          <th>Cantidad</th>
-          <th>Precio(u)</th>
-          <th>Precio (total)</th>
-        </tr>
-      </thead>
-      <!-- Cuerpo de la tabla: muestra cada producto en el carrito -->
-      <tbody>
-        <!-- Itera sobre cada item del carrito usando la directiva *ngFor -->
-        <tr *ngFor="let item of cartItems">
-          <td>{{ item.nombre }}</td>
-          <td>{{ item.color }}</td>
-          <td>{{ item.cantidad }}</td>
-          <!-- Usa pipe currency para formatear precio unitario -->
-          <td>{{ item.precio | currency:'EUR':'symbol':'1.2-2' }}</td>
-          <!-- Calcula y formatea el subtotal para este item -->
-          <td>{{ item.precio * item.cantidad | currency:'EUR':'symbol':'1.2-2' }}</td>
-        </tr>
-      </tbody>
-      <!-- Pie de tabla: muestra el total -->
-      <tfoot>
-        <tr>
-          <!-- Celda que ocupa 4 columnas -->
-          <td colspan="4">Total:</td>
-          <!-- Muestra el total calculado y formateado como moneda -->
-          <td>{{ total | currency:'EUR':'symbol':'1.2-2' }}</td>
-        </tr>
-      </tfoot>
-    </table>
-    <!-- Botón para finalizar la compra, llama al método placeOrder() del componente -->
-    <button id="comprar" (click)="placeOrder()">COMPRAR</button>
   </div>
+</div>

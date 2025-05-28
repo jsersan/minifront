@@ -160,7 +160,7 @@ export class ProductImageHelper {
 
     for (const item of rutas) {
       if (item.condicion) {
-        console.log(`Producto: ${product.nombre} → Ruta: ${item.ruta}`);
+        // console.log(`Producto: ${product.nombre} → Ruta: ${item.ruta}`);
         return item.ruta;
       }
     }
